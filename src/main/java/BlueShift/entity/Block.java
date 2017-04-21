@@ -42,7 +42,7 @@ public class Block extends Entity {
         return super.getBounds();
     }
 
-	protected void draw(){
+	public void draw(){
         //do we want to draw from top left corner or centre?
         main.rectMode(PConstants.CORNER);
         main.rect(position.x, position.y, width, height);

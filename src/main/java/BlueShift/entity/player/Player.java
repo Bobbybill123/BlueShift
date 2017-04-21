@@ -22,7 +22,7 @@ public class Player extends Entity {
 	}
 
 	@Override
-	protected void draw() {
+	 public void draw() {
 
 	}
 

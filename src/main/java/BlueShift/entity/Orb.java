@@ -40,7 +40,7 @@ public class Orb extends Entity{
         return super.getBounds();
     }
 
-	protected void draw(){
+	public void draw(){
         main.ellipseMode(PConstants.CENTER);
     }
 

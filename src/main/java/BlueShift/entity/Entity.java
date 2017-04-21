@@ -16,7 +16,7 @@ public abstract class Entity {
 
     protected abstract PVector getPosition();
 
-    protected abstract void draw();
+    public abstract void draw();
 
 	protected abstract void doPhysics();
 
