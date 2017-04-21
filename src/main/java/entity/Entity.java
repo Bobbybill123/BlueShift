@@ -5,8 +5,9 @@ import processing.core.PVector;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Created by TML_TEST on 21/04/2017.
+ * Created by DYLAN KUMAR on 21/04/2017.
  */
+
 public abstract class Entity {
 
     abstract float getWidth();
