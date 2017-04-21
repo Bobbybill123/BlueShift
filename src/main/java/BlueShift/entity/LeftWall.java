@@ -46,4 +46,9 @@ public class LeftWall extends Entity {
     public void checkCollision(Entity other) {
 
     }
+
+	@Override
+	public EntityType getType() {
+		return EntityType.LEFTWALL;
+	}
 }

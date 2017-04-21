@@ -4,6 +4,8 @@ import BlueShift.Main;
 import processing.core.PConstants;
 import processing.core.PVector;
 
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -14,10 +16,12 @@ public class Orb extends Entity{
     private Main main;
     private PVector position;
     private static final float DIAM = 10;
+	private Color color;
 
-    public Orb(PVector position){
+	public Orb(PVector position){
         this.position = position;
         main = Main.instance;
+        color = main.random(2) > 1 ? Color.BLUE : Color.ORANGE;
     }
 
     @Override
@@ -27,12 +31,12 @@ public class Orb extends Entity{
 
     @Override
 	public float getHeight() {
-        return this.DIAM*2;
+        return DIAM*2;
     }
 
     @Override
 	public float getWidth() {
-        return this.DIAM*2;
+        return DIAM*2;
     }
 
     @Override
@@ -54,5 +58,13 @@ public class Orb extends Entity{
 
 	}
 
+	@Override
+	public EntityType getType() {
+		return EntityType.ORB;
+	}
 
+
+	public Color getColor() {
+		return color;
+	}
 }
