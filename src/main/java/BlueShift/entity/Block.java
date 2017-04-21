@@ -55,7 +55,13 @@ public class Block extends Entity {
 
 	@Override
 	protected void checkCollision(Entity other) {
+        //LeannanSC apologises in advance for the terrible code :P
+        //Block hitbox dimensions (top, left, width, height)
+        //Player can move up through the hitbox but not down
 
+        //Identifies when player is on the block
+        main.player.getBounds();
+        //if ();
 	}
 
 

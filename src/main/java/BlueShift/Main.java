@@ -2,6 +2,7 @@ package BlueShift;
 
 import BlueShift.entity.LeftWall;
 import BlueShift.entity.player.Key;
+import BlueShift.entity.player.Player;
 import net.tangentmc.processing.ProcessingRunner;
 import processing.core.PApplet;
 
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main extends PApplet{
+	public Player player;
 
 	private final Map<Key, Character> keyBinds = new HashMap<>(6);
 	public static Main instance;
@@ -25,6 +27,7 @@ public class Main extends PApplet{
 	}
 	public void setup() {
 		leftWall = new LeftWall();
+		player = new Player();
 
 	}
 	public void draw() {
