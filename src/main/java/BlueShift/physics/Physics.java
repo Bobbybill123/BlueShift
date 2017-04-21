@@ -5,6 +5,4 @@ package BlueShift.physics;
  */
 public abstract class Physics {
 
-
-
 }

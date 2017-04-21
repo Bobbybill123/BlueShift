@@ -9,14 +9,13 @@ import java.awt.geom.Rectangle2D;
 /**
  * Created by TML_TEST on 21/04/2017.
  */
-public class Block extends Entity {
-
+public class Platform extends Entity {
     private Main main;
     private PVector position;
     private int width;
     private int height;
 
-    public Block(PVector position, int width, int height){
+    public Platform(PVector position, int width, int height){
         this.position = position;
         this.width = width;
         this.height = height;
@@ -72,7 +71,12 @@ public class Block extends Entity {
         if (playerBlockCollision)
             //idk
             System.out.println("I DID IT!!!");
+        //if ();
 	}
 
+	@Override
+	public EntityType getType() {
+		return EntityType.PLATFORM;
+	}
 
 }

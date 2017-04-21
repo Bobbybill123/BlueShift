@@ -22,6 +22,8 @@ public abstract class Entity {
 
 	public abstract void checkCollision(Entity other);
 
+	public abstract EntityType getType();
+
 	public Rectangle2D.Float getBounds() {
         return new Rectangle2D.Float(getPosition().x, getPosition().y, getWidth(), getHeight());
     }

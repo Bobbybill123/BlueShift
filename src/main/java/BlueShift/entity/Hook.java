@@ -78,4 +78,9 @@ public class Hook extends Entity {
     public void checkCollision(Entity other) {
 
     }
+
+	@Override
+	public EntityType getType() {
+		return null;
+	}
 }

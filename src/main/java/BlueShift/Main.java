@@ -1,6 +1,5 @@
 package BlueShift;
 
-import BlueShift.entity.Floor;
 import BlueShift.entity.LeftWall;
 import BlueShift.entity.player.Key;
 import BlueShift.entity.player.Player;
@@ -12,15 +11,16 @@ import java.util.Map;
 
 public class Main extends PApplet {
 
-	private final Map<Character, Key> keyBinds = new HashMap<>(6);
+	private final Map<Character, Key> keyBinds = new HashMap<>(4);
 	public static Main instance;
+
+	public static final int GROUND = 1040;
 
 	//entities
 	LeftWall leftWall;
-	Floor floor;
 	public Player player;
 
-	public Main(){
+	private Main(){
 		instance = this;
 	}
 
@@ -31,14 +31,15 @@ public class Main extends PApplet {
 	public void setup() {
 		frameRate(100);
 		leftWall = new LeftWall();
-		floor = new Floor();
 		player = new Player();
-
+		keyBinds.put('a', Key.RIGHT);
+		keyBinds.put('d', Key.LEFT);
+		keyBinds.put('w', Key.UP);
+		keyBinds.put('s', Key.DOWN);
 	}
 
 	public void draw() {
 		background(255);
-		floor.draw();
 		leftWall.draw();
 		player.draw();
 	}

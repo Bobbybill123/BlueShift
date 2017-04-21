@@ -2,14 +2,21 @@ package BlueShift.entity.player;
 
 import BlueShift.Main;
 import BlueShift.entity.Entity;
+import BlueShift.entity.EntityType;
+import BlueShift.entity.Orb;
 import processing.core.PVector;
+
+import java.awt.*;
 
 public class Player extends Entity {
 
 	private Main main;
 	private PVector position;
 	private PVector velocity;
+	private static final float GRAVITY = 9.81f;
 	private int blue = 0;
+	private int red = 0;
+	private boolean onGround;
 
 	public Player(){
 		main = Main.instance;
@@ -38,6 +45,8 @@ public class Player extends Entity {
 	}
 
 	public void draw() {
+		doPhysics();
+		doMovement();
 		main.color(255 - blue, 255 - blue, 255);
 		main.fill(0, 255, 0);
 		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
@@ -45,7 +54,15 @@ public class Player extends Entity {
 
 	@Override
 	public void doPhysics() {
+		if(!onGround) {
+			velocity.y += GRAVITY;
+		}
+	}
 
+	public void doMovement() {
+		position.x += velocity.x;
+		if(!onGround) position.y = Math.min(position.y + velocity.y, Main.GROUND);
+		position.add(velocity);
 	}
 
 	@Override
@@ -53,8 +70,19 @@ public class Player extends Entity {
 
 	}
 
-	public void pickupObject(Entity e) {
+	@Override
+	public EntityType getType() {
+		return EntityType.PLAYER;
+	}
 
+	public void pickupObject(Entity e) {
+		if(e.getType() == EntityType.ORB) {
+			Orb orb = ((Orb) e);
+			if(orb.getColor().equals(Color.BLUE)) {
+				if (red != 0) red--;
+				else blue++;
+			}
+		}
 	}
 
 	public void doAction(Key action) {
@@ -70,8 +98,6 @@ public class Player extends Entity {
 				break;
 			case DOWN:
 				velocity.y--;
-				break;
-			case JUMP:
 				break;
 			case GRAPPLE:
 				break;
