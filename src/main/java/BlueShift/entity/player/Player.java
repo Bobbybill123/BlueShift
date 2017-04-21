@@ -4,7 +4,6 @@ import BlueShift.Main;
 import BlueShift.entity.Entity;
 import BlueShift.entity.EntityType;
 import BlueShift.entity.Orb;
-import BlueShift.entity.surface.Floor;
 import BlueShift.entity.surface.Surface;
 import processing.core.PVector;
 
@@ -55,7 +54,7 @@ public class Player extends Entity {
 		calculateSpeedLim();
 		doPhysics();
 		doMovement();
-		if(on.getType() == EntityType.FLOOR) {
+		if(on != null && on.getType() == EntityType.FLOOR) {
 			onGround = true;
 			position.y = main.floor.getPosition().y;
 		} else position.y = getHeight();
@@ -136,6 +135,8 @@ public class Player extends Entity {
 				break;
 			case UP:
 				jump = true;
+				GRAVITY = 0;
+				velocity.y = 5;
 				break;
 /*			case DOWN:
 				velocity.y--;
