@@ -86,7 +86,8 @@ public class Hook extends Entity {
 	 * Sets the direction that the hook is going in
 	 */
 	public void setDirection() {
-		direction = main.player.getPosition().sub(target).normalize();
+		PVector playerPos = main.player.getPosition();
+		direction = playerPos.sub(this.target).normalize();
 	}
 	
 	public void fire(PVector mousePosition) {
@@ -94,6 +95,13 @@ public class Hook extends Entity {
 			this.target = mousePosition;
 			System.out.println("fired at " + this.target);
 		}
+	}
+	
+	public void release() {
+		this.hooked = false;
+		this.direction = null;
+		this.position = null;
+		this.target = null;
 	}
 
 	@Override
@@ -104,7 +112,7 @@ public class Hook extends Entity {
 	@Override
 	public boolean checkCollision(Entity other) {
 		if (this.target != null) {
-			Rectangle2D.Float bBox = other.getBounds();
+			//Rectangle2D.Float bBox = other.getBounds();
 			hooked = true;/*other instanceof Surface && 
 					this.target.x >= bBox.x && 
 					this.target.x <= bBox.x + bBox.width && 
@@ -112,6 +120,7 @@ public class Hook extends Entity {
 					this.target.y <= bBox.y + bBox.height;*/
 			System.out.println("setting pos");
 			this.position = main.player.getPosition();
+			setDirection();
 			return hooked;
 		}
 		return false;

@@ -50,6 +50,7 @@ public class Main extends PApplet {
 	}
 
 	public void draw() {
+		System.out.println(this.player.getPosition());
 		background(0);
 		if(start) {
 			gameSpeed += 0.01;
@@ -107,7 +108,7 @@ public class Main extends PApplet {
 	}
 	
 	public void mouseReleased() {
-		this.player.getHook().setPosition(null);
+		this.player.getHook().release();
 	}
 
 	public static void main(String[] args) {
