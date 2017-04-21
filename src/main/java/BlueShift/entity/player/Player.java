@@ -3,6 +3,7 @@ package BlueShift.entity.player;
 import BlueShift.Main;
 import BlueShift.entity.Entity;
 import BlueShift.entity.EntityType;
+import BlueShift.entity.Hook;
 import BlueShift.entity.Orb;
 import BlueShift.entity.surface.Surface;
 import processing.core.PVector;
@@ -22,6 +23,7 @@ public class Player extends Entity {
 	private boolean onGround = false;
 	private long jumpMillis;
 	private boolean jump = false;
+	private Hook hook;
 
 	public Player() {
 		main = Main.instance;
@@ -30,6 +32,7 @@ public class Player extends Entity {
 		System.out.println(main.floor.getPosition().y - getHeight());
 		System.out.println(main.width);
 		velocity = new PVector();
+		setHook(new Hook());
 	}
 
 	@Override
@@ -153,5 +156,13 @@ public class Player extends Entity {
 		if(released == Move.LEFT || released == Move.RIGHT) {
 			velocity.x = 0;
 		}
+	}
+
+	public Hook getHook() {
+		return hook;
+	}
+
+	public void setHook(Hook hook) {
+		this.hook = hook;
 	}
 }

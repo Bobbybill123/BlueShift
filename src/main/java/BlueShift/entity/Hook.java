@@ -1,6 +1,9 @@
 package BlueShift.entity;
 
+import java.awt.geom.Rectangle2D;
+
 import BlueShift.Main;
+import BlueShift.entity.surface.Surface;
 import processing.core.PVector;
 
 /**
@@ -9,15 +12,24 @@ import processing.core.PVector;
 public class Hook extends Entity {
 
 	private Main main;
+	/**
+	 * The current position of the hook's end. Is null unless hooked on something.
+	 */
 	private PVector position;
+	
+	private PVector target;
 
 	//A normalized PVector of the direction the hook is going in (set in 'direction' method)
 	private PVector direction;
+	
+	/**
+	 * Whether or not the hook is latched on to something.
+	 */
+	private boolean hooked = false;
 
 	private static final int DIAM = 5;
 
-	public Hook(PVector position){
-		this.position = position;
+	public Hook(){
 		main = Main.instance;
 	}
 
@@ -38,8 +50,13 @@ public class Hook extends Entity {
 
 	@Override
 	public void draw() {
-		main.fill(200,0, 0);
-		main.ellipse(position.x, position.y, getWidth(), getHeight());
+		if (this.position != null) {
+			System.out.println(this.position);
+			moveHook();
+			main.fill(200,0, 0);
+			main.ellipse(position.x, position.y, getWidth(), getHeight());
+			hookLine(main.player.getPosition());
+		}
 	}
 
 	/**
@@ -55,32 +72,61 @@ public class Hook extends Entity {
 	 *
 	 */
 	public void moveHook(){
-
+		if (this.hooked && main.player.getPosition().dist(this.position) < 10) {
+			this.hooked = false;
+			this.position = null;
+			this.target = null;
+		}
+		if (this.direction != null && this.hooked) {
+			this.position.add(this.direction.mult(5));
+		}
 	}
 
 	/**
-	 * sets the direction that the hook is going in
-	 * @param playerPosition
-	 * @param mousePosition
-	 * @return
+	 * Sets the direction that the hook is going in
 	 */
-
-	public void direction(PVector playerPosition, PVector mousePosition) {
-		direction = playerPosition.sub(mousePosition).normalize();
+	public void setDirection() {
+		direction = main.player.getPosition().sub(target).normalize();
+	}
+	
+	public void fire(PVector mousePosition) {
+		if (!this.hooked) {
+			this.target = mousePosition;
+			System.out.println("fired at " + this.target);
+		}
 	}
 
 	@Override
 	public void doPhysics() {
-
+		
 	}
-
+	
 	@Override
 	public boolean checkCollision(Entity other) {
+		if (this.target != null) {
+			Rectangle2D.Float bBox = other.getBounds();
+			hooked = true;/*other instanceof Surface && 
+					this.target.x >= bBox.x && 
+					this.target.x <= bBox.x + bBox.width && 
+					this.target.y >= bBox.y &&
+					this.target.y <= bBox.y + bBox.height;*/
+			System.out.println("setting pos");
+			this.position = main.player.getPosition();
+			return hooked;
+		}
 		return false;
 	}
 
 	@Override
 	public EntityType getType() {
 		return EntityType.HOOK;
+	}
+
+	public void setTarget(PVector pVector) {
+		this.target = pVector;
+	}
+
+	public void setPosition(PVector pVector) {
+		this.position = pVector;
 	}
 }

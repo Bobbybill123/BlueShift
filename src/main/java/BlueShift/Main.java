@@ -8,6 +8,7 @@ import BlueShift.entity.surface.Floor;
 import BlueShift.entity.surface.Platform;
 import net.tangentmc.processing.ProcessingRunner;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,13 +58,13 @@ public class Main extends PApplet {
 				if(i < 2) keyPressed[i] = false;
 			}
 		}
-		checkCollisions();
+		checkPlayerCollisions();
 		floor.draw();
 		leftWall.draw();
 		player.draw();
 	}
 
-	public void checkCollisions() {
+	public void checkPlayerCollisions() {
 		player.checkCollision(floor);
 		for (Platform platform : currentPlatforms) {
 			player.checkCollision(platform);
@@ -71,6 +72,13 @@ public class Main extends PApplet {
 		for (Orb orb : currentOrbs) {
 			player.checkCollision(orb);
 		}
+	}
+	
+	public void checkHookCollisions() {
+		/*for (Platform platform : currentPlatforms) {
+			player.getHook().checkCollision(platform);
+		}*/
+		player.getHook().checkCollision(null);
 	}
 
 	public void gameOver() {
@@ -94,7 +102,12 @@ public class Main extends PApplet {
 	}
 
 	public void mousePressed() {
-
+		this.player.getHook().fire(new PVector(mouseX, mouseY));
+		checkHookCollisions();
+	}
+	
+	public void mouseReleased() {
+		this.player.getHook().setPosition(null);
 	}
 
 	public static void main(String[] args) {
