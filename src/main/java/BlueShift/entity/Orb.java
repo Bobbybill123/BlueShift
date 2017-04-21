@@ -5,14 +5,12 @@ import processing.core.PConstants;
 import processing.core.PVector;
 
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.geom.Rectangle2D;
 
 /**
  * Created by DYLAN KUMAR on 21/04/2017.
  */
-public class Orb extends Entity{
-
+public class Orb extends Entity {
     private Main main;
     private PVector position;
     private static final float DIAM = 10;

@@ -58,13 +58,14 @@ public class Player extends Entity {
 		if(on != null && on.getType() == EntityType.FLOOR) {
 			onGround = true;
 			position.y = main.floor.getPosition().y - getHeight();
-		} /*else position.y = getHeight();*/
+		}
 		main.fill(255 - blue, 255 - blue, 255);
 		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
 	}
 
 	private void jump() {
 		if(main.millis() < jumpMillis + 150) {
+			System.out.println("jumping");
 			GRAVITY = 0;
 			velocity.y = -7;
 		} else {
@@ -143,6 +144,8 @@ public class Player extends Entity {
 				velocity.x = Math.max(-speedLim, velocity.x - speedLim);
 				break;
 			case UP:
+				on = null;
+				onGround = false;
 				jumpMillis = main.millis();
 				jump = true;
 				break;
