@@ -5,6 +5,7 @@ import processing.core.PVector;
 
 public class Player extends Entity {
 
+
 	@Override
 	protected float getWidth() {
 		return 220;
@@ -27,6 +28,19 @@ public class Player extends Entity {
 
 	@Override
 	protected void doPhysics() {
+
+	}
+
+	@Override
+	protected void checkCollision(Entity other) {
+
+	}
+
+	public void pickupObject(Entity e) {
+
+	}
+
+	public void doAction(Key action) {
 
 	}
 }

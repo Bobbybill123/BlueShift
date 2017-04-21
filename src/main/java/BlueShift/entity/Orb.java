@@ -49,5 +49,10 @@ public class Orb extends Entity{
 
 	}
 
+	@Override
+	protected void checkCollision(Entity other) {
+
+	}
+
 
 }

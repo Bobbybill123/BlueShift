@@ -20,11 +20,13 @@ public abstract class Entity {
 
 	protected abstract void doPhysics();
 
+	protected abstract void checkCollision(Entity other);
+
 	protected Rectangle2D.Float getBounds() {
         return new Rectangle2D.Float(getPosition().x, getPosition().y, getWidth(), getHeight());
     }
 
-    protected boolean RectangleIntersection(Entity other) {
+    protected boolean intersects(Entity other) {
         return (getBounds().intersects(other.getBounds()));
     }
 

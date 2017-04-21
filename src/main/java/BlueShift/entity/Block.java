@@ -53,5 +53,10 @@ public class Block extends Entity {
 
 	}
 
+	@Override
+	protected void checkCollision(Entity other) {
+
+	}
+
 
 }
