@@ -1,6 +1,7 @@
 package BlueShift.entity;
 
 import BlueShift.Main;
+import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
@@ -58,10 +59,22 @@ public class Hook extends Entity {
 			moveHook();
 		if (this.position != null && this.target != null) {
 			main.fill(200,0, 0);
-			main.image(sprite, position.x, position.y, getWidth(), getHeight());
+			drawHookEnd(main.player.getPosition(), this.target);
 			hookLine(main.player.getPosition());
 		}
 	}
+
+	
+	void drawHookEnd(PVector p, PVector q) {
+		main.pushMatrix();
+		main.translate(this.position.x, this.position.y);
+		float angle = PApplet.atan2(p.x - q.x, q.y - p.y);
+		main.rotate((float) (angle - (Math.PI)));
+		main.image(sprite, -getWidth()/2, -getHeight()/2, getWidth(), getHeight());
+		main.stroke(0, 0, 0);
+		main.popMatrix();
+	}
+	 
 
 	/**
 	 *  Draws a line from the player's position to where the hook is

@@ -62,7 +62,7 @@ public class Main extends PApplet {
 		for (int i = 0; i < keyPressed.length; i++) {
 			if(keyPressed[i]) {
 				player.doAction(Move.values()[i]);
-				System.out.println(Move.values()[i]);
+				//System.out.println(Move.values()[i]);
 			}
 		}
 		checkPlayerCollisions();

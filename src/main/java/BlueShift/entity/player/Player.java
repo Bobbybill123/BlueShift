@@ -62,7 +62,7 @@ public class Player extends Entity {
 				currentSprite.animate(getPosition().x, getPosition().y);
 			} else currentSprite.displayCurr(position.x, position.y);
 		} else currentSprite.display(getPosition().x, getPosition().y, 12);
-		System.out.println(velocity);
+		//System.out.println(velocity);
 	}
 
 	@Override
@@ -170,7 +170,7 @@ public class Player extends Entity {
 	}
 	
 	public void addVelocity(PVector p) {
-		this.velocity = new PVector(Math.min(speedLim, this.velocity.x + p.x), Math.min(7, this.velocity.y + p.y));
+		this.velocity = new PVector(Math.min(speedLim, this.velocity.x + p.x), Math.min(5, this.velocity.y + p.y));
 	}
 
 	public boolean isOnGround() {
