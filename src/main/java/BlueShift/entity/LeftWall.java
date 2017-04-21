@@ -13,6 +13,7 @@ public class LeftWall extends Entity {
 
     public LeftWall(){
         this.position = new PVector(0, 0);
+        main = Main.instance;
     }
 
     @Override
