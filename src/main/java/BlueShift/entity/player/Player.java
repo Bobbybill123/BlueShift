@@ -132,21 +132,18 @@ public class Player extends Entity {
 	}
 
 	public void doAction(Move action) {
-		float oldLim = speedLim;
 		switch(action) {
 			case RIGHT:
-				if (!onGround) {
-					speedLim /= 2;
+				//velocity.x = Math.min(speedLim, velocity.x + speedLim);
+				if (velocity.x < 10) {
+					velocity.x += 5;
 				}
-				velocity.x = Math.min(speedLim, velocity.x + speedLim);
-				speedLim = oldLim;
 				break;
 			case LEFT:
-				if (!onGround) {
-					speedLim /= 2;
+				if (velocity.x > -10) {
+					velocity.x -= 5;
 				}
-				velocity.x = Math.max(-speedLim, velocity.x - speedLim);
-				speedLim = oldLim;
+				//velocity.x = Math.max(-speedLim, velocity.x - speedLim);
 				break;
 			case UP:
 				if(!isOnGround()) break;
@@ -179,7 +176,7 @@ public class Player extends Entity {
 	}
 	
 	public void addVelocity(PVector p) {
-		this.velocity = new PVector(Math.min(speedLim, this.velocity.x + p.x), Math.min(5, this.velocity.y + p.y));
+		this.velocity = new PVector(Math.min(30, this.velocity.x + p.x), Math.min(5, this.velocity.y + p.y));
 	}
 
 	public boolean isOnGround() {

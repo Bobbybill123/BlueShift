@@ -52,7 +52,7 @@ public class Hook extends Entity {
 	@Override
 	public void draw() {
 		
-			if (this.pulling) {
+			if (this.isPulling()) {
 				setDirection();
 				reelIn();
 			}
@@ -93,7 +93,7 @@ public class Hook extends Entity {
 	public void moveHook(){
 		if (this.direction != null && this.hooked) {
 			if (this.position.dist(this.target) < 20) {
-				pulling = true;
+				setPulling(true);
 			} else {
 				this.position.add(this.direction.copy().mult(40));
 			}
@@ -109,7 +109,7 @@ public class Hook extends Entity {
 		} else {
 			main.player.setOnGround(false);
 			main.player.setOn(null);
-			main.player.addVelocity(new PVector(this.direction.x * 2, this.direction.y * 2));
+			main.player.addVelocity(new PVector(this.direction.x * 3, this.direction.y * 2));
 		}
 	}
 
@@ -127,7 +127,7 @@ public class Hook extends Entity {
 	}
 	
 	public void release() {
-		this.pulling = false;
+		this.setPulling(false);
 		this.hooked = false;
 		this.position = null;
 		this.target = null;
@@ -166,5 +166,13 @@ public class Hook extends Entity {
 
 	public void setPosition(PVector pVector) {
 		this.position = pVector;
+	}
+
+	public boolean isPulling() {
+		return pulling;
+	}
+
+	public void setPulling(boolean pulling) {
+		this.pulling = pulling;
 	}
 }
