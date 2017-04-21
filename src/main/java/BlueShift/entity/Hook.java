@@ -51,7 +51,6 @@ public class Hook extends Entity {
 
 	@Override
 	public void draw() {
-		System.out.println(this.pulling);
 		if (this.position != null) {
 			moveHook();
 			if (this.pulling) {
