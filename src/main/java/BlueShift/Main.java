@@ -37,6 +37,7 @@ public class Main extends PApplet {
 		background(255);
 		floor.draw();
 		leftWall.draw();
+		player.draw();
 	}
 	public void keyPressed() {
 		Key pressed = keyBinds.get(key);
