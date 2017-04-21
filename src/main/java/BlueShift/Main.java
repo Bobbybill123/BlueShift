@@ -62,6 +62,7 @@ public class Main extends PApplet {
 		floor.draw();
 		leftWall.draw();
 		player.draw();
+		player.getHook().draw();
 	}
 
 	public void checkPlayerCollisions() {

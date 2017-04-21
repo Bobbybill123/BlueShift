@@ -26,6 +26,7 @@ public class Hook extends Entity {
 	 * Whether or not the hook is latched on to something.
 	 */
 	private boolean hooked = false;
+	private boolean pulling = false;
 
 	private static final int DIAM = 5;
 
@@ -50,8 +51,13 @@ public class Hook extends Entity {
 
 	@Override
 	public void draw() {
+		System.out.println(this.pulling);
 		if (this.position != null) {
 			moveHook();
+			if (this.pulling) {
+				reelIn();
+				setDirection();
+			}
 			main.fill(200,0, 0);
 			main.ellipse(position.x, position.y, getWidth(), getHeight());
 			hookLine(main.player.getPosition());
@@ -71,13 +77,23 @@ public class Hook extends Entity {
 	 *
 	 */
 	public void moveHook(){
-		if (this.hooked && main.player.getPosition().dist(this.position) < 10) {
-			this.hooked = false;
-			this.position = null;
-			this.target = null;
-		}
 		if (this.direction != null && this.hooked) {
-			this.position.add(this.direction.mult(5));
+			if (this.position.dist(this.target) < 10) {
+				pulling = true;
+			} else {
+				this.position.add(this.direction.copy().mult(20));
+			}
+		}
+	}
+	
+	/**
+	 * Reels the player in towards the hook location.
+	 */
+	public void reelIn() {
+		if (this.hooked && main.player.getPosition().dist(this.target) < 10) {
+			release();
+		} else {
+			main.player.addVelocity(this.direction.copy());
 		}
 	}
 
@@ -85,7 +101,7 @@ public class Hook extends Entity {
 	 * Sets the direction that the hook is going in
 	 */
 	public void setDirection() {
-		direction = main.player.getPosition().copy().sub(this.target).normalize();
+		direction = this.target.copy().sub(main.player.getPosition()).normalize();
 	}
 	
 	public void fire(PVector mousePosition) {
@@ -95,10 +111,11 @@ public class Hook extends Entity {
 	}
 	
 	public void release() {
+		this.pulling = false;
 		this.hooked = false;
-		this.direction = null;
 		this.position = null;
 		this.target = null;
+		this.direction = null;
 	}
 
 	@Override
@@ -115,7 +132,7 @@ public class Hook extends Entity {
 					this.target.x <= bBox.x + bBox.width && 
 					this.target.y >= bBox.y &&
 					this.target.y <= bBox.y + bBox.height;*/
-			this.position = main.player.getPosition();
+			this.position = main.player.getPosition().copy();
 			setDirection();
 			return hooked;
 		}

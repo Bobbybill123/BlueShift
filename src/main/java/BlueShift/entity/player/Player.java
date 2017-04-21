@@ -168,4 +168,12 @@ public class Player extends Entity {
 	public void setHook(Hook hook) {
 		this.hook = hook;
 	}
+	
+	public PVector getVelocity() {
+		return this.velocity;
+	}
+	
+	public void addVelocity(PVector p) {
+		this.velocity.add(p);
+	}
 }
