@@ -54,7 +54,7 @@ public class Player extends Entity {
 		doMovement();
 		if(on != null && on.getType() == EntityType.FLOOR) {
 			onGround = true;
-			position.y = main.floor.getPosition().y;
+			position.y = main.floor.getPosition().y - getHeight();
 		} /*else position.y = getHeight();*/
 		main.fill(255 - blue, 255 - blue, 255);
 		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
@@ -82,9 +82,8 @@ public class Player extends Entity {
 
 	private void doMovement() {
 		if(velocity.x > speedLim) velocity.x -= speedLim/10;
-		if(intersects(main.floor))
-			position.x += velocity.x;
-		if(onGround && velocity.y > 0) return;
+		position.x += velocity.x;
+		if(on != null && velocity.y > 0) return;
 		position.y += velocity.y;
 	}
 
@@ -110,7 +109,7 @@ public class Player extends Entity {
 		return EntityType.PLAYER;
 	}
 
-	public void pickupObject(Entity e) {
+	private void pickupObject(Entity e) {
 		if(e.getType() == EntityType.ORB) {
 			Orb orb = ((Orb) e);
 			if(orb.getColor().equals(Color.BLUE)) {
