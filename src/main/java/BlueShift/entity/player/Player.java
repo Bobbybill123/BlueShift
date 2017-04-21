@@ -8,42 +8,44 @@ public class Player extends Entity {
 
 	private Main main;
 	private PVector position;
+	private PVector velocity;
+	private int blue = 0;
 
 	public Player(){
 		main = Main.instance;
 		//setting the players position temp
 		this.position = new PVector(200, main.height - 500);
+		velocity = new PVector();
 	}
 
 	@Override
-	protected float getWidth() {
-		return 220;
+	public float getWidth() {
+		return 52;
 	}
 
 	@Override
-	protected float getHeight() {
-		return 320;
+	public float getHeight() {
+		return 75;
 	}
 
 	@Override
-	protected PVector getPosition() {
+	public PVector getPosition() {
 		return position;
 	}
 
-	@Override
-	 public void draw() {
-		//player draw (temp)
+	public void draw() {
+		main.color(255 - blue, 255 - blue, 255);
 		main.fill(0, 255, 0);
 		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
 	}
 
 	@Override
-	protected void doPhysics() {
+	public void doPhysics() {
 
 	}
 
 	@Override
-	protected void checkCollision(Entity other) {
+	public void checkCollision(Entity other) {
 
 	}
 

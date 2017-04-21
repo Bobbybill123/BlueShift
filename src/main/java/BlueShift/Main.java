@@ -27,24 +27,28 @@ public class Main extends PApplet {
 	public void settings() {
 		size(1920, 1080);
 	}
+
 	public void setup() {
 		leftWall = new LeftWall();
 		floor = new Floor();
 		player = new Player();
 
 	}
+
 	public void draw() {
 		background(255);
 		floor.draw();
 		leftWall.draw();
 		player.draw();
 	}
+
 	public void keyPressed() {
 		Key pressed = keyBinds.get(key);
 		if(pressed != null) {
 			player.doAction(pressed);
 		}
 	}
+
 	public void keyReleased() {
 
 	}

@@ -17,17 +17,17 @@ public class LeftWall extends Entity {
     }
 
     @Override
-    protected float getWidth() {
+    public float getWidth() {
         return 50;
     }
 
     @Override
-    protected float getHeight() {
+    public float getHeight() {
         return main.height;
     }
 
     @Override
-    protected PVector getPosition() {
+    public PVector getPosition() {
         return this.position;
     }
 
@@ -38,12 +38,12 @@ public class LeftWall extends Entity {
     }
 
     @Override
-    protected void doPhysics() {
+    public void doPhysics() {
 
     }
 
     @Override
-    protected void checkCollision(Entity other) {
+    public void checkCollision(Entity other) {
 
     }
 }

@@ -21,22 +21,22 @@ public class Orb extends Entity{
     }
 
     @Override
-    protected PVector getPosition() {
+    public PVector getPosition() {
         return this.position;
     }
 
     @Override
-	protected float getHeight() {
+	public float getHeight() {
         return this.DIAM*2;
     }
 
     @Override
-	protected float getWidth() {
+	public float getWidth() {
         return this.DIAM*2;
     }
 
     @Override
-	protected Rectangle2D.Float getBounds() {
+	public Rectangle2D.Float getBounds() {
         return super.getBounds();
     }
 
@@ -45,12 +45,12 @@ public class Orb extends Entity{
     }
 
 	@Override
-	protected void doPhysics() {
+	public void doPhysics() {
 
 	}
 
 	@Override
-	protected void checkCollision(Entity other) {
+	public void checkCollision(Entity other) {
 
 	}
 

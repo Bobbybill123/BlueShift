@@ -23,22 +23,22 @@ public class Block extends Entity {
     }
 
     @Override
-	protected PVector getPosition() {
+	public PVector getPosition() {
         return this.position;
     }
 
     @Override
-	protected float getHeight() {
+	public float getHeight() {
         return this.height;
     }
 
     @Override
-	protected float getWidth() {
+	public float getWidth() {
         return this.width;
     }
 
     @Override
-	protected Rectangle2D.Float getBounds() {
+	public Rectangle2D.Float getBounds() {
         return super.getBounds();
     }
 
@@ -49,12 +49,12 @@ public class Block extends Entity {
     }
 
 	@Override
-	protected void doPhysics() {
+	public void doPhysics() {
 
 	}
 
 	@Override
-	protected void checkCollision(Entity other) {
+	public void checkCollision(Entity other) {
         //LeannanSC apologises in advance for the terrible code :P
         //Block hitbox dimensions (top, left, width, height)
         //Player can move up through the hitbox but not down
