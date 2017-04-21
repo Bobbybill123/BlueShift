@@ -26,7 +26,7 @@ public class Player extends Entity {
 	public Player() {
 		main = Main.instance;
 		//setting the players starting position
-		this.position = new PVector(20 + getWidth(), main.floor.getPosition().y - getHeight());
+		this.position = new PVector(40 + getWidth(), main.floor.getPosition().y - getHeight() - 5);
 		velocity = new PVector();
 		setHook(new Hook());
 	}
@@ -58,8 +58,10 @@ public class Player extends Entity {
 		if(velocity.x < 0) currentSprite = leftSprite;
 		else currentSprite = rightSprite;
 		if(getOn() != null) {
-			currentSprite.animate(getPosition().x, getPosition().y);
-		} else currentSprite.display(getPosition().x, getPosition().y);
+			if(main.frameCount % 2 == 0) {
+				currentSprite.animate(getPosition().x, getPosition().y);
+			} else currentSprite.displayCurr(position.x, position.y);
+		} else currentSprite.display(getPosition().x, getPosition().y, 12);
 		System.out.println(velocity);
 	}
 
@@ -73,10 +75,10 @@ public class Player extends Entity {
 		if(velocity.x > speedLim) {
 			velocity.x -= (velocity.x - speedLim)/5;
 		}
+		velocity.x -= (velocity.x/20);
 	}
 
 	private void doMovement() {
-		if(velocity.x > speedLim) velocity.x -= speedLim/10;
 		position.x += velocity.x;
 		if(getOn() != null && velocity.y > 0) return;
 		position.y += velocity.y;
@@ -119,7 +121,7 @@ public class Player extends Entity {
 
 	private void calculateSpeedLim() {
 		if(!isOnGround()) {
-			speedLim = Integer.MAX_VALUE;
+			speedLim = 20;
 			return;
 		}
 		speedLim = BASE_SPEED_LIMIT;
@@ -139,7 +141,7 @@ public class Player extends Entity {
 				break;
 			case UP:
 				if(!isOnGround()) break;
-				velocity.y -= 10;
+				velocity.y -= 20;
 				setOnGround(false);
 				setOn(null);
 				break;

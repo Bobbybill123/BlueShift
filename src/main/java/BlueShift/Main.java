@@ -53,7 +53,7 @@ public class Main extends PApplet {
 		Player.leftSprite = new Animation(player, "player\\left\\f", 13);
 		LeftWall.sprite = new Animation(leftWall, "tentacles\\f", 27);
 		Hook.sprite = loadImage("hook.png");
-		currentPlatforms.add(new Platform(new PVector(300, height - 100), 210, 50));
+		currentPlatforms.add(new Platform(new PVector(width - 300, height - 100), 210, 50));
 	}
 
 	public void draw() {

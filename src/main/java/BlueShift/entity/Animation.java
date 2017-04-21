@@ -22,12 +22,16 @@ public class Animation {
 	}
 
 	public void animate(float x, float y) {
-		frame = (frame+1) % imageCount;
-		main.image(images[frame], x, y);
+		frame = (frame + 1) % imageCount;
+		displayCurr(x,y);
 	}
 
-	public void display(float x, float y) {
-		main.image(images[12], x, y);
+	public void displayCurr(float x, float y) {
+		display(x, y, frame);
+	}
+
+	public void display(float x, float y, int frame) {
+		main.image(images[frame], x, y);
 	}
 
 	public float getWidth() {
@@ -37,4 +41,6 @@ public class Animation {
 	public float getHeight() {
 		return images[0].height;
 	}
+
+
 }
