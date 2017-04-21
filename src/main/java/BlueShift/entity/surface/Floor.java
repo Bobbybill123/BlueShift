@@ -3,6 +3,7 @@ package BlueShift.entity.surface;
 import BlueShift.Main;
 import BlueShift.entity.Entity;
 import BlueShift.entity.EntityType;
+import BlueShift.entity.player.Player;
 import processing.core.PVector;
 
 public class Floor extends Surface {
@@ -32,6 +33,9 @@ public class Floor extends Surface {
 	public boolean checkCollision(Entity other) {
 		if(other.getPosition().y + other.getHeight() >= getPosition().y) {
 			other.getPosition().y = getPosition().y - other.getHeight();
+			if(other.getType() == EntityType.PLAYER) {
+				((Player) other).getVelocity().y = 0;
+			}
 			return true;
 		}
 		return false;

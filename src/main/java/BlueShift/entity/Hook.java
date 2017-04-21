@@ -1,9 +1,7 @@
 package BlueShift.entity;
 
-import java.awt.geom.Rectangle2D;
-
 import BlueShift.Main;
-import BlueShift.entity.surface.Surface;
+import processing.core.PImage;
 import processing.core.PVector;
 
 /**
@@ -15,6 +13,7 @@ public class Hook extends Entity {
 	/**
 	 * The current position of the hook's end. Is null unless hooked on something.
 	 */
+	public static PImage sprite;
 	private PVector position;
 	
 	private PVector target;
@@ -59,7 +58,7 @@ public class Hook extends Entity {
 			moveHook();
 		if (this.position != null && this.target != null) {
 			main.fill(200,0, 0);
-			main.ellipse(position.x, position.y, getWidth(), getHeight());
+			main.image(sprite, position.x, position.y, getWidth(), getHeight());
 			hookLine(main.player.getPosition());
 		}
 	}
@@ -97,7 +96,7 @@ public class Hook extends Entity {
 		} else {
 			main.player.setOnGround(false);
 			main.player.setOn(null);
-			main.player.addVelocity(new PVector((float) (this.direction.x * 2), (float) (this.direction.y * 2)));
+			main.player.addVelocity(new PVector(this.direction.x * 2, this.direction.y * 2));
 		}
 	}
 

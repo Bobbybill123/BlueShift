@@ -21,9 +21,13 @@ public class Animation {
 		}
 	}
 
-	public void display(float xpos, float ypos) {
+	public void animate(float x, float y) {
 		frame = (frame+1) % imageCount;
-		main.image(images[frame], xpos, ypos);
+		main.image(images[frame], x, y);
+	}
+
+	public void display(float x, float y) {
+		main.image(images[12], x, y);
 	}
 
 	public float getWidth() {

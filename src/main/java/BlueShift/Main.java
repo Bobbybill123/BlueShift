@@ -1,6 +1,7 @@
 package BlueShift;
 
 import BlueShift.entity.Animation;
+import BlueShift.entity.Hook;
 import BlueShift.entity.LeftWall;
 import BlueShift.entity.Orb;
 import BlueShift.entity.player.Move;
@@ -50,18 +51,24 @@ public class Main extends PApplet {
 		keyBinds.put('s', Move.DOWN);
 		Player.rightSprite = new Animation(player, "player\\right\\f", 13);
 		Player.leftSprite = new Animation(player, "player\\left\\f", 13);
+		LeftWall.sprite = new Animation(leftWall, "tentacles\\f", 27);
+		Hook.sprite = loadImage("hook.png");
+		currentPlatforms.add(new Platform(new PVector(300, height - 100), 210, 50));
 	}
 
 	public void draw() {
 		background(0);
-		if(start) {
-			gameSpeed += 0.01;
-			for (int i = 0; i < keyPressed.length; i++) {
-				if(keyPressed[i]) player.doAction(Move.values()[i]);
-				if(i < 2) keyPressed[i] = false;
+		gameSpeed += 0.01;
+		for (int i = 0; i < keyPressed.length; i++) {
+			if(keyPressed[i]) {
+				player.doAction(Move.values()[i]);
+				System.out.println(Move.values()[i]);
 			}
 		}
 		checkPlayerCollisions();
+		for (Platform platform : currentPlatforms) {
+			platform.draw();
+		}
 		floor.draw();
 		leftWall.draw();
 		player.draw();
@@ -78,7 +85,7 @@ public class Main extends PApplet {
 			player.checkCollision(orb);
 		}
 	}
-	
+
 	public void checkHookCollisions() {
 		/*for (Platform platform : currentPlatforms) {
 			player.getHook().checkCollision(platform);
@@ -88,11 +95,10 @@ public class Main extends PApplet {
 
 	public void gameOver() {
 		//TODO Make game over screen
-		exit();
+		System.out.println("You Died!");
 	}
 
 	public void keyPressed() {
-		start = true;
 		Move pressed = keyBinds.get(key);
 		if(pressed != null) {
 			keyPressed[pressed.ordinal()] = true;
@@ -111,7 +117,7 @@ public class Main extends PApplet {
 		this.player.getHook().fire(new PVector(mouseX, mouseY));
 		checkHookCollisions();
 	}
-	
+
 	public void mouseReleased() {
 		this.player.getHook().release();
 	}

@@ -8,6 +8,7 @@ import processing.core.PVector;
  */
 public class LeftWall extends Entity {
 
+	public static Animation sprite;
 	private Main main;
 	private PVector position;
 
@@ -18,12 +19,12 @@ public class LeftWall extends Entity {
 
 	@Override
 	public float getWidth() {
-		return 50;
+		return 60;
 	}
 
 	@Override
 	public float getHeight() {
-		return main.height;
+		return 40.33f;
 	}
 
 	@Override
@@ -34,7 +35,10 @@ public class LeftWall extends Entity {
 	@Override
 	public void draw() {
 		main.fill(200,0, 0);
-		main.rect(position.x, position.y, getWidth(), getHeight());
+		for (int i = 0; i < main.height; i+=(main.height/getHeight())) {
+			sprite.animate(position.x, position.y + i);
+		}
+//		main.rect(position.x, position.y, getWidth(), getHeight());
 	}
 
 	@Override

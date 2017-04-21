@@ -18,8 +18,8 @@ public class Player extends Entity {
 	private Surface on = null;
 	private static float GRAVITY = 0.7f;
 	private float speedLim;
-	private int blue = 0;
-	private int red = 0;
+	private float blue = 0;
+	private float red = 0;
 	private boolean onGround = false;
 	private Hook hook;
 
@@ -27,8 +27,6 @@ public class Player extends Entity {
 		main = Main.instance;
 		//setting the players starting position
 		this.position = new PVector(20 + getWidth(), main.floor.getPosition().y - getHeight());
-		System.out.println(main.floor.getPosition().y - getHeight());
-		System.out.println(main.width);
 		velocity = new PVector();
 		setHook(new Hook());
 	}
@@ -59,14 +57,22 @@ public class Player extends Entity {
 		main.fill(255 - blue, 255 - blue, 255);
 		if(velocity.x < 0) currentSprite = leftSprite;
 		else currentSprite = rightSprite;
-		currentSprite.display(getPosition().x, getPosition().y);
+		if(getOn() != null) {
+			currentSprite.animate(getPosition().x, getPosition().y);
+		} else currentSprite.display(getPosition().x, getPosition().y);
+		System.out.println(velocity);
 	}
 
 	@Override
 	public void doPhysics() {
-		if(!isOnGround()) {
+		if(getOn() == null && !onGround) {
 			velocity.y += GRAVITY;
-		} else velocity.y = 0;
+		} else {
+			velocity.y = 0;
+		}
+		if(velocity.x > speedLim) {
+			velocity.x -= (velocity.x - speedLim)/5;
+		}
 	}
 
 	private void doMovement() {
@@ -105,8 +111,8 @@ public class Player extends Entity {
 		if(e.getType() == EntityType.ORB) {
 			Orb orb = ((Orb) e);
 			if(orb.getColor().equals(Color.BLUE)) {
-				if (red != 0) red--;
-				else blue++;
+				if (red != 0) red-=255/20;
+				else blue+=255/20;
 			}
 		}
 	}
@@ -117,7 +123,7 @@ public class Player extends Entity {
 			return;
 		}
 		speedLim = BASE_SPEED_LIMIT;
-		if(getOn() != null) {
+		if(getOn() != null && !onGround) {
 			speedLim *= getOn().getSpeedModifier();
 		}
 		speedLim *= main.gameSpeed;
@@ -133,7 +139,7 @@ public class Player extends Entity {
 				break;
 			case UP:
 				if(!isOnGround()) break;
-				velocity.y -= 20;
+				velocity.y -= 10;
 				setOnGround(false);
 				setOn(null);
 				break;
@@ -162,7 +168,7 @@ public class Player extends Entity {
 	}
 	
 	public void addVelocity(PVector p) {
-		this.velocity = new PVector(Math.min(15, this.velocity.x + p.x), Math.min((float) (7.5), this.velocity.y + p.y));
+		this.velocity = new PVector(Math.min(speedLim, this.velocity.x + p.x), Math.min(7, this.velocity.y + p.y));
 	}
 
 	public boolean isOnGround() {

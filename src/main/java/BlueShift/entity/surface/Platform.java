@@ -14,10 +14,11 @@ public class Platform extends Surface {
 	private int width;
 	private int height;
 
-	public Platform(PVector position, int width, int height){
+	public Platform(PVector position, int width, int height) {
+		main = Main.instance;
 		this.position = position;
-		this.width = width;
 		this.height = height;
+		this.width = width - width%height;
 	}
 
 	@Override
@@ -36,20 +37,19 @@ public class Platform extends Surface {
 	}
 
 	public void draw() {
-		main.rect(position.x, position.y, width, height);
+		main.fill(255, 0, 0);
+		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
 	}
 
 	@Override
 	public boolean checkCollision(Entity other) {
-		//LeannanSC apologises in advance for the terrible code :P
-		//Platform hitbox dimensions (position.x, position.y, width, height)
-		//Player hitbox dimensions (main.player.getPosition.x/y , main.player.getWidth/getHeight)
-		//Player can move up through the hitbox but not down
-		//the player must be moving down to 'walk' on the platform (??vertical velocity positive??)
-
-		other.getBounds();
 		PVector pos = other.getPosition();
-		return pos.x + other.getWidth() < position.x && pos.x > position.x + width && pos.y + other.getHeight() == position.y;
+		if(pos.x + other.getWidth() >= position.x && pos.x <= position.x + width &&
+				pos.y + other.getHeight() >= position.y && pos.y + other.getHeight() < position.y + 5) {
+			pos.y = position.y - other.getHeight();
+			return true;
+		}
+		return false;
 	}
 
 	@Override
