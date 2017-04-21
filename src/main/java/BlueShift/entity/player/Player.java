@@ -14,19 +14,21 @@ public class Player extends Entity {
 	private Main main;
 	private PVector position;
 	private PVector velocity;
-	private Surface on;
+	private Surface on = null;
 	private static float GRAVITY = 0.7f;
 	private float speedLim;
 	private int blue = 0;
 	private int red = 0;
-	private boolean onGround;
-	private long jumpMillis = -1;
+	private boolean onGround = false;
+	private long jumpMillis;
 	private boolean jump = false;
 
 	public Player() {
 		main = Main.instance;
-		//setting the players position temp
-		this.position = new PVector(200, main.floor.getPosition().y - getHeight());
+		//setting the players starting position
+		this.position = new PVector(20 + getWidth(), main.floor.getPosition().y - getHeight());
+		System.out.println(main.floor.getPosition().y - getHeight());
+		System.out.println(main.width);
 		velocity = new PVector();
 	}
 
@@ -45,10 +47,6 @@ public class Player extends Entity {
 		return position;
 	}
 
-	public PVector getVelocity() {
-		return velocity;
-	}
-
 	public void draw() {
 		if(jump) jump();
 		calculateSpeedLim();
@@ -57,14 +55,21 @@ public class Player extends Entity {
 		if(on != null && on.getType() == EntityType.FLOOR) {
 			onGround = true;
 			position.y = main.floor.getPosition().y;
-		} else position.y = getHeight();
+		} /*else position.y = getHeight();*/
 		main.fill(255 - blue, 255 - blue, 255);
 		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
 	}
 
-	public void jump() {
-		if(jumpMillis < 0) {
+	private void jump() {
+		if(main.millis() < jumpMillis + 150) {
+			GRAVITY = 0;
+			velocity.y = -7;
+		} else {
+			jump = false;
+			GRAVITY = 0.7f;
+			velocity.y = 7;
 		}
+
 
 	}
 
@@ -77,17 +82,19 @@ public class Player extends Entity {
 
 	private void doMovement() {
 		if(velocity.x > speedLim) velocity.x -= speedLim/10;
-		position.x += velocity.x;
+		if(intersects(main.floor))
+			position.x += velocity.x;
 		if(onGround && velocity.y > 0) return;
 		position.y += velocity.y;
-
 	}
 
 	@Override
 	public boolean checkCollision(Entity other) {
 		if(intersects(other)) {
 			if(other.isSurface()) {
-				if(other.checkCollision(this)) on = (Surface) other;
+				if(other.checkCollision(this)) {
+					on = (Surface) other;
+				}
 			} else if (other.getType() == EntityType.ORB) {
 				pickupObject(other);
 			} else if (other.getType() == EntityType.LEFT_WALL) {
@@ -134,9 +141,8 @@ public class Player extends Entity {
 				velocity.x = Math.max(-speedLim, velocity.x - speedLim);
 				break;
 			case UP:
+				jumpMillis = main.millis();
 				jump = true;
-				GRAVITY = 0;
-				velocity.y = 5;
 				break;
 /*			case DOWN:
 				velocity.y--;

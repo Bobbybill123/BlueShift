@@ -30,7 +30,7 @@ public abstract class Entity {
 	}
 
 	protected boolean intersects(Entity other) {
-		return (getBounds().intersects(other.getBounds()));
+		return getBounds().intersects(other.getBounds());
 	}
 
 	public boolean isSurface() {

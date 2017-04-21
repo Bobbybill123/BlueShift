@@ -24,7 +24,8 @@ public class Floor extends Surface {
 
 	@Override
 	public void draw() {
-		main.line(getPosition().x, getPosition().y, getPosition().x + getWidth(), getPosition().y + getHeight());
+		main.fill(0, 127, 0);
+		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
 	}
 
 	@Override

@@ -1,17 +1,23 @@
 package BlueShift;
 
 import BlueShift.entity.LeftWall;
+import BlueShift.entity.Orb;
 import BlueShift.entity.player.Move;
 import BlueShift.entity.player.Player;
 import BlueShift.entity.surface.Floor;
+import BlueShift.entity.surface.Platform;
 import net.tangentmc.processing.ProcessingRunner;
 import processing.core.PApplet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Main extends PApplet {
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
+	public List<Platform> currentPlatforms = new ArrayList<>();
+	public List<Orb> currentOrbs = new ArrayList<>();
 	private boolean[] keyPressed = new boolean[4];
 	public static Main instance;
 	public int gameSpeed = 1;
@@ -32,6 +38,7 @@ public class Main extends PApplet {
 
 	public void setup() {
 		frameRate(100);
+		rectMode(CORNER);
 		floor = new Floor();
 		leftWall = new LeftWall();
 		player = new Player();
@@ -42,6 +49,7 @@ public class Main extends PApplet {
 	}
 
 	public void draw() {
+		background(0);
 		if(start) {
 			gameSpeed += 0.01;
 			for (int i = 0; i < keyPressed.length; i++) {
@@ -49,9 +57,20 @@ public class Main extends PApplet {
 				if(i < 2) keyPressed[i] = false;
 			}
 		}
-		background(0);
+		checkCollisions();
+		floor.draw();
 		leftWall.draw();
 		player.draw();
+	}
+
+	public void checkCollisions() {
+		player.checkCollision(floor);
+		for (Platform platform : currentPlatforms) {
+			player.checkCollision(platform);
+		}
+		for (Orb orb : currentOrbs) {
+			player.checkCollision(orb);
+		}
 	}
 
 	public void gameOver() {
