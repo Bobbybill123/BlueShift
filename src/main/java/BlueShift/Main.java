@@ -50,7 +50,6 @@ public class Main extends PApplet {
 	}
 
 	public void draw() {
-		System.out.println(this.player.getPosition());
 		background(0);
 		if(start) {
 			gameSpeed += 0.01;

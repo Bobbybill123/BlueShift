@@ -51,7 +51,6 @@ public class Hook extends Entity {
 	@Override
 	public void draw() {
 		if (this.position != null) {
-			System.out.println(this.position);
 			moveHook();
 			main.fill(200,0, 0);
 			main.ellipse(position.x, position.y, getWidth(), getHeight());
@@ -86,14 +85,12 @@ public class Hook extends Entity {
 	 * Sets the direction that the hook is going in
 	 */
 	public void setDirection() {
-		PVector playerPos = main.player.getPosition();
-		direction = playerPos.sub(this.target).normalize();
+		direction = main.player.getPosition().copy().sub(this.target).normalize();
 	}
 	
 	public void fire(PVector mousePosition) {
 		if (!this.hooked) {
 			this.target = mousePosition;
-			System.out.println("fired at " + this.target);
 		}
 	}
 	
@@ -118,7 +115,6 @@ public class Hook extends Entity {
 					this.target.x <= bBox.x + bBox.width && 
 					this.target.y >= bBox.y &&
 					this.target.y <= bBox.y + bBox.height;*/
-			System.out.println("setting pos");
 			this.position = main.player.getPosition();
 			setDirection();
 			return hooked;
