@@ -70,6 +70,7 @@ public class Block extends Entity {
                 playerBlockCollision = true;
         }
         if (playerBlockCollision)
+            //idk
             System.out.println("I DID IT!!!");
 	}
 
