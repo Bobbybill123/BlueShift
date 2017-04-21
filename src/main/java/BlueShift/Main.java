@@ -1,5 +1,6 @@
 package BlueShift;
 
+import BlueShift.entity.Animation;
 import BlueShift.entity.LeftWall;
 import BlueShift.entity.Orb;
 import BlueShift.entity.player.Move;
@@ -47,6 +48,7 @@ public class Main extends PApplet {
 		keyBinds.put('d', Move.RIGHT);
 		keyBinds.put('w', Move.UP);
 		keyBinds.put('s', Move.DOWN);
+		Player.sprite = new Animation(player, "player\\right\\f", 13);
 	}
 
 	public void draw() {

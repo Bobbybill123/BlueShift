@@ -26,7 +26,7 @@ public class Floor extends Surface {
 	public void draw() {
 		main.fill(0, 127, 0);
 		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
-	}
+}
 
 	@Override
 	public boolean checkCollision(Entity other) {

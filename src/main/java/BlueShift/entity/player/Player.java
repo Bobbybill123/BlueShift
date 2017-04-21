@@ -1,10 +1,7 @@
 package BlueShift.entity.player;
 
 import BlueShift.Main;
-import BlueShift.entity.Entity;
-import BlueShift.entity.EntityType;
-import BlueShift.entity.Hook;
-import BlueShift.entity.Orb;
+import BlueShift.entity.*;
 import BlueShift.entity.surface.Surface;
 import processing.core.PVector;
 
@@ -12,6 +9,8 @@ import java.awt.*;
 
 public class Player extends Entity {
 	private static final float BASE_SPEED_LIMIT = 10;
+
+	public static Animation sprite;
 	private Main main;
 	private PVector position;
 	private PVector velocity;
@@ -21,8 +20,6 @@ public class Player extends Entity {
 	private int blue = 0;
 	private int red = 0;
 	private boolean onGround = false;
-	private long jumpMillis;
-	private boolean jump = false;
 	private Hook hook;
 
 	public Player() {
@@ -51,30 +48,16 @@ public class Player extends Entity {
 	}
 
 	public void draw() {
-		if(jump) jump();
 		calculateSpeedLim();
-		doPhysics();
 		doMovement();
+		doPhysics();
 		if(on != null && on.getType() == EntityType.FLOOR) {
 			onGround = true;
 			position.y = main.floor.getPosition().y - getHeight();
 		}
 		main.fill(255 - blue, 255 - blue, 255);
+		sprite.display(getPosition().x, getPosition().y);
 		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
-	}
-
-	private void jump() {
-		if(main.millis() < jumpMillis + 150) {
-			System.out.println("jumping");
-			GRAVITY = 0;
-			velocity.y = -7;
-		} else {
-			jump = false;
-			GRAVITY = 0.7f;
-			velocity.y = 7;
-		}
-
-
 	}
 
 	@Override
@@ -97,6 +80,9 @@ public class Player extends Entity {
 			if(other.isSurface()) {
 				if(other.checkCollision(this)) {
 					on = (Surface) other;
+					if(on.getType() == EntityType.FLOOR) {
+						onGround = true;
+					}
 				}
 			} else if (other.getType() == EntityType.ORB) {
 				pickupObject(other);
@@ -144,10 +130,10 @@ public class Player extends Entity {
 				velocity.x = Math.max(-speedLim, velocity.x - speedLim);
 				break;
 			case UP:
-				on = null;
+				if(!onGround) break;
+				velocity.y -= 20;
 				onGround = false;
-				jumpMillis = main.millis();
-				jump = true;
+				on = null;
 				break;
 /*			case DOWN:
 				velocity.y--;
