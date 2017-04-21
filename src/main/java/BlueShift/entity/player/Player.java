@@ -9,8 +9,9 @@ import java.awt.*;
 
 public class Player extends Entity {
 	private static final float BASE_SPEED_LIMIT = 10;
-
-	public static Animation sprite;
+	public static Animation leftSprite;
+	public static Animation rightSprite;
+	private Animation currentSprite;
 	private Main main;
 	private PVector position;
 	private PVector velocity;
@@ -56,8 +57,9 @@ public class Player extends Entity {
 			position.y = main.floor.getPosition().y - getHeight();
 		}
 		main.fill(255 - blue, 255 - blue, 255);
-		sprite.display(getPosition().x, getPosition().y);
-		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
+		if(velocity.x < 0) currentSprite = leftSprite;
+		else currentSprite = rightSprite;
+		currentSprite.display(getPosition().x, getPosition().y);
 	}
 
 	@Override

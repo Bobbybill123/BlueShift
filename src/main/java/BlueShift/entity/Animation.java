@@ -14,10 +14,10 @@ public class Animation {
 		imageCount = count;
 		images = new PImage[imageCount];
 		for (int i = 0; i < imageCount; i++) {
-			// Use nf() to number format 'i' into four digits
 			int j = i + 1;
 			String filename = imagePrefix + j + ".png";
 			images[i] = main.loadImage(filename);
+			images[i].resize((int) entity.getWidth(), ((int) entity.getHeight()));
 		}
 	}
 

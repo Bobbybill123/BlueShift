@@ -48,7 +48,8 @@ public class Main extends PApplet {
 		keyBinds.put('d', Move.RIGHT);
 		keyBinds.put('w', Move.UP);
 		keyBinds.put('s', Move.DOWN);
-		Player.sprite = new Animation(player, "player\\right\\f", 13);
+		Player.rightSprite = new Animation(player, "player\\right\\f", 13);
+		Player.leftSprite = new Animation(player, "player\\left\\f", 13);
 	}
 
 	public void draw() {
@@ -69,6 +70,7 @@ public class Main extends PApplet {
 
 	public void checkPlayerCollisions() {
 		player.checkCollision(floor);
+		player.checkCollision(leftWall);
 		for (Platform platform : currentPlatforms) {
 			player.checkCollision(platform);
 		}
@@ -86,6 +88,7 @@ public class Main extends PApplet {
 
 	public void gameOver() {
 		//TODO Make game over screen
+		exit();
 	}
 
 	public void keyPressed() {
