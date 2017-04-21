@@ -33,6 +33,10 @@ public class Player extends Entity {
 		return position;
 	}
 
+	public PVector getVelocity() {
+		return velocity;
+	}
+
 	public void draw() {
 		main.color(255 - blue, 255 - blue, 255);
 		main.fill(0, 255, 0);
@@ -54,6 +58,23 @@ public class Player extends Entity {
 	}
 
 	public void doAction(Key action) {
-
+		switch(action) {
+			case LEFT:
+				velocity.x++;
+				break;
+			case RIGHT:
+				velocity.x--;
+				break;
+			case UP:
+				velocity.y++;
+				break;
+			case DOWN:
+				velocity.y--;
+				break;
+			case JUMP:
+				break;
+			case GRAPPLE:
+				break;
+		}
 	}
 }

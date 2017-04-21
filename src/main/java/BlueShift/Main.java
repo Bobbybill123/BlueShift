@@ -29,6 +29,7 @@ public class Main extends PApplet {
 	}
 
 	public void setup() {
+		frameRate(100);
 		leftWall = new LeftWall();
 		floor = new Floor();
 		player = new Player();
