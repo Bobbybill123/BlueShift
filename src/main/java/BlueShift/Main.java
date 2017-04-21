@@ -3,25 +3,23 @@ package BlueShift;
 import BlueShift.entity.LeftWall;
 import BlueShift.entity.player.Move;
 import BlueShift.entity.player.Player;
+import BlueShift.entity.surface.Floor;
 import net.tangentmc.processing.ProcessingRunner;
 import processing.core.PApplet;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Main extends PApplet {
-
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
+	private boolean[] keyPressed = new boolean[4];
 	public static Main instance;
-	private List<Move> pressedKeys;
-	public int gameSpeed = 0;
-
-	public static int GROUND;
+	public int gameSpeed = 1;
+	private boolean start = false;
+	public Floor floor;
 
 	//entities
-	LeftWall leftWall;
+	private LeftWall leftWall;
 	public Player player;
 
 	private Main(){
@@ -34,8 +32,7 @@ public class Main extends PApplet {
 
 	public void setup() {
 		frameRate(100);
-		GROUND = height - 40;
-		pressedKeys = new ArrayList<>();
+		floor = new Floor();
 		leftWall = new LeftWall();
 		player = new Player();
 		keyBinds.put('a', Move.LEFT);
@@ -45,27 +42,34 @@ public class Main extends PApplet {
 	}
 
 	public void draw() {
-		System.out.println(frameRate);
-		gameSpeed+=0.01;
-		for (Move pressedKey : pressedKeys) {
-			player.doAction(pressedKey);
+		if(start) {
+			gameSpeed += 0.01;
+			for (int i = 0; i < keyPressed.length; i++) {
+				if(keyPressed[i]) player.doAction(Move.values()[i]);
+				if(i < 2) keyPressed[i] = false;
+			}
 		}
 		background(0);
 		leftWall.draw();
 		player.draw();
 	}
 
+	public void gameOver() {
+		//TODO Make game over screen
+	}
+
 	public void keyPressed() {
+		start = true;
 		Move pressed = keyBinds.get(key);
 		if(pressed != null) {
-			pressedKeys.add(pressed);
+			keyPressed[pressed.ordinal()] = true;
 		}
 	}
 
 	public void keyReleased() {
 		Move released = keyBinds.get(key);
 		if(released != null) {
-			pressedKeys.remove(released);
+			keyPressed[released.ordinal()] = false;
 			player.released(released);
 		}
 	}

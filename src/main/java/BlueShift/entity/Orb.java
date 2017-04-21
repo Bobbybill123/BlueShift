@@ -54,8 +54,8 @@ public class Orb extends Entity{
 	}
 
 	@Override
-	public void checkCollision(Entity other) {
-
+	public boolean checkCollision(Entity other) {
+		return false;
 	}
 
 	@Override

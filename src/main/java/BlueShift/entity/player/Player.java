@@ -4,26 +4,30 @@ import BlueShift.Main;
 import BlueShift.entity.Entity;
 import BlueShift.entity.EntityType;
 import BlueShift.entity.Orb;
+import BlueShift.entity.surface.Floor;
 import BlueShift.entity.surface.Surface;
 import processing.core.PVector;
 
 import java.awt.*;
 
 public class Player extends Entity {
+	private static final float BASE_SPEED_LIMIT = 10;
 	private Main main;
 	private PVector position;
 	private PVector velocity;
 	private Surface on;
-	private static final float GRAVITY = 2f;
+	private static float GRAVITY = 0.7f;
 	private float speedLim;
 	private int blue = 0;
 	private int red = 0;
 	private boolean onGround;
+	private long jumpMillis = -1;
+	private boolean jump = false;
 
 	public Player() {
 		main = Main.instance;
 		//setting the players position temp
-		this.position = new PVector(200, main.height - 500);
+		this.position = new PVector(200, main.floor.getPosition().y - getHeight());
 		velocity = new PVector();
 	}
 
@@ -47,15 +51,22 @@ public class Player extends Entity {
 	}
 
 	public void draw() {
+		if(jump) jump();
 		calculateSpeedLim();
 		doPhysics();
 		doMovement();
-		if(position.y + getHeight() >= Main.GROUND) {
+		if(on.getType() == EntityType.FLOOR) {
 			onGround = true;
-			position.y = Main.GROUND - getHeight();
+			position.y = main.floor.getPosition().y;
 		} else position.y = getHeight();
 		main.fill(255 - blue, 255 - blue, 255);
 		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
+	}
+
+	public void jump() {
+		if(jumpMillis < 0) {
+		}
+
 	}
 
 	@Override
@@ -66,18 +77,26 @@ public class Player extends Entity {
 	}
 
 	private void doMovement() {
+		if(velocity.x > speedLim) velocity.x -= speedLim/10;
 		position.x += velocity.x;
-		if(!onGround) position.y = Math.min(position.y + velocity.y, Main.GROUND);
-		position.add(velocity);
+		if(onGround && velocity.y > 0) return;
+		position.y += velocity.y;
+
 	}
 
 	@Override
-	public void checkCollision(Entity other) {
+	public boolean checkCollision(Entity other) {
 		if(intersects(other)) {
-			if(other.getType() == EntityType.SURFACE) {
-
+			if(other.isSurface()) {
+				if(other.checkCollision(this)) on = (Surface) other;
+			} else if (other.getType() == EntityType.ORB) {
+				pickupObject(other);
+			} else if (other.getType() == EntityType.LEFT_WALL) {
+				main.gameOver();
 			}
+			return true;
 		}
+		return false;
 	}
 
 	@Override
@@ -95,34 +114,37 @@ public class Player extends Entity {
 		}
 	}
 
-	public void calculateSpeedLim() {
-		speedLim = 10;
+	private void calculateSpeedLim() {
+		if(!onGround) {
+			speedLim = Integer.MAX_VALUE;
+			return;
+		}
+		speedLim = BASE_SPEED_LIMIT;
 		if(on != null) {
 			speedLim *= on.getSpeedModifier();
 		}
+		speedLim *= main.gameSpeed;
 	}
 
 	public void doAction(Move action) {
 		switch(action) {
 			case RIGHT:
-				velocity.x = Math.min(speedLim, velocity.x + speedLim/50);
+				velocity.x = Math.min(speedLim, velocity.x + speedLim);
 				break;
 			case LEFT:
-				velocity.x--;
+				velocity.x = Math.max(-speedLim, velocity.x - speedLim);
 				break;
 			case UP:
-				velocity.y++;
+				jump = true;
 				break;
-			case DOWN:
+/*			case DOWN:
 				velocity.y--;
-				break;
-			case GRAPPLE:
-				break;
+				break;*/
 		}
 	}
 
 	public void released(Move released) {
-		if(released == Move.LEFT|| released == Move.RIGHT) {
+		if(released == Move.LEFT || released == Move.RIGHT) {
 			velocity.x = 0;
 		}
 	}
