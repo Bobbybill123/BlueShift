@@ -49,6 +49,6 @@ public class LeftWall extends Entity {
 
 	@Override
 	public EntityType getType() {
-		return EntityType.LEFTWALL;
+		return EntityType.LEFT_WALL;
 	}
 }

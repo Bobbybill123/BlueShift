@@ -1,5 +1,5 @@
 package BlueShift.entity.player;
 
-public enum Key {
+public enum Move {
 	LEFT, RIGHT, UP, DOWN, GRAPPLE
 }

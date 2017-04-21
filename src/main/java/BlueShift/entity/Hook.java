@@ -65,8 +65,8 @@ public class Hook extends Entity {
      * @return
      */
 
-    public void direction(PVector playerPosition, PVector mousePosition){
-        PVector direction = playerPosition.sub(mousePosition).normalize();
+    public void direction(PVector playerPosition, PVector mousePosition) {
+        direction = playerPosition.sub(mousePosition).normalize();
     }
 
     @Override
@@ -81,6 +81,6 @@ public class Hook extends Entity {
 
 	@Override
 	public EntityType getType() {
-		return null;
+		return EntityType.HOOK;
 	}
 }

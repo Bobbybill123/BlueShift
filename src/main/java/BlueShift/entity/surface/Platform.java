@@ -1,6 +1,8 @@
-package BlueShift.entity;
+package BlueShift.entity.surface;
 
 import BlueShift.Main;
+import BlueShift.entity.Entity;
+import BlueShift.entity.EntityType;
 import processing.core.PConstants;
 import processing.core.PVector;
 
@@ -9,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * Created by TML_TEST on 21/04/2017.
  */
-public class Platform extends Entity {
+public class Platform extends Surface {
     private Main main;
     private PVector position;
     private int width;
@@ -34,11 +36,6 @@ public class Platform extends Entity {
     @Override
 	public float getWidth() {
         return this.width;
-    }
-
-    @Override
-	public Rectangle2D.Float getBounds() {
-        return super.getBounds();
     }
 
 	public void draw(){
@@ -69,14 +66,16 @@ public class Platform extends Entity {
                 playerPlatformCollision = true;
         }
         if (playerPlatformCollision)
-            //idk
             System.out.println("I DID IT!!!");
-        //if ();
 	}
 
 	@Override
 	public EntityType getType() {
-		return EntityType.PLATFORM;
+		return EntityType.SURFACE;
 	}
 
+	@Override
+	public float getSpeedModifier() {
+		return 0.75f;
+	}
 }
