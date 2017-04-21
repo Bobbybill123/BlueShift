@@ -23,7 +23,7 @@ public class Main extends PApplet {
 	public List<Orb> currentOrbs = new ArrayList<>();
 	private boolean[] keyPressed = new boolean[4];
 	public static Main instance;
-	public int gameSpeed = 1;
+	public float gameSpeed = (float) 0.1;
 	private boolean start = false;
 	public Floor floor;
 
@@ -73,7 +73,41 @@ public class Main extends PApplet {
 		leftWall.draw();
 		player.draw();
 		player.getHook().draw();
+
+
 	}
+
+	/**
+	 * Move the entities towards the left wall
+     */
+	public void moveTowardsTheLeftWall(){
+
+		player.moveLeft(gameSpeed);
+
+		for(Platform platform: currentPlatforms){
+			platform.moveLeft(gameSpeed);
+		}
+
+		for(Orb orb: currentOrbs){
+			orb.moveLeft(gameSpeed);
+		}
+	}
+
+
+	public void removeIfOutOfScreen(){
+
+	}
+
+	/**
+	 * Increase the gameSpeed over time
+     */
+	public void increaseGameSpeed(){
+		if(gameSpeed < 2) {
+			gameSpeed = gameSpeed + (float) 0.001;
+		}
+	}
+
+
 
 	public void checkPlayerCollisions() {
 		player.checkCollision(floor);

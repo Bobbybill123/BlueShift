@@ -37,4 +37,9 @@ public abstract class Entity {
 		return false;
 	}
 
+	public void moveLeft(float gameSpeed){
+		//should this need a setter?
+		this.getPosition().x = this.getPosition().x - gameSpeed;
+	}
+
 }
