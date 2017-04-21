@@ -1,5 +1,5 @@
 package BlueShift.entity;
 
 public enum EntityType {
-	PLAYER
+	PLAYER, BLOCK, ORB
 }

@@ -10,9 +10,9 @@ import processing.core.PApplet;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Main extends PApplet{
+public class Main extends PApplet {
 
-	private final Map<Key, Character> keyBinds = new HashMap<>(6);
+	private final Map<Character, Key> keyBinds = new HashMap<>(6);
 	public static Main instance;
 
 	//entities
@@ -39,7 +39,10 @@ public class Main extends PApplet{
 		leftWall.draw();
 	}
 	public void keyPressed() {
-
+		Key pressed = keyBinds.get(key);
+		if(pressed != null) {
+			player.doAction(pressed);
+		}
 	}
 	public void keyReleased() {
 

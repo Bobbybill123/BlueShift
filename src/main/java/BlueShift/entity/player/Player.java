@@ -4,8 +4,6 @@ import BlueShift.entity.Entity;
 import processing.core.PVector;
 
 public class Player extends Entity {
-
-
 	@Override
 	protected float getWidth() {
 		return 220;
