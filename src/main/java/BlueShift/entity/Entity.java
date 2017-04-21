@@ -1,4 +1,4 @@
-package entity;
+package BlueShift.entity;
 
 import processing.core.PVector;
 

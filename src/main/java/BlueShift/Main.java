@@ -1,10 +1,16 @@
+package BlueShift;
+
 import net.tangentmc.processing.ProcessingRunner;
 import processing.core.PApplet;
 
 public class Main extends PApplet{
-	public static void main(String[] args) {
-		ProcessingRunner.run(new Main());
+
+	public static Main instance;
+
+	public Main(){
+		instance = this;
 	}
+
 	public void settings() {
 
 	}
@@ -20,4 +26,9 @@ public class Main extends PApplet{
 	public void keyReleased() {
 
 	}
+
+	public static void main(String[] args) {
+		ProcessingRunner.run(new Main());
+	}
+
 }
