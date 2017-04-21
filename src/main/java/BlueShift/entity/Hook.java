@@ -92,10 +92,10 @@ public class Hook extends Entity {
 	 */
 	public void moveHook(){
 		if (this.direction != null && this.hooked) {
-			if (this.position.dist(this.target) < 10) {
+			if (this.position.dist(this.target) < 20) {
 				pulling = true;
 			} else {
-				this.position.add(this.direction.copy().mult(20));
+				this.position.add(this.direction.copy().mult(40));
 			}
 		}
 	}

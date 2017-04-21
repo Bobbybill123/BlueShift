@@ -132,12 +132,21 @@ public class Player extends Entity {
 	}
 
 	public void doAction(Move action) {
+		float oldLim = speedLim;
 		switch(action) {
 			case RIGHT:
+				if (!onGround) {
+					speedLim /= 2;
+				}
 				velocity.x = Math.min(speedLim, velocity.x + speedLim);
+				speedLim = oldLim;
 				break;
 			case LEFT:
+				if (!onGround) {
+					speedLim /= 2;
+				}
 				velocity.x = Math.max(-speedLim, velocity.x - speedLim);
+				speedLim = oldLim;
 				break;
 			case UP:
 				if(!isOnGround()) break;
