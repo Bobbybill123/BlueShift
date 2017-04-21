@@ -89,10 +89,12 @@ public class Hook extends Entity {
 	 * Reels the player in towards the hook location.
 	 */
 	public void reelIn() {
-		if (this.hooked && main.player.getPosition().dist(this.target) < 10) {
+		if (this.hooked && main.player.getPosition().dist(this.target) < 100) {
 			release();
 		} else {
-			main.player.addVelocity(this.direction.copy());
+			main.player.setOnGround(false);
+			main.player.setOn(null);
+			main.player.addVelocity(new PVector(this.direction.x, (float) (this.direction.y * 1.5)));
 		}
 	}
 

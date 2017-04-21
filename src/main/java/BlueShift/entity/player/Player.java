@@ -51,8 +51,8 @@ public class Player extends Entity {
 		calculateSpeedLim();
 		doMovement();
 		doPhysics();
-		if(on != null && on.getType() == EntityType.FLOOR) {
-			onGround = true;
+		if(getOn() != null && getOn().getType() == EntityType.FLOOR) {
+			setOnGround(true);
 			position.y = main.floor.getPosition().y - getHeight();
 		}
 		main.fill(255 - blue, 255 - blue, 255);
@@ -62,7 +62,7 @@ public class Player extends Entity {
 
 	@Override
 	public void doPhysics() {
-		if(!onGround) {
+		if(!isOnGround()) {
 			velocity.y += GRAVITY;
 		} else velocity.y = 0;
 	}
@@ -70,7 +70,7 @@ public class Player extends Entity {
 	private void doMovement() {
 		if(velocity.x > speedLim) velocity.x -= speedLim/10;
 		position.x += velocity.x;
-		if(on != null && velocity.y > 0) return;
+		if(getOn() != null && velocity.y > 0) return;
 		position.y += velocity.y;
 	}
 
@@ -79,9 +79,9 @@ public class Player extends Entity {
 		if(intersects(other)) {
 			if(other.isSurface()) {
 				if(other.checkCollision(this)) {
-					on = (Surface) other;
-					if(on.getType() == EntityType.FLOOR) {
-						onGround = true;
+					setOn((Surface) other);
+					if(getOn().getType() == EntityType.FLOOR) {
+						setOnGround(true);
 					}
 				}
 			} else if (other.getType() == EntityType.ORB) {
@@ -110,13 +110,13 @@ public class Player extends Entity {
 	}
 
 	private void calculateSpeedLim() {
-		if(!onGround) {
+		if(!isOnGround()) {
 			speedLim = Integer.MAX_VALUE;
 			return;
 		}
 		speedLim = BASE_SPEED_LIMIT;
-		if(on != null) {
-			speedLim *= on.getSpeedModifier();
+		if(getOn() != null) {
+			speedLim *= getOn().getSpeedModifier();
 		}
 		speedLim *= main.gameSpeed;
 	}
@@ -130,10 +130,10 @@ public class Player extends Entity {
 				velocity.x = Math.max(-speedLim, velocity.x - speedLim);
 				break;
 			case UP:
-				if(!onGround) break;
+				if(!isOnGround()) break;
 				velocity.y -= 20;
-				onGround = false;
-				on = null;
+				setOnGround(false);
+				setOn(null);
 				break;
 /*			case DOWN:
 				velocity.y--;
@@ -161,5 +161,21 @@ public class Player extends Entity {
 	
 	public void addVelocity(PVector p) {
 		this.velocity.add(p);
+	}
+
+	public boolean isOnGround() {
+		return onGround;
+	}
+
+	public void setOnGround(boolean onGround) {
+		this.onGround = onGround;
+	}
+
+	public Surface getOn() {
+		return on;
+	}
+
+	public void setOn(Surface on) {
+		this.on = on;
 	}
 }
