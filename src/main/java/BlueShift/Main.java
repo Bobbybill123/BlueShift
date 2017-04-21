@@ -1,5 +1,6 @@
 package BlueShift;
 
+import BlueShift.entity.Floor;
 import BlueShift.entity.LeftWall;
 import BlueShift.entity.player.Key;
 import BlueShift.entity.player.Player;
@@ -10,13 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main extends PApplet{
-	public Player player;
 
 	private final Map<Key, Character> keyBinds = new HashMap<>(6);
 	public static Main instance;
 
 	//entities
 	LeftWall leftWall;
+	Floor floor;
+	public Player player;
 
 	public Main(){
 		instance = this;
@@ -27,14 +29,14 @@ public class Main extends PApplet{
 	}
 	public void setup() {
 		leftWall = new LeftWall();
+		floor = new Floor();
 		player = new Player();
 
 	}
 	public void draw() {
 		background(255);
-		//bottom path test (going to need to be changed into a type of block)
+		floor.draw();
 		leftWall.draw();
-		//rect(0, height-50, width, 50);
 	}
 	public void keyPressed() {
 

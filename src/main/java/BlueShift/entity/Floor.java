@@ -6,24 +6,28 @@ import processing.core.PVector;
 /**
  * Created by TML_TEST on 21/04/2017.
  */
-public class LeftWall extends Entity {
+public class Floor extends Entity {
 
     private Main main;
     private PVector position;
+    private float width;
+    private float height;
 
-    public LeftWall(){
-        this.position = new PVector(0, 0);
+    public Floor(){
         main = Main.instance;
+        height = 40;
+        width = main.width;
+        this.position = new PVector(0, main.height - height);
     }
 
     @Override
     protected float getWidth() {
-        return 50;
+        return this.width;
     }
 
     @Override
     protected float getHeight() {
-        return main.height;
+        return this.height;
     }
 
     @Override
@@ -33,7 +37,7 @@ public class LeftWall extends Entity {
 
     @Override
     public void draw() {
-        main.fill(200,0, 0);
+        main.fill(0,0, 0);
         main.rect(position.x, position.y, getWidth(), getHeight());
     }
 
