@@ -10,19 +10,25 @@ import java.awt.geom.Rectangle2D;
 
 public abstract class Entity {
 
-    abstract float getWidth();
-    abstract float getHeight();
-    abstract PVector getPosition();
+    protected abstract float getWidth();
 
-    Rectangle2D.Float getBounds() {
+    protected abstract float getHeight();
+
+    protected abstract PVector getPosition();
+
+    protected abstract void draw();
+
+	protected abstract void doPhysics();
+
+	protected Rectangle2D.Float getBounds() {
         return new Rectangle2D.Float(getPosition().x, getPosition().y, getWidth(), getHeight());
     }
 
-    boolean RectangleIntersection(Entity other) {
+    protected boolean RectangleIntersection(Entity other) {
         return (getBounds().intersects(other.getBounds()));
     }
 
-    boolean pointIntersection(PVector point){
+	protected boolean pointIntersection(PVector point){
         return(getBounds().contains(point.x, point.y));
     }
 

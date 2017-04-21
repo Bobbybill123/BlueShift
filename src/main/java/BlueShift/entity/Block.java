@@ -16,37 +16,42 @@ public class Block extends Entity {
     private int width;
     private int height;
 
-    Block(PVector position, int width, int height){
+    public Block(PVector position, int width, int height){
         this.position = position;
         this.width = width;
         this.height = height;
     }
 
     @Override
-    PVector getPosition() {
+	protected PVector getPosition() {
         return this.position;
     }
 
     @Override
-    float getHeight() {
+	protected float getHeight() {
         return this.height;
     }
 
     @Override
-    float getWidth() {
+	protected float getWidth() {
         return this.width;
     }
 
     @Override
-    Rectangle2D.Float getBounds() {
+	protected Rectangle2D.Float getBounds() {
         return super.getBounds();
     }
 
-    public void draw(){
+	protected void draw(){
         //do we want to draw from top left corner or centre?
         main.rectMode(PConstants.CORNER);
         main.rect(position.x, position.y, width, height);
     }
+
+	@Override
+	protected void doPhysics() {
+
+	}
 
 
 }

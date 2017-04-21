@@ -15,36 +15,39 @@ public class Orb extends Entity{
     private PVector position;
     private static final float DIAM = 10;
 
-    Orb(PVector position){
+    public Orb(PVector position){
         this.position = position;
         main = Main.instance;
     }
 
     @Override
-    PVector getPosition() {
+    protected PVector getPosition() {
         return this.position;
     }
 
     @Override
-    float getHeight() {
+	protected float getHeight() {
         return this.DIAM*2;
     }
 
     @Override
-    float getWidth() {
+	protected float getWidth() {
         return this.DIAM*2;
     }
 
     @Override
-    Rectangle2D.Float getBounds() {
+	protected Rectangle2D.Float getBounds() {
         return super.getBounds();
     }
 
-    public void draw(){
+	protected void draw(){
         main.ellipseMode(PConstants.CENTER);
     }
 
+	@Override
+	protected void doPhysics() {
 
+	}
 
 
 }
