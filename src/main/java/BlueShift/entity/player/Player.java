@@ -162,7 +162,7 @@ public class Player extends Entity {
 	}
 	
 	public void addVelocity(PVector p) {
-		this.velocity.add(p);
+		this.velocity = new PVector(Math.min(15, this.velocity.x + p.x), Math.min((float) (7.5), this.velocity.y + p.y));
 	}
 
 	public boolean isOnGround() {

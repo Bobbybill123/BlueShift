@@ -51,12 +51,13 @@ public class Hook extends Entity {
 
 	@Override
 	public void draw() {
-		if (this.position != null) {
-			moveHook();
+		
 			if (this.pulling) {
-				reelIn();
 				setDirection();
+				reelIn();
 			}
+			moveHook();
+		if (this.position != null && this.target != null) {
 			main.fill(200,0, 0);
 			main.ellipse(position.x, position.y, getWidth(), getHeight());
 			hookLine(main.player.getPosition());
@@ -68,7 +69,9 @@ public class Hook extends Entity {
 	 * @param playerPosition the position of the player
 	 */
 	public void hookLine(PVector playerPosition){
-		main.line(playerPosition.x, playerPosition.y, position.x, position.y);
+		main.stroke(255);
+		main.line(playerPosition.x + main.player.getWidth()/2, playerPosition.y + main.player.getHeight()/2, position.x, position.y);
+		main.stroke(0);
 	}
 
 	/**
@@ -89,12 +92,12 @@ public class Hook extends Entity {
 	 * Reels the player in towards the hook location.
 	 */
 	public void reelIn() {
-		if (this.hooked && main.player.getPosition().dist(this.target) < 100) {
+		if (this.hooked && main.player.getPosition().dist(this.target) < 50) {
 			release();
 		} else {
 			main.player.setOnGround(false);
 			main.player.setOn(null);
-			main.player.addVelocity(new PVector(this.direction.x, (float) (this.direction.y * 1.5)));
+			main.player.addVelocity(new PVector((float) (this.direction.x * 2), (float) (this.direction.y * 2)));
 		}
 	}
 
