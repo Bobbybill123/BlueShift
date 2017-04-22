@@ -17,13 +17,19 @@ import java.util.List;
 public class Orb extends Entity {
     private Main main;
     private PVector position;
-    private static final float DIAM = 10;
+    private static final float DIAM = 30;
 	private Color color;
 
 	public Orb(PVector position){
         this.position = position;
         main = Main.instance;
-        color = main.random(2) > 1 ? Color.BLUE : Color.ORANGE;
+        int randNum = (int)main.random(0, 10);
+        //color = main.random(2) > 1 ? Color.BLUE : Color.ORANGE;
+        if(randNum > 3){
+            color = Color.BLUE;
+        }else{
+            color = Color.ORANGE;
+        }
     }
 
     @Override

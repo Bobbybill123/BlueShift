@@ -24,9 +24,12 @@ public class Main extends PApplet {
 	private LeftWall leftWall;
 	private RightWall rightWall;
 	public Player player;
+	public double score = 0;
 
 	//channel
 	public float channels[];
+
+	private PVector oldPlayerPosition;
 
 	private Main(){
 		instance = this;
@@ -65,6 +68,9 @@ public class Main extends PApplet {
 	}
 
 	public void draw() {
+
+		oldPlayerPosition = player.getPosition().copy();
+
 		background(0);
 		for (int i = 0; i < keyPressed.length; i++) {
 			if(keyPressed[i]) {
@@ -83,17 +89,19 @@ public class Main extends PApplet {
 		moveTowardsTheLeftWall();
 		removeIfOutOfScreen();
 		increaseGameSpeed();
-		if (millis() % 100 == 0) {
+		//if (millis() % 100 == 0) {
 			generatePlatforms();
-		}
-		generatePlatforms();
-		text(frameRate, 60, 60);
-
+		//}
+		//generatePlatforms();
 		generateOrbs();
 		orbRendering();
+		boundPlayer();
 
 
-
+		fill(255,255,255);
+		text(frameRate, 60, 60);
+		text("Score: " + (int)score, width/2, 60);
+		score = score + 0.01;
 	}
 
 
@@ -101,7 +109,7 @@ public class Main extends PApplet {
 	 * Populate the channels with information regarding their y positions
      */
 	public void setupChannels(){
-		channels = new float[12];
+		channels = new float[14];
 
 		for(int i = 0; i < channels.length; i++){
 			channels[i] = i*50;
@@ -109,14 +117,37 @@ public class Main extends PApplet {
 	}
 
 	/**
+	 * Ensure that the player does not leave the top or right side of the screen
+     */
+	public void boundPlayer(){
+		if(player.getPosition().x + player.getWidth() > width){
+			player.setPosition(oldPlayerPosition.copy());
+		}
+
+		if(player.getPosition().y + 20 < 0){
+			player.setPosition(oldPlayerPosition.copy());
+		}
+	}
+
+
+	/**
 	 * Generate platforms ahead of the screen as long as platforms are being deleted
 	 */
 	public void generatePlatforms(){
 		int i = 0;
 
-		/*if(currentPlatforms.size() < 20){*/
-			int channelNumber = (int)random(0, 12);
-			Platform p = new Platform(new PVector(width + random(0, width*2), channels[channelNumber]), (int)random(200, 500), 50, channelNumber);
+		if(currentPlatforms.size() < 20) {
+			int channelNumber = (int) random(0, 12);
+
+			if (!currentPlatforms.isEmpty()) {
+				Platform lastPlatform = currentPlatforms.get(currentPlatforms.size() - 1); //getting the last platform
+
+				Platform p = new Platform(new PVector(lastPlatform.getPosition().x + random(100, 400), channels[channelNumber]), (int) random(200, 500), 50, channelNumber);
+				currentPlatforms.add(p);
+			}
+		}
+			//if(p)
+
 
 			//As long as the generated platform intersects with another platform, generate another one
 		/*while(p.intersectPlatform(currentPlatforms) && i < 10){
@@ -126,7 +157,7 @@ public class Main extends PApplet {
 			}*/
 
 			//if (!p.intersectPlatform(currentPlatforms)){
-				currentPlatforms.add(p);
+
 			//}
 	//}
 		//	}
@@ -134,7 +165,7 @@ public class Main extends PApplet {
 	}
 
 	public void generateOrbs(){
-		if(currentOrbs.size() < 30){
+		if(currentOrbs.size() < 10){
 			int channelNumber = (int)random(0, 12);
 			Orb orb = new Orb(new PVector(((float)width + random(0, width*2)), channels[channelNumber]));
 			while(orb.intersectPlatform(currentPlatforms)){

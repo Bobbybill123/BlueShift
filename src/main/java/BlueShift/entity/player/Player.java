@@ -22,6 +22,7 @@ public class Player extends Entity {
 	private float red = 0;
 	private boolean onGround = false;
 	private Hook hook;
+	private int blueOrbsCollected = 0;
 
 	public Player() {
 		main = Main.instance;
@@ -131,8 +132,12 @@ public class Player extends Entity {
 		if(e.getType() == EntityType.ORB) {
 			Orb orb = ((Orb) e);
 			if(orb.getColor().equals(Color.BLUE)) {
+				blueOrbsCollected++;
+				this.velocity.x = this.velocity.x + (float)0.5;
 				if (red != 0) red-=255/20;
 				else blue+=255/20;
+			}else {
+				this.velocity.x = this.velocity.x - (float)4;
 			}
 		}
 	}
@@ -211,6 +216,10 @@ public class Player extends Entity {
 
 	public void setOn(Surface on) {
 		this.on = on;
+	}
+
+	public void setPosition(PVector p){
+		this.position = p.copy();
 	}
 
 }
