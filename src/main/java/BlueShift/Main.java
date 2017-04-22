@@ -190,8 +190,8 @@ public class Main extends PApplet {
 	}
 
 	public void mousePressed() {
-		this.player.getHook().fire(new PVector(mouseX, mouseY));
-		checkHookCollisions();
+			this.player.getHook().fire(new PVector(mouseX, mouseY));
+			checkHookCollisions();
 	}
 
 	public void mouseReleased() {

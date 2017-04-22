@@ -54,20 +54,20 @@ public class Hook extends Entity {
 
 	@Override
 	public void draw() {
-		
+		if (this.hooked) {
+			moveHook();
 			if (this.isPulling()) {
 				setDirection();
 				reelIn();
 			}
-			moveHook();
-		if (this.position != null && this.target != null) {
-			main.fill(200,0, 0);
-			drawHookEnd(main.player.getPosition(), this.target);
-			hookLine(main.player.getPosition());
+			if (this.position != null && this.target != null) {
+				main.fill(200, 0, 0);
+				drawHookEnd(main.player.getPosition(), this.target);
+				hookLine(main.player.getPosition());
+			}
 		}
 	}
 
-	
 	void drawHookEnd(PVector p, PVector q) {
 		main.pushMatrix();
 		main.translate(this.position.x, this.position.y);
@@ -77,7 +77,6 @@ public class Hook extends Entity {
 		main.stroke(0, 0, 0);
 		main.popMatrix();
 	}
-	 
 
 	/**
 	 *  Draws a line from the player's position to where the hook is
@@ -94,7 +93,7 @@ public class Hook extends Entity {
 	 *
 	 */
 	public void moveHook(){
-		if (this.direction != null && this.hooked) {
+		if (this.hooked) {
 			setPulling(true);
 			this.position = this.target;
 		}
@@ -117,7 +116,7 @@ public class Hook extends Entity {
 	 * Sets the direction that the hook is going in
 	 */
 	public void setDirection() {
-		direction = this.target.copy().sub(main.player.getPosition()).normalize();
+		direction = this.target.copy().sub(main.player.getPosition().copy()).normalize();
 	}
 	
 	public void fire(PVector mousePosition) {
@@ -150,6 +149,7 @@ public class Hook extends Entity {
 					this.target.y <= bBox.y + bBox.height;
 			this.position = main.player.getPosition().copy();
 			setDirection();
+			System.out.println(hooked);
 			return hooked;
 		}
 		return false;
@@ -174,5 +174,9 @@ public class Hook extends Entity {
 
 	public void setPulling(boolean pulling) {
 		this.pulling = pulling;
+	}
+
+	public boolean isHooked() {
+		return this.hooked;
 	}
 }
