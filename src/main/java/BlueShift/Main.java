@@ -29,7 +29,6 @@ public class Main extends PApplet {
 
 	//entities
 	private LeftWall leftWall;
-	private RightWall rightWall;
 	public Player player;
 	public double score = 0;
 
@@ -50,9 +49,8 @@ public class Main extends PApplet {
 		frameRate(100);
 		rectMode(CORNER);
 		floor = new Floor();
-		leftWall = new LeftWall();
-		rightWall = new RightWall();
 		player = new Player();
+		leftWall = new LeftWall();
 		keyBinds.put('a', Move.LEFT);
 		keyBinds.put('d', Move.RIGHT);
 		keyBinds.put('w', Move.UP);
@@ -71,17 +69,20 @@ public class Main extends PApplet {
 		Platform.midSprite = loadImage("platform\\platform_mid.png");
 		Platform.rightSprite = loadImage("platform\\platform_right.png");
 		//adding starting platforms
+		setupPlatforms();
+		setupChannels();
+	}
+
+	private void setupPlatforms() {
 		currentPlatforms.add(new Platform(new PVector(width - 300, height - height/2), 300, 50, 1));
 		currentPlatforms.add(new Platform(new PVector(width - 600, height - height/2), 300, 50, 1));
 		currentPlatforms.add(new Platform(new PVector(width - 900, height - height/2), 300, 50, 1));
 		currentPlatforms.add(new Platform(new PVector(width, height - height/4), 300, 50, 1));
 		currentPlatforms.add(new Platform(new PVector(width + 300, height - height/4), 300, 50, 1));
 		currentPlatforms.add(new Platform(new PVector(width + 600, height - height/4), 300, 50, 1));
-		setupChannels();
 	}
 
 	public void draw() {
-
 		oldPlayerPosition = player.getPosition().copy();
 		background(127, 0, 0);
 		if (playing) {
@@ -94,23 +95,21 @@ public class Main extends PApplet {
 			for (Platform platform : currentPlatforms) {
 				platform.draw();
 			}
-			leftWall.draw();
 			player.draw();
 			player.getHook().draw();
 			floor.draw();
 
-		moveTowardsTheLeftWall();
-		removeIfOutOfScreen();
-		increaseGameSpeed();
-		//if (millis() % 100 == 0) {
+			moveTowardsTheLeftWall();
+			removeIfOutOfScreen();
+			increaseGameSpeed();
+			//if (millis() % 100 == 0) {
 			generatePlatforms();
-		//}
-		//generatePlatforms();
-		generateOrbs();
-		orbRendering();
-		boundPlayer();
-
-
+			//}
+			//generatePlatforms();
+			generateOrbs();
+			orbRendering();
+			boundPlayer();
+			leftWall.draw();
 			fill(255, 255, 255);
 			text(frameRate, 60, 60);
 			text("Score: " + (int) score, width / 2, 60);
@@ -123,7 +122,7 @@ public class Main extends PApplet {
 
 	/**
 	 * Populate the channels with information regarding their y positions
-     */
+	 */
 	public void setupChannels(){
 		channels = new float[14];
 		for(int i = 0; i < channels.length; i++){
@@ -133,14 +132,14 @@ public class Main extends PApplet {
 
 	/**
 	 * Ensure that the player does not leave the top or right side of the screen
-     */
+	 */
 	public void boundPlayer(){
 		if(player.getPosition().x + player.getWidth() > width){
-			player.setPosition(oldPlayerPosition.copy());
+			player.getPosition().x = width - player.getWidth();
 		}
 
 		if(player.getPosition().y + player.getHeight()*2 < 0){
-			player.setPosition(oldPlayerPosition.copy());
+			player.getPosition().y =  -player.getHeight()*2;
 		}
 	}
 
@@ -161,22 +160,6 @@ public class Main extends PApplet {
 				currentPlatforms.add(p);
 			}
 		}
-			//if(p)
-
-
-			//As long as the generated platform intersects with another platform, generate another one
-		/*while(p.intersectPlatform(currentPlatforms) && i < 10){
-				channelNumber = (int)random(0, 12);
-				p = new Platform(new PVector(width + random(0, width*2), channels[channelNumber]), (int)random(200, 500), 50, channelNumber);
-				i++;
-			}*/
-
-			//if (!p.intersectPlatform(currentPlatforms)){
-
-			//}
-	//}
-		//	}
-		//}
 	}
 
 	public void generateOrbs(){
@@ -193,7 +176,7 @@ public class Main extends PApplet {
 
 	/**
 	 * Handles drawing the orb and also if it touches the player delete the orb
-     */
+	 */
 	public void orbRendering(){
 		Iterator<Orb> orbIterator= currentOrbs.iterator();
 		while (orbIterator.hasNext()) {
@@ -256,7 +239,7 @@ public class Main extends PApplet {
 		if (!isOn && player.getD().y <= height-60) {
 			player.setOn(null);
 		}
-		
+
 		for (Orb orb : currentOrbs) {
 			player.checkCollision(orb);
 		}
@@ -273,7 +256,10 @@ public class Main extends PApplet {
 		playing = false;
 		currentMenu = "Over";
 		currentPlatforms.clear();
+		gameSpeed = 3f;
 		currentOrbs.clear();
+		setupPlatforms();
+		score = 0;
 		player.reset();
 	}
 
@@ -291,13 +277,16 @@ public class Main extends PApplet {
 			player.released(released);
 		}
 	}
-
+	private int hookCoolDownMillis = 0;
 	public void mousePressed() {
 		if(!playing) {
 			menus.get(currentMenu).onClick(mouseX, mouseY);
 		} else {
-			this.player.getHook().fire(new PVector(mouseX, mouseY));
-			checkHookCollisions();
+			if(hookCoolDownMillis == 0 || hookCoolDownMillis + 2000 <= millis()) {
+				hookCoolDownMillis = millis();
+				this.player.getHook().fire(new PVector(mouseX, mouseY));
+				checkHookCollisions();
+			}
 		}
 	}
 
@@ -308,69 +297,6 @@ public class Main extends PApplet {
 	public void mouseMoved() {
 		if(!playing) menus.get(currentMenu).onMouseMove(mouseX, mouseY);
 	}
-
-/*
-	public boolean collideRectangles(PVector[] vert1, PVector[] vert2) {
-		int A = 0;
-		int B = 1;
-		int C = 2;
-		int D = 3;
-		if (intersect(vert1[A], vert1[B], vert2[A], vert2[D])) {
-			return true;
-		} else if (intersect(vert1[A], vert1[B], vert2[B], vert2[C])) {
-			return true;
-		} else if (intersect(vert1[C], vert1[D], vert2[A], vert2[D])) {
-			// touching top here
-			return true;
-		} else if (intersect(vert1[C], vert1[D], vert2[B], vert2[C])) {
-			// touching top here
-			return true;
-		} else if (intersect(vert1[A], vert1[D], vert2[D], vert2[C])) {
-			return true;
-		} else if (intersect(vert1[B], vert1[C], vert2[D], vert2[C])) {
-			return true;
-		} else if (intersect(vert1[B], vert1[C], vert2[A], vert2[B])) {
-			// touching top here
-			return true;
-		} else if (intersect(vert1[A], vert1[D], vert2[A], vert2[B])) {
-			// touching top here
-			return true;
-		}
-		return false;
-	}
-*/
-
-/*	public boolean intersect(PVector s, PVector e, PVector p, PVector q) {
-
-		// determines the equation of the line in the form ax + by + c
-		float A = -(q.y - p.y);
-		float B = q.x - p.x;
-		float C = q.y * p.x - q.x * p.y;
-
-		float numer = A * s.x + B * s.y + C;
-		float denom = A * (s.x - e.x) + B * (s.y - e.y);
-
-		// I could have calculated everything in one step, but this was neater
-		float t = numer / denom;
-
-		return (0 > t || t > 1 || !checkIntersect(p, q, s, e));
-	}*/
-
-/*	public boolean checkIntersect(PVector s, PVector e, PVector p, PVector q) {
-
-		// determines the equation of the line in the form ax + by + c
-		float A = -(q.y - p.y);
-		float B = q.x - p.x;
-		float C = q.y * p.x - q.x * p.y;
-
-		float numer = A * s.x + B * s.y + C;
-		float denom = A * (s.x - e.x) + B * (s.y - e.y);
-
-		// I could have calculated everything in one step, but this was neater
-		float t = numer / denom;
-
-		return 0 < t && t < 1;
-	}*/
 
 	public static void main(String[] args) {
 		ProcessingRunner.run(new Main());

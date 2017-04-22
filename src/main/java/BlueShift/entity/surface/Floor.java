@@ -29,10 +29,10 @@ public class Floor extends Surface {
 	public void draw() {
 		main.fill(0, 127, 0);
 		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
-		for (int i = 0; i < getWidth()/sprite.width; i++) {
+/*		for (int i = 0; i < getWidth()/sprite.width; i++) {
 			System.out.println(sprite.width);
 			main.image(sprite, getPosition().x + sprite.width*i, getPosition().y);
-		}
+		}*/
 }
 
 	@Override

@@ -47,11 +47,6 @@ public class Orb extends Entity {
         return DIAM*2;
     }
 
-    @Override
-	public Rectangle getBounds() {
-        return super.getBounds();
-    }
-
 	public void draw(){
         main.ellipseMode(PConstants.CENTER);
 

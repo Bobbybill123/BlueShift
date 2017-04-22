@@ -65,7 +65,7 @@ public class Platform extends Surface {
 		Player p = null;
 		if (other.getType() == EntityType.PLAYER) {
 			p = (Player) other;
-			p.getPosition().x = (float)(p.getPosition().x + main.gameSpeed*0.9);
+//			p.getPosition().x = p.getPosition().x + main.gameSpeed*0.9f;
 		}
 		if (p != null) {
 			if(p.getA().y < this.getD().y && !(p.getD().y >= position.y)) {

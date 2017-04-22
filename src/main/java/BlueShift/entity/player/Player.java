@@ -88,11 +88,10 @@ public class Player extends Entity {
 
 	@Override
 	public boolean checkCollision(Entity other) {
-
 		if(other.isSurface()) {
 			if (other.getType() == EntityType.FLOOR) {
 				if(intersects(other)) {
-				setOn((Surface) other);
+					setOn((Surface) other);
 					if (other.checkCollision(this)) {
 						setOnGround(true);
 						return true;
@@ -100,7 +99,6 @@ public class Player extends Entity {
 				}
 			}
 		}
-
 		if (this.position.dist(other.getPosition()) < 250 || this.position.dist(new PVector(other.getPosition().x + other.getWidth(), other.getPosition().y + other.getHeight())) < 250) {
 			if (intersects(other)) {
 				if (other.isSurface()) {
@@ -113,12 +111,6 @@ public class Player extends Entity {
 							} else {
 								this.on = null;
 							}
-
-//						if(new Rectangle((int)other.getPosition().x, (int)other.getPosition().y, (int)other.getWidth(), 2).intersects(new Rectangle((int)this.position.x, (int)(this.getPosition().y + this.getHeight() - 5), (int)this.getWidth(), 5))){
-//							setOn((Surface) other);
-//						}else{
-//							this.on = null;
-//						}
 						}
 					}
 				} else if (other.getType() == EntityType.ORB) {
@@ -152,11 +144,9 @@ public class Player extends Entity {
 			Orb orb = ((Orb) e);
 			if(orb.getColor().equals(Color.BLUE)) {
 				blueOrbsCollected++;
-				this.velocity.x = this.velocity.x + (float)0.5;
-				if (red != 0) red-=255/20;
-				else blue+=255/20;
+				this.velocity.x += 0.5;
 			}else {
-				this.velocity.x = this.velocity.x - (float)4;
+				this.velocity.x -= 4;
 			}
 		}
 	}
@@ -218,11 +208,11 @@ public class Player extends Entity {
 		velocity = new PVector();
 		setHook(new Hook());
 	}
-	
+
 	public PVector getVelocity() {
 		return this.velocity;
 	}
-	
+
 	public void addVelocity(PVector p) {
 		this.velocity = new PVector(Math.min(30, this.velocity.x + p.x), Math.min(5, this.velocity.y + p.y));
 	}
