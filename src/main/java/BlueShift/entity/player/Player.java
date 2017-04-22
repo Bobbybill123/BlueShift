@@ -110,6 +110,14 @@ public class Player extends Entity {
 		return EntityType.PLAYER;
 	}
 
+	@Override
+	public void moveLeft(float gameSpeed) {
+		if(on != null) {
+			gameSpeed /= on.getSpeedModifier();
+		}
+		super.moveLeft(gameSpeed);
+	}
+
 	private void pickupObject(Entity e) {
 		if(e.getType() == EntityType.ORB) {
 			Orb orb = ((Orb) e);

@@ -13,8 +13,8 @@ import java.util.*;
 
 public class Main extends PApplet {
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
-	public List<Platform> currentPlatforms = new ArrayList<>();
-	public List<Orb> currentOrbs = new ArrayList<>();
+	private List<Platform> currentPlatforms = new ArrayList<>();
+	private List<Orb> currentOrbs = new ArrayList<>();
 	private boolean[] keyPressed = new boolean[4];
 	public static Main instance;
 	public float gameSpeed = 3f;
@@ -65,7 +65,6 @@ public class Main extends PApplet {
 		for (int i = 0; i < keyPressed.length; i++) {
 			if(keyPressed[i]) {
 				player.doAction(Move.values()[i]);
-				//System.out.println(Move.values()[i]);
 			}
 		}
 		checkPlayerCollisions();
@@ -101,7 +100,7 @@ public class Main extends PApplet {
 	/**
 	 * Move the entities towards the left wall
 	 */
-	public void moveTowardsTheLeftWall(){
+	public void moveTowardsTheLeftWall() {
 		if (player.getOn() != null) {
 			player.moveLeft(gameSpeed);
 		}
