@@ -12,10 +12,7 @@ import net.tangentmc.processing.ProcessingRunner;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main extends PApplet {
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
@@ -74,7 +71,9 @@ public class Main extends PApplet {
 		player.draw();
 		player.getHook().draw();
 
-
+		moveTowardsTheLeftWall();
+		removeIfOutOfScreen();
+		increaseGameSpeed();
 	}
 
 	/**
@@ -94,7 +93,30 @@ public class Main extends PApplet {
 	}
 
 
+	/**
+	 * This methods removes the entities if they go out of the screen
+     */
 	public void removeIfOutOfScreen(){
+
+		//Platform Iterator
+		Iterator<Platform> platformIterator = currentPlatforms.iterator();
+		while (platformIterator.hasNext()) {
+			Platform platform = platformIterator.next();
+
+			if(platform.getPosition().x + platform.getWidth() < 0){
+				platformIterator.remove();
+			}
+		}
+
+		//Orb Iterator
+		Iterator<Orb> orbIterator= currentOrbs.iterator();
+		while (orbIterator.hasNext()) {
+			Orb orb = orbIterator.next();
+
+			if(orb.getPosition().x + orb.getWidth() < 0){
+				orbIterator.remove();
+			}
+		}
 
 	}
 
