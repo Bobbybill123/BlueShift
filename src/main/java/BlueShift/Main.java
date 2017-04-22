@@ -48,7 +48,9 @@ public class Main extends PApplet {
 		Player.leftSprite = new Animation(player, "player\\left\\f", 13);
 		LeftWall.sprite = new Animation(leftWall, "tentacles\\f", 27);
 		Hook.sprite = loadImage("hook.png");
-
+		Platform.leftSprite = loadImage("platform\\platform_left.png");
+		Platform.midSprite = loadImage("platform\\platform_mid.png");
+		Platform.rightSprite = loadImage("platform\\platform_right.png");
 		//adding starting platforms
 		currentPlatforms.add(new Platform(new PVector(width - 300, height - height/2), 300, 50));
 		currentPlatforms.add(new Platform(new PVector(width - 600, height - height/2), 300, 50));
@@ -70,10 +72,10 @@ public class Main extends PApplet {
 		for (Platform platform : currentPlatforms) {
 			platform.draw();
 		}
-		floor.draw();
 		leftWall.draw();
 		player.draw();
 		player.getHook().draw();
+		floor.draw();
 
 		moveTowardsTheLeftWall();
 		removeIfOutOfScreen();
@@ -116,7 +118,7 @@ public class Main extends PApplet {
 	/**
 	 * This methods removes the entities if they go out of the screen
      */
-	public void removeIfOutOfScreen(){
+	public void removeIfOutOfScreen() {
 
 		//Platform Iterator
 		Iterator<Platform> platformIterator = currentPlatforms.iterator();
