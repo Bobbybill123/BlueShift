@@ -1,6 +1,7 @@
 package BlueShift.entity;
 
 import BlueShift.Main;
+import BlueShift.entity.player.Player;
 import BlueShift.entity.surface.Platform;
 import processing.core.PConstants;
 import processing.core.PVector;
@@ -8,6 +9,7 @@ import processing.core.PVector;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by DYLAN KUMAR on 21/04/2017.
@@ -86,5 +88,19 @@ public class Orb extends Entity {
         }
 	    return false;
     }
+
+    public boolean touchingPlayer(Player p){
+//        for(Orb orb: currentOrbs){
+//            if(orb.intersects(p)){
+//                return orb;
+//            }
+//        }
+        if(this.intersects(p)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
 }

@@ -87,9 +87,10 @@ public class Main extends PApplet {
 		text(frameRate, 60, 60);
 
 		generateOrbs();
-		for(Orb orb: currentOrbs){
-			orb.draw();
-		}
+		orbRendering();
+
+
+
 	}
 
 
@@ -137,6 +138,21 @@ public class Main extends PApplet {
 				orb = new Orb(new PVector(((float)width + random(0, width*2)), channels[channelNumber]));
 			}
 			currentOrbs.add(orb);
+		}
+	}
+
+	/**
+	 * Handles drawing the orb and also if it touches the player delete the orb
+	 * TODO make it so that when you touch the orb, your player slows down/speeds up
+     */
+	public void orbRendering(){
+		Iterator<Orb> orbIterator= currentOrbs.iterator();
+		while (orbIterator.hasNext()) {
+			Orb orb = orbIterator.next();
+			orb.draw();
+			if(orb.touchingPlayer(player)){
+				orbIterator.remove();
+			}
 		}
 	}
 
