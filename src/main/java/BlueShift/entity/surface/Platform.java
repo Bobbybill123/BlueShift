@@ -115,8 +115,11 @@ public class Platform extends Surface {
 			return true;
 		}
 
-
 		}
 		return false;
 	}
+
+
+
+
 }

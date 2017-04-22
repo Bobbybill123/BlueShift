@@ -86,7 +86,14 @@ public class Main extends PApplet {
 		if (millis() % 100 == 0) {
 			generatePlatforms();
 		}
+		generatePlatforms();
 		text(frameRate, 60, 60);
+
+		generateOrbs();
+		orbRendering();
+
+
+
 	}
 
 
@@ -107,7 +114,6 @@ public class Main extends PApplet {
 	public void generatePlatforms(){
 		int i = 0;
 
-
 		/*if(currentPlatforms.size() < 20){*/
 			int channelNumber = (int)random(0, 12);
 			Platform p = new Platform(new PVector(width + random(0, width*2), channels[channelNumber]), (int)random(200, 500), 50, channelNumber);
@@ -123,6 +129,35 @@ public class Main extends PApplet {
 				currentPlatforms.add(p);
 			//}
 	//}
+		//	}
+		//}
+	}
+
+	public void generateOrbs(){
+		if(currentOrbs.size() < 30){
+			int channelNumber = (int)random(0, 12);
+			Orb orb = new Orb(new PVector(((float)width + random(0, width*2)), channels[channelNumber]));
+			while(orb.intersectPlatform(currentPlatforms)){
+				channelNumber = (int)random(0, 12);
+				orb = new Orb(new PVector(((float)width + random(0, width*2)), channels[channelNumber]));
+			}
+			currentOrbs.add(orb);
+		}
+	}
+
+	/**
+	 * Handles drawing the orb and also if it touches the player delete the orb
+	 * TODO make it so that when you touch the orb, your player slows down/speeds up
+     */
+	public void orbRendering(){
+		Iterator<Orb> orbIterator= currentOrbs.iterator();
+		while (orbIterator.hasNext()) {
+			Orb orb = orbIterator.next();
+			orb.draw();
+			if(orb.touchingPlayer(player)){
+				orbIterator.remove();
+			}
+		}
 	}
 
 

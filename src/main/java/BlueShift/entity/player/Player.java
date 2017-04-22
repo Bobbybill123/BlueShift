@@ -96,12 +96,18 @@ public class Player extends Entity {
 					setOn((Surface) other);
 					if(getOn().getType() == EntityType.FLOOR) {
 						setOnGround(true);
+					}else if(getOn().getType() == EntityType.PLATFORM){
+						setOn((Surface) other);
+					}else{
+						this.on = null;
 					}
 				}
 			} else if (other.getType() == EntityType.ORB) {
 				pickupObject(other);
 			} else if (other.getType() == EntityType.LEFT_WALL) {
 				main.gameOver();
+			}else{
+				this.on = null;
 			}
 			return true;
 		}
@@ -159,7 +165,7 @@ public class Player extends Entity {
 				break;
 			case UP:
 				if(getOn() == null) break;
-				velocity.y -= 20;
+				velocity.y -= 15;
 				setOnGround(false);
 				setOn(null);
 				break;
@@ -206,4 +212,5 @@ public class Player extends Entity {
 	public void setOn(Surface on) {
 		this.on = on;
 	}
+
 }
