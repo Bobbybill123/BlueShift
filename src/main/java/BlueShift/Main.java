@@ -137,7 +137,7 @@ public class Main extends PApplet {
 			player.setPosition(oldPlayerPosition.copy());
 		}
 
-		if(player.getPosition().y - player.getHeight()*2 < 0){
+		if(player.getPosition().y + player.getHeight()*2 < 0){
 			player.setPosition(oldPlayerPosition.copy());
 		}
 	}
