@@ -106,6 +106,7 @@ public class Hook extends Entity {
 		if (this.hooked && main.player.getPosition().dist(this.target) < 50) {
 			release();
 		} else {
+			//this.moveLeft(gameSpeed);
 			main.player.setOnGround(false);
 			main.player.setOn(null);
 			main.player.addVelocity(new PVector(this.direction.x * 3, this.direction.y * 2));
@@ -153,6 +154,12 @@ public class Hook extends Entity {
 			return hooked;
 		}
 		return false;
+	}
+	
+	public void moveLeft(float gameSpeed) {
+		if (this.hooked) {
+			this.target.x = this.target.x - gameSpeed;
+		}
 	}
 
 	@Override
