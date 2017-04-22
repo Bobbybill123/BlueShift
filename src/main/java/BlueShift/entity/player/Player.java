@@ -98,6 +98,12 @@ public class Player extends Entity {
 					if(getOn().getType() == EntityType.FLOOR) {
 						setOnGround(true);
 					}else if(getOn().getType() == EntityType.PLATFORM){
+
+//						if(new Rectangle().intersects()){
+//
+//						}
+
+
 						setOn((Surface) other);
 					}else{
 						this.on = null;
