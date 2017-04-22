@@ -102,6 +102,7 @@ public class Main extends PApplet {
 	public void moveTowardsTheLeftWall(){
 
 		//player.moveLeft(gameSpeed);
+		player.getHook().moveLeft(gameSpeed);
 
 		for(Platform platform: currentPlatforms){
 			platform.moveLeft(gameSpeed);
