@@ -92,7 +92,7 @@ public class Player extends Entity {
 					setOn((Surface) other);
 					if(getOn().getType() == EntityType.FLOOR) {
 						setOnGround(true);
-					}
+					}	
 				}
 			} else if (other.getType() == EntityType.ORB) {
 				pickupObject(other);

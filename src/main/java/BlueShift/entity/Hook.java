@@ -1,6 +1,9 @@
 package BlueShift.entity;
 
+import java.awt.geom.Rectangle2D;
+
 import BlueShift.Main;
+import BlueShift.entity.surface.Surface;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -92,11 +95,8 @@ public class Hook extends Entity {
 	 */
 	public void moveHook(){
 		if (this.direction != null && this.hooked) {
-			if (this.position.dist(this.target) < 20) {
-				setPulling(true);
-			} else {
-				this.position.add(this.direction.copy().mult(40));
-			}
+			setPulling(true);
+			this.position = this.target;
 		}
 	}
 	
@@ -142,12 +142,12 @@ public class Hook extends Entity {
 	@Override
 	public boolean checkCollision(Entity other) {
 		if (this.target != null) {
-			//Rectangle2D.Float bBox = other.getBounds();
-			hooked = true;/*other instanceof Surface && 
+			Rectangle2D.Float bBox = other.getBounds();
+			hooked = other instanceof Surface && 
 					this.target.x >= bBox.x && 
 					this.target.x <= bBox.x + bBox.width && 
 					this.target.y >= bBox.y &&
-					this.target.y <= bBox.y + bBox.height;*/
+					this.target.y <= bBox.y + bBox.height;
 			this.position = main.player.getPosition().copy();
 			setDirection();
 			return hooked;

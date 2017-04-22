@@ -46,10 +46,10 @@ public class Platform extends Surface {
 	@Override
 	public boolean checkCollision(Entity other) {
 		PVector pos = other.getPosition();
-		if(pos.x + other.getWidth() >= position.x && pos.x <= position.x + width &&
-				pos.y + other.getHeight() >= position.y && pos.y + other.getHeight() < position.y + 5) {
-			pos.y = position.y - other.getHeight();
-			return true;
+		if (pos.x >= position.x && pos.x + other.getWidth() <= position.x + width) { // within x bounds
+			if (pos.y + other.getWidth() < position.y && pos.y + other.getWidth() > position.y - 5) { // either on or 5 above the y bounds
+				return true;
+			}
 		}
 		return false;
 	}
