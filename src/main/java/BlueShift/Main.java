@@ -50,7 +50,14 @@ public class Main extends PApplet {
 		Player.leftSprite = new Animation(player, "player\\left\\f", 13);
 		LeftWall.sprite = new Animation(leftWall, "tentacles\\f", 27);
 		Hook.sprite = loadImage("hook.png");
-		currentPlatforms.add(new Platform(new PVector(width - 300, height - 100), 210, 50));
+
+		//adding starting platforms
+		currentPlatforms.add(new Platform(new PVector(width - 300, height - height/2), 300, 50));
+		currentPlatforms.add(new Platform(new PVector(width - 600, height - height/2), 300, 50));
+		currentPlatforms.add(new Platform(new PVector(width - 900, height - height/2), 300, 50));
+		currentPlatforms.add(new Platform(new PVector(width - 300, height - height/4), 300, 50));
+		currentPlatforms.add(new Platform(new PVector(width - 600, height - height/4), 300, 50));
+		currentPlatforms.add(new Platform(new PVector(width - 900, height - height/4), 300, 50));
 	}
 
 	public void draw() {
@@ -81,11 +88,11 @@ public class Main extends PApplet {
 	 * Generate platforms ahead of the screen as long as platforms are being deleted
      */
 	public void generatePlatforms(){
-		if(currentPlatforms.size() < 15){
-			Platform p = new Platform(new PVector(width + random(200, 500), random(200, height - 200)), (int)random(50, 100), (int)random(50, 200));
+		if(currentPlatforms.size() < 6){
+			Platform p = new Platform(new PVector(width + random(0, width), random(100, height - height/3)), (int)random(200, 400), (int)random(50, 80));
 			//As long as the generated platform intersects with another platform, generate another one
 			while(p.intersectPlatform(currentPlatforms)){
-				p = new Platform(new PVector(width + random(200, 500), random(200, height - 200)), (int)random(50, 200), (int)random(50, 200));
+				p = new Platform(new PVector(width + random(0, width), random(100, height - height/3)), (int)random(200, 400), (int)random(50, 80));
 			}
 			currentPlatforms.add(p);
 		}
@@ -139,7 +146,7 @@ public class Main extends PApplet {
 	 * Increase the gameSpeed over time
      */
 	public void increaseGameSpeed(){
-		if(gameSpeed < 2) {
+		if(gameSpeed < 1) {
 			gameSpeed = gameSpeed + (float) 0.001;
 		}
 	}
@@ -156,10 +163,10 @@ public class Main extends PApplet {
 	}
 
 	public void checkHookCollisions() {
-		/*for (Platform platform : currentPlatforms) {
+		for (Platform platform : currentPlatforms) {
 			player.getHook().checkCollision(platform);
-		}*/
-		player.getHook().checkCollision(null);
+		}
+		//player.getHook().checkCollision(null);
 	}
 
 	public void gameOver() {
