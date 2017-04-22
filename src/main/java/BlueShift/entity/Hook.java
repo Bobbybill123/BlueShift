@@ -140,7 +140,7 @@ public class Hook extends Entity {
 	
 	@Override
 	public boolean checkCollision(Entity other) {
-		if (this.target != null) {
+		if (this.target != null && !this.hooked) {
 			Rectangle2D.Float bBox = other.getBounds();
 			hooked = other instanceof Surface && 
 					this.target.x >= bBox.x && 

@@ -4,6 +4,7 @@ import BlueShift.entity.Animation;
 import BlueShift.entity.Hook;
 import BlueShift.entity.LeftWall;
 import BlueShift.entity.Orb;
+import BlueShift.entity.RightWall;
 import BlueShift.entity.player.Move;
 import BlueShift.entity.player.Player;
 import BlueShift.entity.surface.Floor;
@@ -26,6 +27,7 @@ public class Main extends PApplet {
 
 	//entities
 	private LeftWall leftWall;
+	private RightWall rightWall;
 	public Player player;
 
 	private Main(){
@@ -41,6 +43,7 @@ public class Main extends PApplet {
 		rectMode(CORNER);
 		floor = new Floor();
 		leftWall = new LeftWall();
+		rightWall = new RightWall();
 		player = new Player();
 		keyBinds.put('a', Move.LEFT);
 		keyBinds.put('d', Move.RIGHT);
@@ -145,7 +148,7 @@ public class Main extends PApplet {
 	 * Increase the gameSpeed over time
      */
 	public void increaseGameSpeed(){
-		System.out.println(gameSpeed);
+		//System.out.println(gameSpeed);
 		if(gameSpeed <= 10) {
 			gameSpeed = gameSpeed + (float) 0.001;
 		}
