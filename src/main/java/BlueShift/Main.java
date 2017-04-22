@@ -20,7 +20,7 @@ public class Main extends PApplet {
 	public List<Orb> currentOrbs = new ArrayList<>();
 	private boolean[] keyPressed = new boolean[4];
 	public static Main instance;
-	public float gameSpeed = (float) 0.1;
+	public float gameSpeed = (float) 3;
 	private boolean start = false;
 	public Floor floor;
 
@@ -55,14 +55,13 @@ public class Main extends PApplet {
 		currentPlatforms.add(new Platform(new PVector(width - 300, height - height/2), 300, 50));
 		currentPlatforms.add(new Platform(new PVector(width - 600, height - height/2), 300, 50));
 		currentPlatforms.add(new Platform(new PVector(width - 900, height - height/2), 300, 50));
-		currentPlatforms.add(new Platform(new PVector(width - 300, height - height/4), 300, 50));
-		currentPlatforms.add(new Platform(new PVector(width - 600, height - height/4), 300, 50));
-		currentPlatforms.add(new Platform(new PVector(width - 900, height - height/4), 300, 50));
+		currentPlatforms.add(new Platform(new PVector(width, height - height/4), 300, 50));
+		currentPlatforms.add(new Platform(new PVector(width + 300, height - height/4), 300, 50));
+		currentPlatforms.add(new Platform(new PVector(width + 600, height - height/4), 300, 50));
 	}
 
 	public void draw() {
 		background(0);
-		gameSpeed += 0.01;
 		for (int i = 0; i < keyPressed.length; i++) {
 			if(keyPressed[i]) {
 				player.doAction(Move.values()[i]);
@@ -89,10 +88,10 @@ public class Main extends PApplet {
      */
 	public void generatePlatforms(){
 		if(currentPlatforms.size() < 6){
-			Platform p = new Platform(new PVector(width + random(0, width), random(100, height - height/3)), (int)random(200, 400), (int)random(50, 80));
+			Platform p = new Platform(new PVector(width + random(0, width), random(100, height - height/3)), (int)random(300, 500), 50);
 			//As long as the generated platform intersects with another platform, generate another one
 			while(p.intersectPlatform(currentPlatforms)){
-				p = new Platform(new PVector(width + random(0, width), random(100, height - height/3)), (int)random(200, 400), (int)random(50, 80));
+				p = new Platform(new PVector(width + random(0, width), random(100, height - height/3)), (int)random(300, 500), 50);
 			}
 			currentPlatforms.add(p);
 		}
@@ -146,7 +145,8 @@ public class Main extends PApplet {
 	 * Increase the gameSpeed over time
      */
 	public void increaseGameSpeed(){
-		if(gameSpeed < 1) {
+		System.out.println(gameSpeed);
+		if(gameSpeed <= 10) {
 			gameSpeed = gameSpeed + (float) 0.001;
 		}
 	}
