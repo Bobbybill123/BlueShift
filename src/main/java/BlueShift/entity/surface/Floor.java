@@ -4,10 +4,12 @@ import BlueShift.Main;
 import BlueShift.entity.Entity;
 import BlueShift.entity.EntityType;
 import BlueShift.entity.player.Player;
+import processing.core.PImage;
 import processing.core.PVector;
 
 public class Floor extends Surface {
 	private Main main = Main.instance;
+	public static PImage sprite;
 	@Override
 	public float getWidth() {
 		return main.width;
@@ -27,6 +29,10 @@ public class Floor extends Surface {
 	public void draw() {
 		main.fill(0, 127, 0);
 		main.rect(getPosition().x, getPosition().y, getWidth(), getHeight());
+		for (int i = 0; i < getWidth()/sprite.width; i++) {
+			System.out.println(sprite.width);
+			main.image(sprite, getPosition().x + sprite.width*i, getPosition().y);
+		}
 }
 
 	@Override

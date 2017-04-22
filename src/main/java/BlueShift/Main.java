@@ -5,17 +5,24 @@ import BlueShift.entity.player.Move;
 import BlueShift.entity.player.Player;
 import BlueShift.entity.surface.Floor;
 import BlueShift.entity.surface.Platform;
+import BlueShift.menu.Button;
+import BlueShift.menu.Menu;
 import net.tangentmc.processing.ProcessingRunner;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Main extends PApplet {
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
+	private Map<String, Menu> menus = new HashMap<>();
 	private List<Platform> currentPlatforms = new ArrayList<>();
 	private List<Orb> currentOrbs = new ArrayList<>();
 	private boolean[] keyPressed = new boolean[4];
+	private boolean playing = false;
+	private String currentMenu = "Main";
 	public static Main instance;
 	public float gameSpeed = 3f;
 	public Floor floor;
@@ -50,9 +57,13 @@ public class Main extends PApplet {
 		keyBinds.put('d', Move.RIGHT);
 		keyBinds.put('w', Move.UP);
 		keyBinds.put('s', Move.DOWN);
+		Color buttonBlue = new Color(0, 0, 127);
+		menus.put("Main", new Menu("Blue Shift", new Button("Play", buttonBlue, () -> playing = true),
+				new Button("Quit", buttonBlue, this::exit)));
 		Player.rightSprite = new Animation(player, "player\\right\\f", 13);
 		Player.leftSprite = new Animation(player, "player\\left\\f", 13);
 		LeftWall.sprite = new Animation(leftWall, "tentacles\\f", 27);
+		Floor.sprite = loadImage("floor.png");
 		Hook.sprite = loadImage("hook.png");
 		Platform.leftSprite = loadImage("platform\\platform_left.png");
 		Platform.midSprite = loadImage("platform\\platform_mid.png");
@@ -70,21 +81,21 @@ public class Main extends PApplet {
 	public void draw() {
 
 		oldPlayerPosition = player.getPosition().copy();
-
-		background(0);
-		for (int i = 0; i < keyPressed.length; i++) {
-			if(keyPressed[i]) {
-				player.doAction(Move.values()[i]);
+		background(127, 0, 0);
+		if (playing) {
+			for (int i = 0; i < keyPressed.length; i++) {
+				if (keyPressed[i]) {
+					player.doAction(Move.values()[i]);
+				}
 			}
-		}
-		checkPlayerCollisions();
-		for (Platform platform : currentPlatforms) {
-			platform.draw();
-		}
-		leftWall.draw();
-		player.draw();
-		player.getHook().draw();
-		floor.draw();
+			checkPlayerCollisions();
+			for (Platform platform : currentPlatforms) {
+				platform.draw();
+			}
+			leftWall.draw();
+			player.draw();
+			player.getHook().draw();
+			floor.draw();
 
 		moveTowardsTheLeftWall();
 		removeIfOutOfScreen();
@@ -98,10 +109,13 @@ public class Main extends PApplet {
 		boundPlayer();
 
 
-		fill(255,255,255);
-		text(frameRate, 60, 60);
-		text("Score: " + (int)score, width/2, 60);
-		score = score + 0.01;
+			fill(255, 255, 255);
+			text(frameRate, 60, 60);
+			text("Score: " + (int) score, width / 2, 60);
+			score = score + 0.01;
+		} else {
+			menus.get(currentMenu).draw();
+		}
 	}
 
 
@@ -110,9 +124,8 @@ public class Main extends PApplet {
      */
 	public void setupChannels(){
 		channels = new float[14];
-
 		for(int i = 0; i < channels.length; i++){
-			channels[i] = i*50;
+			channels[i] = i*((height - floor.getHeight())/12);
 		}
 	}
 
@@ -134,7 +147,7 @@ public class Main extends PApplet {
 	 * Generate platforms ahead of the screen as long as platforms are being deleted
 	 */
 	public void generatePlatforms(){
-		int i = 0;
+//		int i = 0;
 
 		if(currentPlatforms.size() < 20) {
 			int channelNumber = (int) random(0, 12);
@@ -178,7 +191,6 @@ public class Main extends PApplet {
 
 	/**
 	 * Handles drawing the orb and also if it touches the player delete the orb
-	 * TODO make it so that when you touch the orb, your player slows down/speeds up
      */
 	public void orbRendering(){
 		Iterator<Orb> orbIterator= currentOrbs.iterator();
@@ -187,6 +199,7 @@ public class Main extends PApplet {
 			orb.draw();
 			if(orb.touchingPlayer(player)){
 				orbIterator.remove();
+				player.pickupObject(orb);
 			}
 		}
 	}
@@ -214,26 +227,8 @@ public class Main extends PApplet {
 	 * This methods removes the entities if they go out of the screen
 	 */
 	public void removeIfOutOfScreen() {
-
-		//Platform Iterator
-		Iterator<Platform> platformIterator = currentPlatforms.iterator();
-		while (platformIterator.hasNext()) {
-			Platform platform = platformIterator.next();
-
-			if(platform.getPosition().x + platform.getWidth() < 0){
-				platformIterator.remove();
-			}
-		}
-
-		//Orb Iterator
-		Iterator<Orb> orbIterator= currentOrbs.iterator();
-		while (orbIterator.hasNext()) {
-			Orb orb = orbIterator.next();
-
-			if(orb.getPosition().x + orb.getWidth() < 0){
-				orbIterator.remove();
-			}
-		}
+		currentPlatforms.removeIf(platform -> platform.getPosition().x + platform.getWidth() < 0);
+		currentOrbs.removeIf(orb -> orb.getPosition().x + orb.getWidth() < 0);
 
 	}
 
@@ -293,14 +288,23 @@ public class Main extends PApplet {
 	}
 
 	public void mousePressed() {
-		this.player.getHook().fire(new PVector(mouseX, mouseY));
-		checkHookCollisions();
+		if(!playing) {
+			menus.get(currentMenu).onClick(mouseX, mouseY);
+		} else {
+			this.player.getHook().fire(new PVector(mouseX, mouseY));
+			checkHookCollisions();
+		}
 	}
 
 	public void mouseReleased() {
 		this.player.getHook().release();
 	}
-	
+
+	public void mouseMoved() {
+		if(!playing) menus.get(currentMenu).onMouseMove(mouseX, mouseY);
+	}
+
+/*
 	public boolean collideRectangles(PVector[] vert1, PVector[] vert2) {
 		int A = 0;
 		int B = 1;
@@ -329,8 +333,9 @@ public class Main extends PApplet {
 		}
 		return false;
 	}
+*/
 
-	public boolean intersect(PVector s, PVector e, PVector p, PVector q) {
+/*	public boolean intersect(PVector s, PVector e, PVector p, PVector q) {
 
 		// determines the equation of the line in the form ax + by + c
 		float A = -(q.y - p.y);
@@ -343,14 +348,10 @@ public class Main extends PApplet {
 		// I could have calculated everything in one step, but this was neater
 		float t = numer / denom;
 
-		if (0 > t || t > 1 || !checkIntersect(p, q, s, e)) {
-			return false;
-		}
+		return (0 > t || t > 1 || !checkIntersect(p, q, s, e));
+	}*/
 
-		return true;
-	}
-
-	public boolean checkIntersect(PVector s, PVector e, PVector p, PVector q) {
+/*	public boolean checkIntersect(PVector s, PVector e, PVector p, PVector q) {
 
 		// determines the equation of the line in the form ax + by + c
 		float A = -(q.y - p.y);
@@ -364,7 +365,7 @@ public class Main extends PApplet {
 		float t = numer / denom;
 
 		return 0 < t && t < 1;
-	}
+	}*/
 
 	public static void main(String[] args) {
 		ProcessingRunner.run(new Main());

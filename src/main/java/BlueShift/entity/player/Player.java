@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class Player extends Entity {
 	private static final float BASE_SPEED_LIMIT = 10;
+	private static final float GRAVITY = 0.7f;
 	public static Animation leftSprite;
 	public static Animation rightSprite;
 	private Animation currentSprite;
@@ -16,7 +17,6 @@ public class Player extends Entity {
 	private PVector position;
 	private PVector velocity;
 	private Surface on = null;
-	private static float GRAVITY = 0.7f;
 	private float speedLim;
 	private float blue = 0;
 	private float red = 0;
@@ -128,7 +128,7 @@ public class Player extends Entity {
 		super.moveLeft(gameSpeed);
 	}
 
-	private void pickupObject(Entity e) {
+	public void pickupObject(Entity e) {
 		if(e.getType() == EntityType.ORB) {
 			Orb orb = ((Orb) e);
 			if(orb.getColor().equals(Color.BLUE)) {
@@ -170,7 +170,7 @@ public class Player extends Entity {
 				break;
 			case UP:
 				if(getOn() == null) break;
-				velocity.y -= 15;
+				velocity.y -= 20;
 				setOnGround(false);
 				setOn(null);
 				break;
