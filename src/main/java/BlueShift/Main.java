@@ -25,6 +25,9 @@ public class Main extends PApplet {
 	private RightWall rightWall;
 	public Player player;
 
+	//channel
+	public float channels[];
+
 	private Main(){
 		instance = this;
 	}
@@ -52,12 +55,13 @@ public class Main extends PApplet {
 		Platform.midSprite = loadImage("platform\\platform_mid.png");
 		Platform.rightSprite = loadImage("platform\\platform_right.png");
 		//adding starting platforms
-		currentPlatforms.add(new Platform(new PVector(width - 300, height - height/2), 300, 50));
-		currentPlatforms.add(new Platform(new PVector(width - 600, height - height/2), 300, 50));
-		currentPlatforms.add(new Platform(new PVector(width - 900, height - height/2), 300, 50));
-		currentPlatforms.add(new Platform(new PVector(width, height - height/4), 300, 50));
-		currentPlatforms.add(new Platform(new PVector(width + 300, height - height/4), 300, 50));
-		currentPlatforms.add(new Platform(new PVector(width + 600, height - height/4), 300, 50));
+		currentPlatforms.add(new Platform(new PVector(width - 300, height - height/2), 300, 50, 1));
+		currentPlatforms.add(new Platform(new PVector(width - 600, height - height/2), 300, 50, 1));
+		currentPlatforms.add(new Platform(new PVector(width - 900, height - height/2), 300, 50, 1));
+		currentPlatforms.add(new Platform(new PVector(width, height - height/4), 300, 50, 1));
+		currentPlatforms.add(new Platform(new PVector(width + 300, height - height/4), 300, 50, 1));
+		currentPlatforms.add(new Platform(new PVector(width + 600, height - height/4), 300, 50, 1));
+		setupChannels();
 	}
 
 	public void draw() {
@@ -80,20 +84,43 @@ public class Main extends PApplet {
 		removeIfOutOfScreen();
 		increaseGameSpeed();
 		generatePlatforms();
+		text(frameRate, 60, 60);
+	}
+
+
+	/**
+	 * Populate the channels with information regarding their y positions
+     */
+	public void setupChannels(){
+		channels = new float[12];
+
+		for(int i = 0; i < channels.length; i++){
+			channels[i] = i*50;
+		}
 	}
 
 	/**
 	 * Generate platforms ahead of the screen as long as platforms are being deleted
 	 */
 	public void generatePlatforms(){
-		if(currentPlatforms.size() < 6){
-			Platform p = new Platform(new PVector(width + random(0, width), random(100, height - height/3)), (int)random(300, 500), 50);
+		int i = 0;
+
+
+		if(currentPlatforms.size() < 20){
+			int channelNumber = (int)random(0, 12);
+			Platform p = new Platform(new PVector(width + random(0, width*2), channels[channelNumber]), (int)random(200, 500), 50, channelNumber);
+
 			//As long as the generated platform intersects with another platform, generate another one
-			while(p.intersectPlatform(currentPlatforms)){
-				p = new Platform(new PVector(width + random(0, width), random(100, height - height/3)), (int)random(300, 500), 50);
+		while(p.intersectPlatform(currentPlatforms) && i < 10){
+				channelNumber = (int)random(0, 12);
+				p = new Platform(new PVector(width + random(0, width*2), channels[channelNumber]), (int)random(200, 500), 50, channelNumber);
+				i++;
 			}
-			currentPlatforms.add(p);
-		}
+
+			if (!p.intersectPlatform(currentPlatforms)){
+				currentPlatforms.add(p);
+			}
+	}
 	}
 
 

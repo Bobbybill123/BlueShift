@@ -47,7 +47,7 @@ public class Player extends Entity {
 	}
 
 	public void draw() {
-		System.out.println(getOn() != null);
+		//System.out.println(getOn() != null);
 		calculateSpeedLim();
 		doMovement();
 		doPhysics();
