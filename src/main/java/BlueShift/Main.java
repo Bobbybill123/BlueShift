@@ -83,8 +83,13 @@ public class Main extends PApplet {
 		moveTowardsTheLeftWall();
 		removeIfOutOfScreen();
 		increaseGameSpeed();
-		//generatePlatforms();
+		generatePlatforms();
 		text(frameRate, 60, 60);
+
+		generateOrbs();
+		for(Orb orb: currentOrbs){
+			orb.draw();
+		}
 	}
 
 
@@ -102,9 +107,9 @@ public class Main extends PApplet {
 	/**
 	 * Generate platforms ahead of the screen as long as platforms are being deleted
 	 */
-	/*public void generatePlatforms(){
-		int i = 0;
+	public void generatePlatforms(){
 
+		int i = 0;
 
 		if(currentPlatforms.size() < 20){
 			int channelNumber = (int)random(0, 12);
@@ -120,8 +125,20 @@ public class Main extends PApplet {
 			if (!p.intersectPlatform(currentPlatforms)){
 				currentPlatforms.add(p);
 			}
+		}
 	}
-	}*/
+
+	public void generateOrbs(){
+		if(currentOrbs.size() < 30){
+			int channelNumber = (int)random(0, 12);
+			Orb orb = new Orb(new PVector(((float)width + random(0, width*2)), channels[channelNumber]));
+			while(orb.intersectPlatform(currentPlatforms)){
+				channelNumber = (int)random(0, 12);
+				orb = new Orb(new PVector(((float)width + random(0, width*2)), channels[channelNumber]));
+			}
+			currentOrbs.add(orb);
+		}
+	}
 
 
 	/**
