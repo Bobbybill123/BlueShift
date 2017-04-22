@@ -62,9 +62,6 @@ public class Platform extends Surface {
 
 	@Override
 	public boolean checkCollision(Entity other) {
-        /*PVector[] thisVertices = new PVector[]{this.getA(), this.getB(), this.getC(), this.getD()};
-        PVector[] otherVertices = new PVector[]{other.getA(), other.getB(), other.getC(), other.getD()};
-		return main.collideRectangles(thisVertices, otherVertices);*/
 		Player p = null;
 		
 		if (other.getType() == EntityType.PLAYER) {
@@ -73,8 +70,6 @@ public class Platform extends Surface {
 		}
 		if (p != null) {
 			if (p.getD().y >= position.y && p.getVelocity().y > 0) {
-				System.out.println("gotcha");
-				p.getVelocity().y = 0;
 				return true;
 			}
 		}

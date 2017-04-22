@@ -185,11 +185,14 @@ public class Main extends PApplet {
 		player.checkCollision(leftWall);
 		boolean isOn = false;
 		for (Platform platform : currentPlatforms) {
-			isOn = player.checkCollision(platform);
+			if (player.checkCollision(platform)) {
+				isOn = true;
+			}
 		}
-		if (!isOn && (player.getD().y < height - 60)) {
+		if (!isOn && player.getD().y <= height-60) {
 			player.setOn(null);
 		}
+		
 		for (Orb orb : currentOrbs) {
 			player.checkCollision(orb);
 		}

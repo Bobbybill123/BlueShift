@@ -80,6 +80,9 @@ public class Player extends Entity {
 	}
 
 	private void doMovement() {
+		if (getOn() != null && getD().y < getOn().getPosition().y) {
+			this.position.y = getOn().getPosition().y - this.getHeight()+1;
+		}
 		position.x += velocity.x;
 		if(getOn() != null && velocity.y > 0) return;
 		position.y += velocity.y;
