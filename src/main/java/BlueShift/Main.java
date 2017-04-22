@@ -1,10 +1,6 @@
 package BlueShift;
 
-import BlueShift.entity.Animation;
-import BlueShift.entity.Hook;
-import BlueShift.entity.LeftWall;
-import BlueShift.entity.Orb;
-import BlueShift.entity.RightWall;
+import BlueShift.entity.*;
 import BlueShift.entity.player.Move;
 import BlueShift.entity.player.Player;
 import BlueShift.entity.surface.Floor;
@@ -21,8 +17,7 @@ public class Main extends PApplet {
 	public List<Orb> currentOrbs = new ArrayList<>();
 	private boolean[] keyPressed = new boolean[4];
 	public static Main instance;
-	public float gameSpeed = (float) 3;
-	private boolean start = false;
+	public float gameSpeed = 3f;
 	public Floor floor;
 
 	//entities
