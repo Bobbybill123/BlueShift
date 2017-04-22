@@ -38,8 +38,22 @@ public abstract class Entity {
 	}
 
 	public void moveLeft(float gameSpeed){
-		//should this need a setter?
-		this.getPosition().x = this.getPosition().x - gameSpeed;
+		this.getPosition().x -= gameSpeed;
+	}
+	
+	public PVector getA() {
+		return this.getPosition();
 	}
 
+	public PVector getB() {
+		return new PVector(this.getPosition().x + this.getWidth(), this.getPosition().y);
+	}
+
+	public PVector getC() {
+		return new PVector(this.getPosition().x + this.getWidth(), this.getPosition().y + this.getHeight());
+	}
+
+	public PVector getD() {
+		return new PVector(this.getPosition().x, this.getPosition().y + this.getHeight());
+	}
 }

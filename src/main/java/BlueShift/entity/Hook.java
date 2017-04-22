@@ -150,7 +150,6 @@ public class Hook extends Entity {
 					this.target.y <= bBox.y + bBox.height;
 			this.position = main.player.getPosition().copy();
 			setDirection();
-			System.out.println(hooked);
 			return hooked;
 		}
 		return false;
