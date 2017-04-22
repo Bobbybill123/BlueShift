@@ -146,7 +146,7 @@ public class Player extends Entity {
 				//velocity.x = Math.max(-speedLim, velocity.x - speedLim);
 				break;
 			case UP:
-				if(!isOnGround()) break;
+				if(getOn() == null) break;
 				velocity.y -= 20;
 				setOnGround(false);
 				setOn(null);

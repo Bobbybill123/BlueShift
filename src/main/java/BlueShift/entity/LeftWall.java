@@ -34,13 +34,13 @@ public class LeftWall extends Entity {
 
 	@Override
 	public void draw() {
-		main.fill(200,0, 0);
+		main.fill(0,0, 0);
+		main.rect(position.x, position.y, getWidth(), getHeight());
 		for (int i = 0; i < main.height; i+=(main.height/(getHeight()/2))) {
 			if(main.frameCount % 10 == 0)
 				sprite.animate(position.x, position.y + i);
 			else sprite.displayCurr(position.x, position.y + i);
 		}
-//		main.rect(position.x, position.y, getWidth(), getHeight());
 	}
 
 	@Override

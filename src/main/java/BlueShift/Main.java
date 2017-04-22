@@ -85,7 +85,7 @@ public class Main extends PApplet {
 
 	/**
 	 * Generate platforms ahead of the screen as long as platforms are being deleted
-     */
+	 */
 	public void generatePlatforms(){
 		if(currentPlatforms.size() < 6){
 			Platform p = new Platform(new PVector(width + random(0, width), random(100, height - height/3)), (int)random(300, 500), 50);
@@ -100,10 +100,11 @@ public class Main extends PApplet {
 
 	/**
 	 * Move the entities towards the left wall
-     */
+	 */
 	public void moveTowardsTheLeftWall(){
-
-		//player.moveLeft(gameSpeed);
+		if (player.getOn() != null) {
+			player.moveLeft(gameSpeed);
+		}
 		player.getHook().moveLeft(gameSpeed);
 
 		for(Platform platform: currentPlatforms){
@@ -117,7 +118,7 @@ public class Main extends PApplet {
 
 	/**
 	 * This methods removes the entities if they go out of the screen
-     */
+	 */
 	public void removeIfOutOfScreen() {
 
 		//Platform Iterator
@@ -144,7 +145,7 @@ public class Main extends PApplet {
 
 	/**
 	 * Increase the gameSpeed over time
-     */
+	 */
 	public void increaseGameSpeed(){
 		//System.out.println(gameSpeed);
 		if(gameSpeed <= 10) {
@@ -191,8 +192,8 @@ public class Main extends PApplet {
 	}
 
 	public void mousePressed() {
-			this.player.getHook().fire(new PVector(mouseX, mouseY));
-			checkHookCollisions();
+		this.player.getHook().fire(new PVector(mouseX, mouseY));
+		checkHookCollisions();
 	}
 
 	public void mouseReleased() {
