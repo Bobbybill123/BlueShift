@@ -53,13 +53,9 @@ public class Platform extends Surface {
 
 	@Override
 	public boolean checkCollision(Entity other) {
-		PVector pos = other.getPosition();
-		if (pos.x >= position.x && pos.x + other.getWidth() <= position.x + width) { // within x bounds
-			if (pos.y + other.getWidth() < position.y && pos.y + other.getWidth() > position.y - 5) { // either on or 5 above the y bounds
-				return true;
-			}
-		}
-		return false;
+        PVector[] thisVertices = new PVector[]{this.getA(), this.getB(), this.getC(), this.getD()};
+        PVector[] otherVertices = new PVector[]{other.getA(), other.getB(), other.getC(), other.getD()};
+		return main.collideRectangles(thisVertices, otherVertices);
 	}
 
 	@Override

@@ -199,6 +199,71 @@ public class Main extends PApplet {
 	public void mouseReleased() {
 		this.player.getHook().release();
 	}
+	
+	public boolean collideRectangles(PVector[] vert1, PVector[] vert2) {
+		int A = 0;
+		int B = 1;
+		int C = 2;
+		int D = 3;
+		if (intersect(vert1[A], vert1[B], vert2[A], vert2[D])) {
+			return true;
+		} else if (intersect(vert1[A], vert1[B], vert2[B], vert2[C])) {
+			return true;
+		} else if (intersect(vert1[C], vert1[D], vert2[A], vert2[D])) {
+			// touching top here
+			return true;
+		} else if (intersect(vert1[C], vert1[D], vert2[B], vert2[C])) {
+			// touching top here
+			return true;
+		} else if (intersect(vert1[A], vert1[D], vert2[D], vert2[C])) {
+			return true;
+		} else if (intersect(vert1[B], vert1[C], vert2[D], vert2[C])) {
+			return true;
+		} else if (intersect(vert1[B], vert1[C], vert2[A], vert2[B])) {
+			// touching top here
+			return true;
+		} else if (intersect(vert1[A], vert1[D], vert2[A], vert2[B])) {
+			// touching top here
+			return true;
+		}
+		return false;
+	}
+
+	public boolean intersect(PVector s, PVector e, PVector p, PVector q) {
+
+		// determines the equation of the line in the form ax + by + c
+		float A = -(q.y - p.y);
+		float B = q.x - p.x;
+		float C = q.y * p.x - q.x * p.y;
+
+		float numer = A * s.x + B * s.y + C;
+		float denom = A * (s.x - e.x) + B * (s.y - e.y);
+
+		// I could have calculated everything in one step, but this was neater
+		float t = numer / denom;
+
+		if (0 > t || t > 1 || !checkIntersect(p, q, s, e)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean checkIntersect(PVector s, PVector e, PVector p, PVector q) {
+
+		// determines the equation of the line in the form ax + by + c
+		float A = -(q.y - p.y);
+		float B = q.x - p.x;
+		float C = q.y * p.x - q.x * p.y;
+
+		float numer = A * s.x + B * s.y + C;
+		float denom = A * (s.x - e.x) + B * (s.y - e.y);
+
+		// I could have calculated everything in one step, but this was neater
+		float t = numer / denom;
+
+		return 0 < t && t < 1;
+	}
 
 	public static void main(String[] args) {
 		ProcessingRunner.run(new Main());

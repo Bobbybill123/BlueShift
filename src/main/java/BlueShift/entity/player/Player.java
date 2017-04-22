@@ -47,6 +47,7 @@ public class Player extends Entity {
 	}
 
 	public void draw() {
+		System.out.println(getOn() != null);
 		calculateSpeedLim();
 		doMovement();
 		doPhysics();
@@ -92,7 +93,7 @@ public class Player extends Entity {
 					setOn((Surface) other);
 					if(getOn().getType() == EntityType.FLOOR) {
 						setOnGround(true);
-					}	
+					}
 				}
 			} else if (other.getType() == EntityType.ORB) {
 				pickupObject(other);
