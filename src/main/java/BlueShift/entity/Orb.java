@@ -38,7 +38,7 @@ public class Orb extends Entity {
     }
 
     @Override
-	public Rectangle2D.Float getBounds() {
+	public Rectangle getBounds() {
         return super.getBounds();
     }
 

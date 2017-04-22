@@ -2,6 +2,7 @@ package BlueShift.entity;
 
 import processing.core.PVector;
 
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -9,7 +10,7 @@ import java.awt.geom.Rectangle2D;
  */
 
 public abstract class Entity {
-
+	
 	public abstract float getWidth();
 
 	public abstract float getHeight();
@@ -25,11 +26,12 @@ public abstract class Entity {
 
 	public abstract EntityType getType();
 
-	public Rectangle2D.Float getBounds() {
-		return new Rectangle2D.Float(getPosition().x, getPosition().y, getWidth(), getHeight());
+	public Rectangle getBounds() {
+		return new Rectangle((int) (getPosition().x), (int) (getPosition().y), (int) (getWidth()), (int) (getHeight()));
 	}
 
 	protected boolean intersects(Entity other) {
+		
 		return getBounds().intersects(other.getBounds());
 	}
 

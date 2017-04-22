@@ -3,6 +3,7 @@ package BlueShift.entity.surface;
 import BlueShift.Main;
 import BlueShift.entity.Entity;
 import BlueShift.entity.EntityType;
+import BlueShift.entity.player.Player;
 import processing.core.PImage;
 import processing.core.PVector;
 
@@ -61,9 +62,23 @@ public class Platform extends Surface {
 
 	@Override
 	public boolean checkCollision(Entity other) {
-        PVector[] thisVertices = new PVector[]{this.getA(), this.getB(), this.getC(), this.getD()};
+        /*PVector[] thisVertices = new PVector[]{this.getA(), this.getB(), this.getC(), this.getD()};
         PVector[] otherVertices = new PVector[]{other.getA(), other.getB(), other.getC(), other.getD()};
-		return main.collideRectangles(thisVertices, otherVertices);
+		return main.collideRectangles(thisVertices, otherVertices);*/
+		Player p = null;
+		
+		if (other.getType() == EntityType.PLAYER) {
+			
+			p = (Player) other;
+		}
+		if (p != null) {
+			if (p.getD().y >= position.y && p.getVelocity().y > 0) {
+				System.out.println("gotcha");
+				p.getVelocity().y = 0;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

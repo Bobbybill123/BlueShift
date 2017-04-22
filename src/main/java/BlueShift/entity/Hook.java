@@ -1,5 +1,6 @@
 package BlueShift.entity;
 
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 import BlueShift.Main;
@@ -142,7 +143,7 @@ public class Hook extends Entity {
 	@Override
 	public boolean checkCollision(Entity other) {
 		if (this.target != null && !this.hooked) {
-			Rectangle2D.Float bBox = other.getBounds();
+			Rectangle bBox = other.getBounds();
 			hooked = other instanceof Surface && 
 					this.target.x >= bBox.x && 
 					this.target.x <= bBox.x + bBox.width && 
