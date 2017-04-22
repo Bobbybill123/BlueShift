@@ -5,6 +5,8 @@ import BlueShift.entity.Entity;
 import BlueShift.entity.EntityType;
 import processing.core.PVector;
 
+import java.util.List;
+
 /**
  * Created by TML_TEST on 21/04/2017.
  */
@@ -60,5 +62,20 @@ public class Platform extends Surface {
 	@Override
 	public float getSpeedModifier() {
 		return 0.75f;
+	}
+
+
+	/**
+	 * Checks if you are intersecting with another platform
+	 * @param currentPlatforms
+	 * @return
+     */
+	public boolean intersectPlatform(List<Platform> currentPlatforms){
+		for(Platform p: currentPlatforms){
+			if(intersects(p)){
+				return true;
+			}
+		}
+		return false;
 	}
 }

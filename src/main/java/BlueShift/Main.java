@@ -74,14 +74,30 @@ public class Main extends PApplet {
 		moveTowardsTheLeftWall();
 		removeIfOutOfScreen();
 		increaseGameSpeed();
+		generatePlatforms();
 	}
+
+	/**
+	 * Generate platforms ahead of the screen as long as platforms are being deleted
+     */
+	public void generatePlatforms(){
+		if(currentPlatforms.size() < 15){
+			Platform p = new Platform(new PVector(width + random(200, 500), random(200, height - 200)), (int)random(50, 100), (int)random(50, 200));
+			//As long as the generated platform intersects with another platform, generate another one
+			while(p.intersectPlatform(currentPlatforms)){
+				p = new Platform(new PVector(width + random(200, 500), random(200, height - 200)), (int)random(50, 200), (int)random(50, 200));
+			}
+			currentPlatforms.add(p);
+		}
+	}
+
 
 	/**
 	 * Move the entities towards the left wall
      */
 	public void moveTowardsTheLeftWall(){
 
-		player.moveLeft(gameSpeed);
+		//player.moveLeft(gameSpeed);
 
 		for(Platform platform: currentPlatforms){
 			platform.moveLeft(gameSpeed);
@@ -91,7 +107,6 @@ public class Main extends PApplet {
 			orb.moveLeft(gameSpeed);
 		}
 	}
-
 
 	/**
 	 * This methods removes the entities if they go out of the screen
@@ -128,8 +143,6 @@ public class Main extends PApplet {
 			gameSpeed = gameSpeed + (float) 0.001;
 		}
 	}
-
-
 
 	public void checkPlayerCollisions() {
 		player.checkCollision(floor);
