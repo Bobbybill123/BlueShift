@@ -60,6 +60,8 @@ public class Main extends PApplet {
 		Color buttonBlue = new Color(0, 0, 127);
 		menus.put("Main", new Menu("Blue Shift", new Button("Play", buttonBlue, () -> playing = true),
 				new Button("Quit", buttonBlue, this::exit)));
+		menus.put("Over", new Menu("Game Over!", new Button("Restart", buttonBlue, () -> playing = true),
+				new Button("Quit", buttonBlue, this::exit)));
 		Player.rightSprite = new Animation(player, "player\\right\\f", 13);
 		Player.leftSprite = new Animation(player, "player\\left\\f", 13);
 		LeftWall.sprite = new Animation(leftWall, "tentacles\\f", 27);
@@ -268,8 +270,11 @@ public class Main extends PApplet {
 	}
 
 	public void gameOver() {
-		//TODO Make game over screen
-		System.out.println("You Died!");
+		playing = false;
+		currentMenu = "Over";
+		currentPlatforms.clear();
+		currentOrbs.clear();
+		player.reset();
 	}
 
 	public void keyPressed() {
