@@ -66,7 +66,7 @@ public class Platform extends Surface {
 
 
 	/**
-	 * Checks if you are intersecting with another platform
+	 * Checks if you are intersecting with another platform				
 	 * @param currentPlatforms
 	 * @return
      */
