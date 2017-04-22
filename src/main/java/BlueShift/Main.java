@@ -83,7 +83,7 @@ public class Main extends PApplet {
 		moveTowardsTheLeftWall();
 		removeIfOutOfScreen();
 		increaseGameSpeed();
-		generatePlatforms();
+		//generatePlatforms();
 		text(frameRate, 60, 60);
 	}
 
@@ -102,7 +102,7 @@ public class Main extends PApplet {
 	/**
 	 * Generate platforms ahead of the screen as long as platforms are being deleted
 	 */
-	public void generatePlatforms(){
+	/*public void generatePlatforms(){
 		int i = 0;
 
 
@@ -121,7 +121,7 @@ public class Main extends PApplet {
 				currentPlatforms.add(p);
 			}
 	}
-	}
+	}*/
 
 
 	/**
@@ -182,8 +182,12 @@ public class Main extends PApplet {
 	public void checkPlayerCollisions() {
 		player.checkCollision(floor);
 		player.checkCollision(leftWall);
+		boolean isOn = false;
 		for (Platform platform : currentPlatforms) {
-			player.checkCollision(platform);
+			isOn = player.checkCollision(platform);
+		}
+		if (!isOn && (player.getD().y < height - 60)) {
+			player.setOn(null);
 		}
 		for (Orb orb : currentOrbs) {
 			player.checkCollision(orb);
