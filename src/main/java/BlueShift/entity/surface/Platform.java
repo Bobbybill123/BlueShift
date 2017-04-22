@@ -63,13 +63,14 @@ public class Platform extends Surface {
 	@Override
 	public boolean checkCollision(Entity other) {
 		Player p = null;
-		
 		if (other.getType() == EntityType.PLAYER) {
-			
 			p = (Player) other;
 		}
 		if (p != null) {
-			if (p.getD().y >= position.y && p.getVelocity().y > 0) {
+			if(p.getA().y < this.getD().y && !(p.getD().y >= position.y)) {
+				return false;
+			}
+			if ((p.getA().x > position.x || p.getB().x < this.getB().x) && p.getD().y >= position.y && p.getVelocity().y > 0) {
 				return true;
 			}
 		}
@@ -85,7 +86,6 @@ public class Platform extends Surface {
 	public float getSpeedModifier() {
 		return 0.75f;
 	}
-
 
 	/**
 	 * Checks if you are intersecting with another platform (or near another channel)

@@ -174,10 +174,9 @@ public class Main extends PApplet {
 	 */
 	public void increaseGameSpeed(){
 		//System.out.println(gameSpeed);
-		/*if(gameSpeed <= 10) {
+		if(gameSpeed <= 10) {
 			gameSpeed = gameSpeed + (float) 0.001;
-		}*/
-		gameSpeed = 0;
+		}
 	}
 
 	public void checkPlayerCollisions() {
