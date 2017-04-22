@@ -83,7 +83,9 @@ public class Main extends PApplet {
 		moveTowardsTheLeftWall();
 		removeIfOutOfScreen();
 		increaseGameSpeed();
-		//generatePlatforms();
+		if (millis() % 100 == 0) {
+			generatePlatforms();
+		}
 		text(frameRate, 60, 60);
 	}
 
@@ -102,26 +104,26 @@ public class Main extends PApplet {
 	/**
 	 * Generate platforms ahead of the screen as long as platforms are being deleted
 	 */
-	/*public void generatePlatforms(){
+	public void generatePlatforms(){
 		int i = 0;
 
 
-		if(currentPlatforms.size() < 20){
+		/*if(currentPlatforms.size() < 20){*/
 			int channelNumber = (int)random(0, 12);
 			Platform p = new Platform(new PVector(width + random(0, width*2), channels[channelNumber]), (int)random(200, 500), 50, channelNumber);
 
 			//As long as the generated platform intersects with another platform, generate another one
-		while(p.intersectPlatform(currentPlatforms) && i < 10){
+		/*while(p.intersectPlatform(currentPlatforms) && i < 10){
 				channelNumber = (int)random(0, 12);
 				p = new Platform(new PVector(width + random(0, width*2), channels[channelNumber]), (int)random(200, 500), 50, channelNumber);
 				i++;
-			}
+			}*/
 
-			if (!p.intersectPlatform(currentPlatforms)){
+			//if (!p.intersectPlatform(currentPlatforms)){
 				currentPlatforms.add(p);
-			}
+			//}
+	//}
 	}
-	}*/
 
 
 	/**
