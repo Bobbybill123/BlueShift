@@ -19,12 +19,12 @@ public class LeftWall extends Entity {
 
 	@Override
 	public float getWidth() {
-		return 60;
+		return 100;
 	}
 
 	@Override
 	public float getHeight() {
-		return 242/6;
+		return main.height;
 	}
 
 	@Override
@@ -34,18 +34,11 @@ public class LeftWall extends Entity {
 
 	@Override
 	public void draw() {
-		main.fill(0,0, 0);
-		main.rect(position.x, position.y, getWidth(), getHeight());
-		for (int i = 0; i < main.height; i+=(main.height/(getHeight()/2))) {
+		for (int i = 0; i < main.height; i+=(main.height/(getWidth()/4))) {
 			if(main.frameCount % 10 == 0)
 				sprite.animate(position.x, position.y + i);
 			else sprite.displayCurr(position.x, position.y + i);
 		}
-	}
-
-	@Override
-	public void doPhysics() {
-
 	}
 
 	@Override

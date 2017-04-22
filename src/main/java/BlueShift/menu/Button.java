@@ -10,7 +10,7 @@ public class Button {
 	private Rectangle bounds;
 	private String text;
 	private Runnable onClick;
-	private Color base;
+	Color base;
 	private Color darker;
 	boolean mouseInside;
 

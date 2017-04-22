@@ -26,10 +26,7 @@ public class Player extends Entity {
 
 	public Player() {
 		main = Main.instance;
-		//setting the players starting position
-		this.position = new PVector(40 + getWidth(), main.floor.getPosition().y - getHeight() - 5);
-		velocity = new PVector();
-		setHook(new Hook());
+		reset();
 	}
 
 	@Override
@@ -200,6 +197,12 @@ public class Player extends Entity {
 
 	public void setHook(Hook hook) {
 		this.hook = hook;
+	}
+
+	public void reset() {
+		this.position = new PVector(main.width/2 + getWidth(), main.floor.getPosition().y - getHeight() - 5);
+		velocity = new PVector();
+		setHook(new Hook());
 	}
 	
 	public PVector getVelocity() {
