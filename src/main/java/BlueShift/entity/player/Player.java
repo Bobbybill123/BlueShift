@@ -88,34 +88,48 @@ public class Player extends Entity {
 
 	@Override
 	public boolean checkCollision(Entity other) {
-		if(intersects(other)) {
-			if(other.isSurface()) {
-				if(other.checkCollision(this)) {
-					setOn((Surface) other);
-					if(getOn().getType() == EntityType.FLOOR) {
+
+		if(other.isSurface()) {
+			if (other.getType() == EntityType.FLOOR) {
+				if(intersects(other)) {
+				setOn((Surface) other);
+					if (other.checkCollision(this)) {
 						setOnGround(true);
-					}else if(getOn().getType() == EntityType.PLATFORM){
-						if(main.oldPlayerPosition.y < other.getPosition().y){
-							setOn((Surface) other);
-							this.getPosition().y = other.getPosition().y - this.getHeight()-1;
-						}else{
-							this.on = null;
-						}
+						return true;
+					}
+				}
+			}
+		}
+
+		if (this.position.dist(other.getPosition()) < 250 || this.position.dist(new PVector(other.getPosition().x + other.getWidth(), other.getPosition().y + other.getHeight())) < 250) {
+			if (intersects(other)) {
+				if (other.isSurface()) {
+					if (other.checkCollision(this)) {
+						setOn((Surface) other);
+						if (getOn().getType() == EntityType.PLATFORM) {
+							if (main.oldPlayerPosition.y < other.getPosition().y) {
+								setOn((Surface) other);
+								this.getPosition().y = other.getPosition().y - this.getHeight() - 1;
+							} else {
+								this.on = null;
+							}
+
 //						if(new Rectangle((int)other.getPosition().x, (int)other.getPosition().y, (int)other.getWidth(), 2).intersects(new Rectangle((int)this.position.x, (int)(this.getPosition().y + this.getHeight() - 5), (int)this.getWidth(), 5))){
 //							setOn((Surface) other);
 //						}else{
 //							this.on = null;
 //						}
+						}
 					}
+				} else if (other.getType() == EntityType.ORB) {
+					pickupObject(other);
+				} else if (other.getType() == EntityType.LEFT_WALL) {
+					main.gameOver();
+				} else {
+					this.on = null;
 				}
-			} else if (other.getType() == EntityType.ORB) {
-				pickupObject(other);
-			} else if (other.getType() == EntityType.LEFT_WALL) {
-				main.gameOver();
-			}else{
-				this.on = null;
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
