@@ -36,7 +36,7 @@ public class Main extends PApplet {
 	//channel
 	public float channels[];
 
-	private PVector oldPlayerPosition;
+	public PVector oldPlayerPosition;
 
 	private Main(){
 		instance = this;

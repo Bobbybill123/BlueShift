@@ -98,11 +98,17 @@ public class Player extends Entity {
 					if(getOn().getType() == EntityType.FLOOR) {
 						setOnGround(true);
 					}else if(getOn().getType() == EntityType.PLATFORM){
-						if(new Rectangle((int)other.getPosition().x, (int)other.getPosition().y, (int)other.getWidth(), 2).intersects(new Rectangle((int)this.position.x, (int)(this.getPosition().y + this.getHeight() - 5), (int)this.getWidth(), 5))){
+						if(main.oldPlayerPosition.y < other.getPosition().y){
 							setOn((Surface) other);
+							this.getPosition().y = other.getPosition().y - this.getHeight()-1;
 						}else{
 							this.on = null;
 						}
+//						if(new Rectangle((int)other.getPosition().x, (int)other.getPosition().y, (int)other.getWidth(), 2).intersects(new Rectangle((int)this.position.x, (int)(this.getPosition().y + this.getHeight() - 5), (int)this.getWidth(), 5))){
+//							setOn((Surface) other);
+//						}else{
+//							this.on = null;
+//						}
 					}
 				}
 			} else if (other.getType() == EntityType.ORB) {
