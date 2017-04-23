@@ -161,7 +161,7 @@ public class Main extends PApplet {
 			leftWall.draw();
 			fill(255, 255, 255);
 			text(frameRate, 60, 60);
-			text("Score: " + ((int) score + player.getBlueOrbsCollected()), width / 2, 60);
+			text("Score: " + ((int) score + player.getBlueOrbsCollected() - player.getRedOrbsCollected()), width / 2, 60);
 			score = score + 0.01;
 			if (!player.getHook().isHooked() && coolingDown) {
 				setHookCoolDownAngle((float) Math.min(Math.PI * 2, getHookCoolDownAngle() + Math.PI/45));
@@ -175,6 +175,7 @@ public class Main extends PApplet {
 
 		} else {
 			cursor(CROSS);
+			player.resetOrbsCollected();
 			menus.get(currentMenu).draw();
 		}
 	}

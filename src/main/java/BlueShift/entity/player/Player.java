@@ -317,6 +317,12 @@ public class Player extends Entity {
 		return redOrbsCollected;
 	}
 
+	public void resetOrbsCollected() {
+		redOrbsCollected = 0;
+		blueOrbsCollected = 0;
+	}
+
+
 	public void setMoving(boolean b) {
 		this.moving = b;
 	}
