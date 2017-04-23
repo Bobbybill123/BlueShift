@@ -37,6 +37,10 @@ public class LeftWall extends Entity {
 
 	@Override
 	public void draw() {
+		System.out.println(main.gameSpeed);
+		if(main.gameSpeed >= 49){
+			main.gameSpeed = 49;
+		}
 		if(main.frameCount % (10 - ((int) (main.gameSpeed / 5))) == 0) {
 			animations.forEach(animation -> animation.animate(0, animations.indexOf(animation) * animation.getHeight()));
 		} else {
