@@ -38,6 +38,6 @@ public class Button {
 
 
 	boolean inside(float x, float y) {
-		return bounds.contains(x,y);
+		return bounds != null && bounds.contains(x, y);
 	}
 }

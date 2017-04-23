@@ -18,7 +18,6 @@ import processing.core.PVector;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.Map.Entry;
 
 public class Main extends PApplet {
 	private static final int MAX_GAME_SPEED = 20;

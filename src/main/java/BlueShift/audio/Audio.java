@@ -23,7 +23,6 @@ public class Audio {
 		try {
 			clip = AudioSystem.getClip();
 			clip.open(inputStream);
-			System.out.println("playSound");
 			if(continuous) {
 				clip.loop(Clip.LOOP_CONTINUOUSLY);
 			}
