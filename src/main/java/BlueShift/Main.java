@@ -38,6 +38,9 @@ public class Main extends PApplet {
 	public float channels[];
 
 	public PVector oldPlayerPosition;
+	public PVector[] oldPositions;
+	boolean posSet = false;
+	int lastIndex = 0;
 
 	private Main(){
 		instance = this;
@@ -81,6 +84,7 @@ public class Main extends PApplet {
 		//adding starting platforms
 		setupPlatforms();
 		setupChannels();
+		oldPositions = new PVector[10];
 	}
 
 	private void setupPlatforms() {
@@ -95,7 +99,9 @@ public class Main extends PApplet {
 	public void draw() {
 		background(127, 0, 0);
 		if (playing) {
-			oldPlayerPosition = player.getPosition().copy();
+
+			storePlayerPositions();
+
 			for (int i = 0; i < keyPressed.length; i++) {
 				if (keyPressed[i]) {
 					player.doAction(Move.values()[i]);
@@ -123,12 +129,49 @@ public class Main extends PApplet {
 			if (!player.getHook().isHooked()) {
 				setHookCoolDownAngle((float) Math.min(Math.PI * 2, getHookCoolDownAngle() + Math.PI/45));
 			}
+			drawTrail();
+
 		} else {
 			cursor(CROSS);
 			menus.get(currentMenu).draw();
 		}
 	}
 
+	public void drawTrail(){
+		int i = 0;
+		while(i < oldPositions.length){
+			if(oldPositions[i] !=null){
+				fill(0, 100, 25*i);
+				//ellipse(oldPositions[i].x - 20, oldPositions[i].y + player.getHeight(), 10, 10);
+				tint(255, 126);
+				player.draw(oldPositions[i]);
+				tint(255);
+			}
+			i++;
+		}
+	}
+
+	public void storePlayerPositions(){
+		//setting up old player positions for storage
+		oldPlayerPosition = player.getPosition().copy();
+		if(!posSet) {
+			for (int i = 0; i < oldPositions.length; i++) {
+				if(oldPositions[i] == null){
+					oldPositions[i] = player.getPosition().copy();
+					break;
+				}
+			}
+			if(oldPositions[oldPositions.length-1] != null){
+				posSet = true;
+			}
+		}else{
+			oldPositions[lastIndex] = player.getPosition().copy();
+			lastIndex++;
+			if(lastIndex >= oldPositions.length){
+				lastIndex = 0;
+			}
+		}
+	}
 
 	/**
 	 * Populate the channels with information regarding their y positions

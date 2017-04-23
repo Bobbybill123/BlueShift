@@ -53,6 +53,11 @@ public class Player extends Entity {
 		return position;
 	}
 
+	public void draw(PVector pos){
+		main.image(currentSprite, pos.x, pos.y);
+	}
+
+
 	public void draw() {
 		calculateSpeedLim();
 		doMovement();
