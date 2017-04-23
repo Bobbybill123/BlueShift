@@ -18,6 +18,7 @@ import processing.core.PVector;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.Map.Entry;
 
 public class Main extends PApplet {
 	public static final int MAX_GAME_SPEED = 20;
@@ -148,7 +149,6 @@ public class Main extends PApplet {
 			leftWall.draw();
 			fill(255, 255, 255);
 			text(frameRate, 60, 60);
-			System.out.println(player.getBlueOrbsCollected());
 			text("Score: " + ((int) score + player.getBlueOrbsCollected()), width / 2, 60);
 			score = score + 0.01;
 			if (!player.getHook().isHooked() && coolingDown) {
@@ -379,6 +379,11 @@ public class Main extends PApplet {
 			keyPressed[released.ordinal()] = false;
 			if (!player.getHook().isHooked()) {
 				player.setMoving(false);
+				for (boolean b : keyPressed) {
+					if (b) {
+						player.setMoving(true);
+					}
+				}
 			}
 			player.released(released);
 		}

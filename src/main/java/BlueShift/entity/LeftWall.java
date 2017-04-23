@@ -37,7 +37,6 @@ public class LeftWall extends Entity {
 
 	@Override
 	public void draw() {
-		System.out.println(main.gameSpeed);
 		if(main.gameSpeed >= 49){
 			main.gameSpeed = 49;
 		}
