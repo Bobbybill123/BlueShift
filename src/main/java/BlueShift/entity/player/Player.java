@@ -117,6 +117,12 @@ public class Player extends Entity {
 	}
 
 	private void doMovement() {
+
+		if(getB().x + velocity.x > main.width){
+			this.position.x = main.width - this.getWidth() - 1;
+			velocity.x = 0;
+		}
+
 		if (getOn() != null && getD().y < getOn().getPosition().y) {
 			this.position.y = getOn().getPosition().y - this.getHeight()+1;
 		}
