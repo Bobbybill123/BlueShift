@@ -29,7 +29,7 @@ public class Main extends PApplet {
 	private Audio death;
 	private Audio menu;
 	private Audio currentRun;
-	private List<Platform> currentPlatforms = new ArrayList<>();
+	public List<Platform> currentPlatforms = new ArrayList<>();
 	private List<Orb> currentOrbs = new ArrayList<>();
 	private boolean[] keyPressed = new boolean[4];
 	private boolean playing = false;
@@ -127,6 +127,7 @@ public class Main extends PApplet {
 	}
 
 	public void draw() {
+		System.out.println(gameSpeed);
 		int blue = player.getBlueOrbsCollected()*5;
 		int red = player.getRedOrbsCollected()*5;
 		if(blue - red < 0){
@@ -152,6 +153,7 @@ public class Main extends PApplet {
 			player.draw();
 			player.getHook().draw();
 			floor.draw();
+			//getAudioTrack();
 			moveTowardsTheLeftWall();
 			removeIfOutOfScreen();
 			increaseGameSpeed();
@@ -180,6 +182,34 @@ public class Main extends PApplet {
 			menus.get(currentMenu).draw();
 		}
 	}
+
+/*	private void getAudioTrack() {
+		if (gameSpeed > 3 && gameSpeed < 6) {
+			currentRun.stopSound();
+			currentRun = running[0];
+			currentRun.playSound(true);
+		} else if (gameSpeed >= 6 && gameSpeed < 9) {
+			currentRun.stopSound();
+			currentRun = running[1];
+			currentRun.playSound(true);
+		} else if (gameSpeed >= 9 && gameSpeed < 12) {
+			currentRun.stopSound();
+			currentRun = running[2];
+			currentRun.playSound(true);
+		} else if (gameSpeed >= 12 && gameSpeed < 15) {
+			currentRun.stopSound();
+			currentRun = running[3];
+			currentRun.playSound(true);
+		} else if (gameSpeed >= 18 && gameSpeed < 21) {
+			currentRun.stopSound();
+			currentRun = running[4];
+			currentRun.playSound(true);
+		}  else if (gameSpeed >= 21 && gameSpeed < 23) {
+			currentRun.stopSound();
+			currentRun = running[5];
+			currentRun.playSound(true);
+		}
+	}*/
 
 	public void drawTrail(){
 		if(player.isMoving()) {
@@ -375,14 +405,34 @@ public class Main extends PApplet {
 		}
 	}
 
-	public boolean checkHookCollisions() {
+/*	public boolean checkHookCollisions() {
 		for (Platform platform : currentPlatforms) {
 			if (player.getHook().checkCollision(platform)) {
 				return true;
 			}
 		}
 		return false;
-	}
+	}*/
+    public boolean checkHookCollisions() {
+        Platform closest = null;
+        float minDist = Float.MAX_VALUE;
+        for (Platform platform : currentPlatforms) {
+            if (player.getHook().checkCollision(platform)) {
+                return true;
+            }
+            float dist = new PVector(platform.getPosition().x + platform.getWidth()/2, platform.getPosition().y + platform.getHeight()/2)
+                    .dist(new PVector(mouseX, mouseY));
+            if(dist < minDist) {
+                closest = platform;
+                minDist = dist;
+            }
+        }
+        if (closest != null) {
+            player.getHook().setPosition(closest.getPosition());
+            return true;
+        }
+        return false;
+    }
 
 	public void gameOver() {
 		playing = false;
