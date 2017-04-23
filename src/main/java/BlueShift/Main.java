@@ -31,6 +31,7 @@ public class Main extends PApplet {
 	private LeftWall leftWall;
 	public Player player;
 	public double score = 0;
+	private float speedIncreasedBy = 0;
 
 	//channel
 	public float channels[];
@@ -103,6 +104,7 @@ public class Main extends PApplet {
 			generateOrbs();
 			orbRendering();
 			boundPlayer();
+			speedUpGame();
 			leftWall.draw();
 			fill(255, 255, 255);
 			text(frameRate, 60, 60);
@@ -155,6 +157,32 @@ public class Main extends PApplet {
 				currentPlatforms.add(p);
 			}
 		}
+	}
+
+	/**
+	 * Speed up the game as get very close to the right wall
+     */
+	public void speedUpGame(){
+
+		if(player.getPosition().x > 0.95*this.width){
+			gameSpeed = gameSpeed + 0.1f;
+			speedIncreasedBy  = speedIncreasedBy + 0.1f;
+		}
+
+		if(player.getPosition().x > 0.85*this.width){
+			gameSpeed = gameSpeed +  0.01f;
+			speedIncreasedBy  = speedIncreasedBy + 0.01f;
+		}
+
+		if(player.getPosition().x > 0.75*this.width){
+			gameSpeed = gameSpeed + + 0.005f;
+			speedIncreasedBy  = speedIncreasedBy + 0.005f;
+		}else{
+			gameSpeed = gameSpeed - speedIncreasedBy*0.7f;
+			speedIncreasedBy = 0;
+		}
+
+
 	}
 
 	public void generateOrbs(){
