@@ -47,6 +47,7 @@ public class Main extends PApplet {
 	public PVector[] oldPositions;
 	boolean posSet = false;
 	int lastIndex = 0;
+	int startTrail = 0;
 
 	private Main(){
 		instance = this;
@@ -162,7 +163,7 @@ public class Main extends PApplet {
 				if (oldPositions[i] != null) {
 					fill(0, 100, 25 * i);
 					//ellipse(oldPositions[i].x - 20, oldPositions[i].y + player.getHeight(), 10, 10);
-					tint(255, 126);
+					tint(255, (i+1)*5);
 					player.draw(oldPositions[i]);
 					tint(255);
 				}
