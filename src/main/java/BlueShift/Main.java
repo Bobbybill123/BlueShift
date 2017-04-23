@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.List;
 
 public class Main extends PApplet {
-	private static final int MAX_GAME_SPEED = 20;
+	public static final int MAX_GAME_SPEED = 50;
 	private static final int HOOK_COOL_DOWN = 100;
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
 	private Map<String, Menu> menus = new HashMap<>();
@@ -86,13 +86,13 @@ public class Main extends PApplet {
 				new Button("Quit", buttonBlue, this::exit)));
 		Player.rightRunningSprite = new Animation(player, "player\\right\\f", 13);
 		Player.leftRunningSprite = new Animation(player, "player\\left\\f", 13);
-		
+
 		Player.rightGrapplingSprite = loadImage("player\\right\\grapple1.png");
 		Player.leftGrapplingSprite = loadImage("player\\left\\grapple1.png");
-		
+
 		Player.rightJumpingSprite = loadImage("player\\right\\jump1.png");
 		Player.leftJumpingSprite = loadImage("player\\left\\jump1.png");
-		
+
 		Player.rightStandingSprite = loadImage("player\\right\\standing1.png");
 		Player.leftStandingSprite = loadImage("player\\left\\standing1.png");
 
@@ -166,7 +166,7 @@ public class Main extends PApplet {
 			if (!player.getHook().isHooked() && coolingDown) {
 				setHookCoolDownAngle((float) Math.min(Math.PI * 2, getHookCoolDownAngle() + Math.PI/45));
 				hookTimer++;
-			}	
+			}
 
 			if(player.getPosition().y + player.getHeight() > this.height){
 				gameOver();
@@ -258,10 +258,10 @@ public class Main extends PApplet {
 			if (!currentPlatforms.isEmpty()) {
 				Platform lastPlatform = currentPlatforms.get(currentPlatforms.size() - 1); //getting the last platform
 
-				Platform p = new Platform(new PVector(lastPlatform.getPosition().x + random(100, 400), 
-						channels[channelNumber]), 
-						(int) random(200, 500), 
-						50, 
+				Platform p = new Platform(new PVector(lastPlatform.getPosition().x + random(100, 400),
+						channels[channelNumber]),
+						(int) random(200, 500),
+						50,
 						channelNumber);
 				currentPlatforms.add(p);
 			}
@@ -270,7 +270,7 @@ public class Main extends PApplet {
 
 	/**
 	 * Speed up the game as get very close to the right wall
-     */
+	 */
 	public void speedUpGame(){
 
 		if(player.getPosition().x > 0.95*this.width){
@@ -350,10 +350,10 @@ public class Main extends PApplet {
 	/**
 	 * Increase the gameSpeed over time
 	 */
-	public void increaseGameSpeed(){
-		if(gameSpeed <= MAX_GAME_SPEED) {
-			gameSpeed = gameSpeed + 0.01f;
-		}
+	public void increaseGameSpeed() {
+		float speedInc = 0.01f;
+		if(gameSpeed + speedInc >= MAX_GAME_SPEED) return;
+		gameSpeed = gameSpeed + speedInc;
 	}
 
 	public void checkPlayerCollisions() {
