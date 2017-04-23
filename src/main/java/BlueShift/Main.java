@@ -34,6 +34,9 @@ public class Main extends PApplet {
 	public static Main instance;
 	public float gameSpeed = 3f;
 	public Floor floor;
+	private static final int HOOK_COOL_DOWN = 100;
+	private float hookCoolDownAngle = 0;
+	private boolean coolingDown = false;
 
 	//entities
 	private LeftWall leftWall;
@@ -49,6 +52,7 @@ public class Main extends PApplet {
 	boolean posSet = false;
 	int lastIndex = 0;
 	int startTrail = 0;
+	private int hookTimer = 1000;
 
 	private Main(){
 		instance = this;
@@ -147,9 +151,10 @@ public class Main extends PApplet {
 			System.out.println(player.getBlueOrbsCollected());
 			text("Score: " + ((int) score + player.getBlueOrbsCollected()), width / 2, 60);
 			score = score + 0.01;
-			if (!player.getHook().isHooked()) {
+			if (!player.getHook().isHooked() && coolingDown) {
 				setHookCoolDownAngle((float) Math.min(Math.PI * 2, getHookCoolDownAngle() + Math.PI/45));
-			}
+				hookTimer++;
+			}	
 
 			if(player.getPosition().y + player.getHeight() > this.height){
 				gameOver();
@@ -378,15 +383,11 @@ public class Main extends PApplet {
 			player.released(released);
 		}
 	}
-	private int hookCoolDownMillis = 0;
-	private float hookCoolDownAngle = 0;
-	
 	public void mousePressed() {
 		if(!playing) {
 			menus.get(currentMenu).onClick(mouseX, mouseY);
 		} else {
-			if(hookCoolDownMillis == 0 || hookCoolDownMillis + 2000 <= millis()) {
-				hookCoolDownMillis = millis();
+			if(hookTimer >= HOOK_COOL_DOWN) {
 				this.player.getHook().fire(new PVector(mouseX, mouseY));
 				if (checkHookCollisions()) {
 					setHookCoolDownAngle(0);
@@ -396,8 +397,11 @@ public class Main extends PApplet {
 	}
 
 	public void mouseReleased() {
+		if (player.getHook().isHooked()) {
+			coolingDown  = true;
+			hookTimer = 0;
+		}
 		this.player.getHook().release();
-		hookCoolDownMillis = 0;
 	}
 
 	public void mouseMoved() {
