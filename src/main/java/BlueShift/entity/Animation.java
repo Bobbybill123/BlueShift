@@ -3,7 +3,7 @@ package BlueShift.entity;
 import BlueShift.Main;
 import processing.core.PImage;
 
-public class Animation {
+public class Animation extends PImage {
 	private Main main;
 	private PImage[] images;
 	private int imageCount;

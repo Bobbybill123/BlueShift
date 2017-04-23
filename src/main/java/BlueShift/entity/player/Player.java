@@ -3,6 +3,7 @@ package BlueShift.entity.player;
 import BlueShift.Main;
 import BlueShift.entity.*;
 import BlueShift.entity.surface.Surface;
+import processing.core.PImage;
 import processing.core.PVector;
 
 import java.awt.*;
@@ -10,9 +11,18 @@ import java.awt.*;
 public class Player extends Entity {
 	private static final float BASE_SPEED_LIMIT = 10;
 	private static final float GRAVITY = 0.7f;
-	public static Animation leftSprite;
-	public static Animation rightSprite;
-	private Animation currentSprite;
+	public static Animation leftRunningSprite;
+	public static Animation rightRunningSprite;
+	
+	public static PImage leftStandingSprite;
+	public static PImage rightStandingSprite;
+	
+	public static PImage leftGrapplingSprite;
+	public static PImage rightGrapplingSprite;
+	
+	public static PImage leftJumpingSprite;
+	public static PImage rightJumpingSprite;
+	private PImage currentSprite;
 	private Main main;
 	private PVector position;
 	private PVector velocity;
@@ -21,6 +31,7 @@ public class Player extends Entity {
 	private boolean onGround = false;
 	private Hook hook;
 	private int blueOrbsCollected = 0;
+	private boolean movingRight = true;
 
 	public Player() {
 		main = Main.instance;
@@ -50,13 +61,41 @@ public class Player extends Entity {
 			setOnGround(true);
 			position.y = main.floor.getPosition().y - getHeight();
 		}
-		if(velocity.x < 0) currentSprite = leftSprite;
-		else currentSprite = rightSprite;
-		if(getOn() != null) {
-			if(main.frameCount % 2 == 0) {
-				currentSprite.animate(getPosition().x, getPosition().y);
-			} else currentSprite.displayCurr(position.x, position.y);
-		} else currentSprite.display(getPosition().x, getPosition().y, 12);
+		getSprite();
+		if (currentSprite instanceof Animation) {
+			if(getOn() != null) {
+				if(main.frameCount % 2 == 0) {
+					((Animation) currentSprite).animate(getPosition().x, getPosition().y);
+				} else { 
+					((Animation) currentSprite).displayCurr(position.x, position.y);
+				}
+			} else {
+				((Animation) currentSprite).display(getPosition().x, getPosition().y, 12);
+			}
+		} else {
+			currentSprite.resize((int) this.getWidth(), ((int) this.getHeight()));
+			main.image(currentSprite, getPosition().x, getPosition().y);
+		}
+	}
+	
+	public void getSprite() {
+		if (movingRight) {
+			if (on != null || onGround) {
+				currentSprite = rightRunningSprite;
+			} else if (hook.isHooked()) {
+				currentSprite = rightGrapplingSprite;
+			} else {
+				currentSprite = rightJumpingSprite;
+			}
+		} else {
+			if (on != null || onGround) {
+				currentSprite = leftRunningSprite;
+			} else if (hook.isHooked()) {
+				currentSprite = leftGrapplingSprite;
+			} else {
+				currentSprite = leftJumpingSprite;
+			}
+		}
 	}
 
 	@Override
@@ -175,11 +214,13 @@ public class Player extends Entity {
 				if (velocity.x < 10) {
 					velocity.x += 5;
 				}
+				movingRight = true;
 				break;
 			case LEFT:
 				if (velocity.x > -10) {
 					velocity.x -= 5;
 				}
+				movingRight = false;
 				//velocity.x = Math.max(-speedLim, velocity.x - speedLim);
 				break;
 			case UP:

@@ -9,6 +9,7 @@ import BlueShift.menu.Button;
 import BlueShift.menu.Menu;
 import net.tangentmc.processing.ProcessingRunner;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 
 import java.awt.*;
@@ -61,8 +62,17 @@ public class Main extends PApplet {
 				new Button("Quit", buttonBlue, this::exit)));
 		menus.put("Over", new Menu("Game Over!", new Button("Restart", buttonBlue, () -> playing = true),
 				new Button("Quit", buttonBlue, this::exit)));
-		Player.rightSprite = new Animation(player, "player\\right\\f", 13);
-		Player.leftSprite = new Animation(player, "player\\left\\f", 13);
+		Player.rightRunningSprite = new Animation(player, "player\\right\\f", 13);
+		Player.leftRunningSprite = new Animation(player, "player\\left\\f", 13);
+		
+		Player.rightGrapplingSprite = loadImage("player\\right\\grapple1.png");
+		Player.leftGrapplingSprite = loadImage("player\\left\\grapple1.png");
+		
+		Player.rightJumpingSprite = loadImage("player\\right\\jump1.png");
+		Player.leftJumpingSprite = loadImage("player\\left\\jump1.png");
+		
+		Player.rightStandingSprite = loadImage("player\\right\\standing1.png");
+		Player.leftStandingSprite = loadImage("player\\left\\standing1.png");
 		LeftWall.sprite = new Animation(null, "tentacles\\f", 27);
 		Floor.sprite = loadImage("floor.png");
 		Hook.sprite = loadImage("hook.png");
@@ -104,7 +114,6 @@ public class Main extends PApplet {
 			generatePlatforms();
 			generateOrbs();
 			orbRendering();
-			boundPlayer();
 			speedUpGame();
 			leftWall.draw();
 			fill(255, 255, 255);
@@ -112,7 +121,7 @@ public class Main extends PApplet {
 			text("Score: " + (int) score, width / 2, 60);
 			score = score + 0.01;
 			if (!player.getHook().isHooked()) {
-				setHookCoolDownAngle((float) Math.min(Math.PI * 2, getHookCoolDownAngle() + Math.PI/36));
+				setHookCoolDownAngle((float) Math.min(Math.PI * 2, getHookCoolDownAngle() + Math.PI/45));
 			}
 		} else {
 			cursor(CROSS);
@@ -130,34 +139,6 @@ public class Main extends PApplet {
 			channels[i] = i*((height - floor.getHeight())/12);
 		}
 	}
-
-	/**
-	 * Ensure that the player does not leave the top or right side of the screen
-	 */
-	public void boundPlayer(){
-		if(player.getPosition().x + player.getWidth() > width){
-			player.getPosition().x = width - player.getWidth();
-		}
-
-//		if(player.getPosition().y + player.getHeight()*2 < 0){
-//			player.getPosition().y =  -player.getHeight()*2;
-//		}
-
-//
-//		if(player.getPosition().x + player.getWidth() > width){
-//			player.setPosition(oldPlayerPosition.copy());
-//		}
-		if(player.getPosition().y + player.getHeight()*2 < 0){
-			player.setPosition(oldPlayerPosition.copy());
-			player.getPosition().y = player.getPosition().y - 50;
-		}
-
-	}
-
-
-
-
-
 
 	/**
 	 * Generate platforms ahead of the screen as long as platforms are being deleted
