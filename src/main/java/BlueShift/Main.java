@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public class Main extends PApplet {
-	public static final int MAX_GAME_SPEED = 20;
+	private static final int MAX_GAME_SPEED = 20;
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
 	private Map<String, Menu> menus = new HashMap<>();
 	private Audio[] running = new Audio[7];
@@ -315,12 +315,6 @@ public class Main extends PApplet {
 	 */
 	public void increaseGameSpeed(){
 		if(gameSpeed <= MAX_GAME_SPEED) {
-			int soundToPlay = (int) (gameSpeed%(MAX_GAME_SPEED/running.length));
-			if(!running[soundToPlay].equals(currentRun)) {
-				currentRun.stopSound();
-				currentRun = running[soundToPlay - 1];
-				currentRun.playSound(true);
-			}
 			gameSpeed = gameSpeed + 0.001f;
 		}
 	}
