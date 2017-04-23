@@ -389,6 +389,7 @@ public class Main extends PApplet {
 
 	public void mouseReleased() {
 		this.player.getHook().release();
+		hookCoolDownMillis = 0;
 	}
 
 	public void mouseMoved() {
