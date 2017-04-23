@@ -83,9 +83,9 @@ public class Main extends PApplet {
 	}
 
 	public void draw() {
-		oldPlayerPosition = player.getPosition().copy();
 		background(127, 0, 0);
 		if (playing) {
+			oldPlayerPosition = player.getPosition().copy();
 			for (int i = 0; i < keyPressed.length; i++) {
 				if (keyPressed[i]) {
 					player.doAction(Move.values()[i]);
@@ -115,6 +115,7 @@ public class Main extends PApplet {
 				setHookCoolDownAngle((float) Math.min(Math.PI * 2, getHookCoolDownAngle() + Math.PI/36));
 			}
 		} else {
+			cursor(CROSS);
 			menus.get(currentMenu).draw();
 		}
 	}
@@ -138,10 +139,24 @@ public class Main extends PApplet {
 			player.getPosition().x = width - player.getWidth();
 		}
 
+//		if(player.getPosition().y + player.getHeight()*2 < 0){
+//			player.getPosition().y =  -player.getHeight()*2;
+//		}
+
+//
+//		if(player.getPosition().x + player.getWidth() > width){
+//			player.setPosition(oldPlayerPosition.copy());
+//		}
 		if(player.getPosition().y + player.getHeight()*2 < 0){
-			player.getPosition().y =  -player.getHeight()*2;
+			player.setPosition(oldPlayerPosition.copy());
+			player.getPosition().y = player.getPosition().y - 50;
 		}
+
 	}
+
+
+
+
 
 
 	/**
