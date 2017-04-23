@@ -218,8 +218,8 @@ public class Player extends Entity {
 				main.gameSpeed -= 0.5;
 			}else {
 				redOrbsCollected++;
-				this.velocity.x -= 4;
-				main.gameSpeed += 2;
+				this.velocity.x -= 2;
+				main.gameSpeed += 1;
 			}
 		}
 	}
