@@ -25,6 +25,7 @@ public class Main extends PApplet {
 	private Map<String, Menu> menus = new HashMap<>();
 	private Audio[] running = new Audio[7];
 	private Audio death;
+	private Audio menu;
 	private Audio currentRun;
 	private List<Platform> currentPlatforms = new ArrayList<>();
 	private List<Orb> currentOrbs = new ArrayList<>();
@@ -75,6 +76,8 @@ public class Main extends PApplet {
 		Color buttonBlue = new Color(0, 0, 127);
 		Runnable play = () -> {
 			playing = true;
+			currentRun.stopSound();
+			currentRun = running[0];
 			currentRun.playSound(true);
 		};
 		menus.put("Main", new Menu("Blue Shift", new Button("Play", buttonBlue, play),
@@ -104,11 +107,13 @@ public class Main extends PApplet {
 			running[i] = new Audio(String.format("audio\\run_%d.wav", i+1));
 		}
 		death = new Audio("audio\\death.wav");
-		currentRun = running[0];
+		menu = new Audio("audio\\title.wav");
+		currentRun = menu;
 		//adding starting platforms
 		setupPlatforms();
 		setupChannels();
 		oldPositions = new PVector[10];
+		currentRun.playSound(true);
 	}
 
 	private void setupPlatforms() {
