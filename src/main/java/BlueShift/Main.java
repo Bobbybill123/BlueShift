@@ -20,6 +20,7 @@ import java.util.*;
 import java.util.List;
 
 public class Main extends PApplet {
+	public static final int MAX_GAME_SPEED = 20;
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
 	private Map<String, Menu> menus = new HashMap<>();
 	private Audio[] running = new Audio[7];
@@ -70,7 +71,7 @@ public class Main extends PApplet {
 		Color buttonBlue = new Color(0, 0, 127);
 		Runnable play = () -> {
 			playing = true;
-			currentRun.playSound();
+			currentRun.playSound(true);
 		};
 		menus.put("Main", new Menu("Blue Shift", new Button("Play", buttonBlue, play),
 				new Button("Quit", buttonBlue, this::exit)));
@@ -88,11 +89,7 @@ public class Main extends PApplet {
 		Player.rightStandingSprite = loadImage("player\\right\\standing1.png");
 		Player.leftStandingSprite = loadImage("player\\left\\standing1.png");
 
-		for (int i = 0; i < running.length; i++) {
-			running[i] = new Audio(String.format("audio\\run_%d.wav", i+1));
-		}
-		death = new Audio("audio\\death.wav");
-		currentRun = running[0];
+
 
 		player.setCurrentSprite(Player.rightStandingSprite);
 		LeftWall.sprite = new Animation(null, "tentacles\\f", 27);
@@ -100,6 +97,12 @@ public class Main extends PApplet {
 		Hook.sprite = loadImage("hook.png");
 		Platform.sprite = loadImage("platform.png");
 		leftWall.setupSprite();
+		//Load in audio files
+		for (int i = 0; i < running.length; i++) {
+			running[i] = new Audio(String.format("audio\\run_%d.wav", i+1));
+		}
+		death = new Audio("audio\\death.wav");
+		currentRun = running[0];
 		//adding starting platforms
 		setupPlatforms();
 		setupChannels();
@@ -118,9 +121,7 @@ public class Main extends PApplet {
 	public void draw() {
 		background(127, 0, 0);
 		if (playing) {
-
 			storePlayerPositions();
-
 			for (int i = 0; i < keyPressed.length; i++) {
 				if (keyPressed[i]) {
 					player.doAction(Move.values()[i]);
@@ -143,7 +144,8 @@ public class Main extends PApplet {
 			leftWall.draw();
 			fill(255, 255, 255);
 			text(frameRate, 60, 60);
-			text("Score: " + (int) score, width / 2, 60);
+			System.out.println(player.getBlueOrbsCollected());
+			text("Score: " + ((int) score + player.getBlueOrbsCollected()), width / 2, 60);
 			score = score + 0.01;
 			if (!player.getHook().isHooked()) {
 				setHookCoolDownAngle((float) Math.min(Math.PI * 2, getHookCoolDownAngle() + Math.PI/45));
@@ -307,7 +309,13 @@ public class Main extends PApplet {
 	 * Increase the gameSpeed over time
 	 */
 	public void increaseGameSpeed(){
-		if(gameSpeed <= 10) {
+		if(gameSpeed <= MAX_GAME_SPEED) {
+			int soundToPlay = (int) (gameSpeed%(MAX_GAME_SPEED/running.length));
+			if(!running[soundToPlay].equals(currentRun)) {
+				currentRun.stopSound();
+				currentRun = running[soundToPlay - 1];
+				currentRun.playSound(true);
+			}
 			gameSpeed = gameSpeed + 0.001f;
 		}
 	}
@@ -342,7 +350,7 @@ public class Main extends PApplet {
 	public void gameOver() {
 		playing = false;
 		currentRun.stopSound();
-		death.playSound();
+		death.playSound(false);
 		currentMenu = "Over";
 		currentPlatforms.clear();
 		gameSpeed = 3f;

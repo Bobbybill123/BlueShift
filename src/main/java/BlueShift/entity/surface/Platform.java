@@ -52,9 +52,9 @@ public class Platform extends Surface {
 	}
 
 	public void draw() {
-		main.tint(0);
+//		main.tint(0);
 		main.image(localSprite, position.x, position.y);
-		main.tint(255);
+//		main.tint(255);
 	}
 
 	@Override
@@ -84,40 +84,4 @@ public class Platform extends Surface {
 	public float getSpeedModifier() {
 		return 0.75f;
 	}
-
-	/**
-	 * Checks if you are intersecting with another platform (or near another channel)
-	 * @param currentPlatforms
-	 * @return
-	 */
-	public boolean intersectPlatform(List<Platform> currentPlatforms){
-		for(Platform p: currentPlatforms){
-//
-//			//main.rect(p.getPosition().x, p.getPosition().y  - p.getHeight()*10, (int)(p.getWidth()), (int)p.getHeight()*20);
-//	//this.intersects(p) ||
-//			if(this.channelNumber == (p.channelNumber) ||
-//						this.channelNumber == (p.channelNumber + 1) ||
-//						this.channelNumber == (p.channelNumber + 2) ||
-//						this.channelNumber == (p.channelNumber - 1) ||
-//						this.channelNumber == (p.channelNumber -2)){
-//					System.out.println(this.channelNumber);
-//				return true;
-//			}
-
-			PVector p1 = new PVector(p.getPosition().x, p.getPosition().y);
-			PVector p2 = new PVector(this.getPosition().x, this.getPosition().y);
-
-			if (p1.dist(p2.add(this.getWidth(),0)) < 200 || p1.add(p.getWidth(),0).dist(p2) < 200) return true;
-
-			if(this.intersects(p)){
-				return true;
-			}
-
-		}
-		return false;
-	}
-
-
-
-
 }
