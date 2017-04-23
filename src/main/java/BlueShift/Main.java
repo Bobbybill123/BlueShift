@@ -93,8 +93,6 @@ public class Main extends PApplet {
 		Player.rightStandingSprite = loadImage("player\\right\\standing1.png");
 		Player.leftStandingSprite = loadImage("player\\left\\standing1.png");
 
-
-
 		player.setCurrentSprite(Player.rightStandingSprite);
 		LeftWall.sprite = new Animation(null, "tentacles\\f", 27);
 		Floor.sprite = loadImage("floor.png");
@@ -236,12 +234,19 @@ public class Main extends PApplet {
 	 */
 	public void generatePlatforms(){
 		if(currentPlatforms.size() < 20) {
-			int channelNumber = (int) random(0, 12);
+			int channelNumber = (int) (random(1, 12));
+			while (channelNumber % 2 != 0) {
+				channelNumber = (int) (random(1, 12));
+			}
 
 			if (!currentPlatforms.isEmpty()) {
 				Platform lastPlatform = currentPlatforms.get(currentPlatforms.size() - 1); //getting the last platform
 
-				Platform p = new Platform(new PVector(lastPlatform.getPosition().x + random(100, 400), channels[channelNumber]), (int) random(200, 500), 50, channelNumber);
+				Platform p = new Platform(new PVector(lastPlatform.getPosition().x + random(100, 400), 
+						channels[channelNumber]), 
+						(int) random(200, 500), 
+						50, 
+						channelNumber);
 				currentPlatforms.add(p);
 			}
 		}
