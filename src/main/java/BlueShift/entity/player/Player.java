@@ -32,6 +32,7 @@ public class Player extends Entity {
 	private Hook hook;
 	private int blueOrbsCollected = 0;
 	private boolean movingRight = true;
+	private boolean moving = false;
 
 	public Player() {
 		main = Main.instance;
@@ -84,7 +85,7 @@ public class Player extends Entity {
 				currentSprite = rightRunningSprite;
 			} else if (hook.isHooked()) {
 				currentSprite = rightGrapplingSprite;
-			} else {
+			} else if (isMoving()) {
 				currentSprite = rightJumpingSprite;
 			}
 		} else {
@@ -92,7 +93,7 @@ public class Player extends Entity {
 				currentSprite = leftRunningSprite;
 			} else if (hook.isHooked()) {
 				currentSprite = leftGrapplingSprite;
-			} else {
+			} else if (isMoving()){
 				currentSprite = leftJumpingSprite;
 			}
 		}
@@ -215,12 +216,14 @@ public class Player extends Entity {
 					velocity.x += 5;
 				}
 				movingRight = true;
+				setMoving(true);
 				break;
 			case LEFT:
 				if (velocity.x > -10) {
 					velocity.x -= 5;
 				}
 				movingRight = false;
+				setMoving(true);
 				//velocity.x = Math.max(-speedLim, velocity.x - speedLim);
 				break;
 			case UP:
@@ -285,5 +288,13 @@ public class Player extends Entity {
 
 	public int getBlueOrbsCollected() {
 		return blueOrbsCollected;
+	}
+
+	public boolean isMoving() {
+		return moving;
+	}
+
+	public void setMoving(boolean moving) {
+		this.moving = moving;
 	}
 }

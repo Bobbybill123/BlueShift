@@ -178,8 +178,6 @@ public class Main extends PApplet {
 			gameSpeed = gameSpeed - speedIncreasedBy*0.7f;
 			speedIncreasedBy = 0;
 		}
-
-
 	}
 
 	public void generateOrbs(){
@@ -295,6 +293,7 @@ public class Main extends PApplet {
 		Move released = keyBinds.get(key);
 		if(released != null) {
 			keyPressed[released.ordinal()] = false;
+			player.setMoving(false);
 			player.released(released);
 		}
 	}
