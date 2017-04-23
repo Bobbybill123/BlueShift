@@ -3,6 +3,8 @@ package BlueShift.entity;
 import BlueShift.Main;
 import processing.core.PVector;
 
+import java.util.List;
+
 /**
  * Created by TML_TEST on 21/04/2017.
  */
@@ -34,7 +36,7 @@ public class LeftWall extends Entity {
 
 	@Override
 	public void draw() {
-		for (int i = 0; i < main.height; i+=(main.height/(getWidth()/4))) {
+		for (int i = 0; i < main.height; i+=(main.height/(getHeight()/sprite.getHeight()))) {
 			if(main.frameCount % 10 == 0)
 				sprite.animate(position.x, position.y + i);
 			else sprite.displayCurr(position.x, position.y + i);
@@ -49,5 +51,10 @@ public class LeftWall extends Entity {
 	@Override
 	public EntityType getType() {
 		return EntityType.LEFT_WALL;
+	}
+
+	public void setupSprite() {
+		sprite.resize(100, 0);
+
 	}
 }

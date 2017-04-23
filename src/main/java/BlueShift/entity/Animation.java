@@ -17,13 +17,25 @@ public class Animation {
 			int j = i + 1;
 			String filename = imagePrefix + j + ".png";
 			images[i] = main.loadImage(filename);
-			images[i].resize((int) entity.getWidth(), ((int) entity.getHeight()));
+			if(entity != null) {
+				images[i].resize((int) entity.getWidth(), ((int) entity.getHeight()));
+			}
 		}
 	}
 
 	public void animate(float x, float y) {
 		frame = (frame + 1) % imageCount;
 		displayCurr(x,y);
+	}
+
+	public void resize(int w, int h) {
+		for (PImage image : images) {
+			image.resize(w, h);
+		}
+	}
+
+	public void setFrame(int frame) {
+		this.frame = frame;
 	}
 
 	public void displayCurr(float x, float y) {

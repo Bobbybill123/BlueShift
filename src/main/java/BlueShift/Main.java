@@ -49,13 +49,13 @@ public class Main extends PApplet {
 	public void setup() {
 		frameRate(100);
 		rectMode(CORNER);
-		floor = new Floor();
-		player = new Player();
-		leftWall = new LeftWall();
 		keyBinds.put('a', Move.LEFT);
 		keyBinds.put('d', Move.RIGHT);
 		keyBinds.put('w', Move.UP);
 		keyBinds.put('s', Move.DOWN);
+		floor = new Floor();
+		player = new Player();
+		leftWall = new LeftWall();
 		Color buttonBlue = new Color(0, 0, 127);
 		menus.put("Main", new Menu("Blue Shift", new Button("Play", buttonBlue, () -> playing = true),
 				new Button("Quit", buttonBlue, this::exit)));
@@ -63,10 +63,11 @@ public class Main extends PApplet {
 				new Button("Quit", buttonBlue, this::exit)));
 		Player.rightSprite = new Animation(player, "player\\right\\f", 13);
 		Player.leftSprite = new Animation(player, "player\\left\\f", 13);
-		LeftWall.sprite = new Animation(leftWall, "tentacles\\f", 27);
+		LeftWall.sprite = new Animation(null, "tentacles\\f", 27);
 		Floor.sprite = loadImage("floor.png");
 		Hook.sprite = loadImage("hook.png");
 		Platform.sprite = loadImage("platform.png");
+		leftWall.setupSprite();
 		//adding starting platforms
 		setupPlatforms();
 		setupChannels();
