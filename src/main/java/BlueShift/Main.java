@@ -76,6 +76,8 @@ public class Main extends PApplet {
 		
 		Player.rightStandingSprite = loadImage("player\\right\\standing1.png");
 		Player.leftStandingSprite = loadImage("player\\left\\standing1.png");
+		
+		player.setCurrentSprite(Player.rightStandingSprite);
 		LeftWall.sprite = new Animation(null, "tentacles\\f", 27);
 		Floor.sprite = loadImage("floor.png");
 		Hook.sprite = loadImage("hook.png");
@@ -138,7 +140,7 @@ public class Main extends PApplet {
 	}
 
 	public void drawTrail(){
-		int i = 0;
+		/*int i = 0;
 		while(i < oldPositions.length){
 			if(oldPositions[i] !=null){
 				fill(0, 100, 25*i);
@@ -148,7 +150,7 @@ public class Main extends PApplet {
 				tint(255);
 			}
 			i++;
-		}
+		}*/
 	}
 
 	public void storePlayerPositions(){
@@ -221,8 +223,6 @@ public class Main extends PApplet {
 			gameSpeed = gameSpeed - speedIncreasedBy*0.7f;
 			speedIncreasedBy = 0;
 		}
-
-
 	}
 
 	public void generateOrbs(){
@@ -330,6 +330,7 @@ public class Main extends PApplet {
 	public void keyPressed() {
 		Move pressed = keyBinds.get(key);
 		if(pressed != null) {
+			player.setMoving(true);
 			keyPressed[pressed.ordinal()] = true;
 		}
 	}
@@ -338,6 +339,9 @@ public class Main extends PApplet {
 		Move released = keyBinds.get(key);
 		if(released != null) {
 			keyPressed[released.ordinal()] = false;
+			if (!player.getHook().isHooked()) {
+				player.setMoving(false);
+			}
 			player.released(released);
 		}
 	}
