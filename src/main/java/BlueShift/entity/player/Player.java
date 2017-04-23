@@ -77,13 +77,13 @@ public class Player extends Entity {
 			this.position.y = getOn().getPosition().y - this.getHeight()+1;
 		}
 		position.x += velocity.x;
-		if(getOn() != null && velocity.y > 0) { 
+		if(getOn() != null && velocity.y > 0) {
 			return;
 		}
 		if (position.y + velocity.y < 0) {
 			System.out.println(position.y + velocity.y + " < 0");
 			velocity.y = 0;
-			position.x += 1;
+			position.y = 1;
 			return;
 		}
 		position.y += velocity.y;
