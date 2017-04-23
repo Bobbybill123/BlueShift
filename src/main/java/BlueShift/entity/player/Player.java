@@ -143,7 +143,6 @@ public class Player extends Entity {
 			return;
 		}
 		if (position.y + velocity.y < 0) {
-			System.out.println(position.y + velocity.y + " < 0");
 			velocity.y = 0;
 			position.y = 1;
 			return;
