@@ -85,6 +85,7 @@ public class Hook extends Entity {
 		main.noCursor();
 		main.noFill();
 		main.strokeWeight(2);
+		main.stroke(255);
 		main.ellipse(main.mouseX, main.mouseY, 30, 30);
 		main.line(main.mouseX, main.mouseY, main.mouseX, main.mouseY - 15);
 
@@ -98,6 +99,7 @@ public class Hook extends Entity {
 		main.rotate(main.getHookCoolDownAngle());
 		main.line(0, 0, 0, -14);
 		main.strokeWeight(1);
+		main.stroke(0);
 		main.popMatrix();
 	}
 

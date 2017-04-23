@@ -32,6 +32,7 @@ public class Player extends Entity {
 	private Hook hook;
 	private int blueOrbsCollected = 0;
 	private boolean movingRight = true;
+	private boolean moving;
 
 	public Player() {
 		main = Main.instance;
@@ -53,6 +54,11 @@ public class Player extends Entity {
 		return position;
 	}
 
+	public void draw(PVector pos){
+		main.image(getCurrentSprite(), pos.x, pos.y);
+	}
+
+
 	public void draw() {
 		calculateSpeedLim();
 		doMovement();
@@ -61,39 +67,50 @@ public class Player extends Entity {
 			setOnGround(true);
 			position.y = main.floor.getPosition().y - getHeight();
 		}
+		if (this.getHook().isHooked()) {
+			this.setMoving(true);
+		}
 		getSprite();
-		if (currentSprite instanceof Animation) {
+		if (getCurrentSprite() instanceof Animation) {
 			if(getOn() != null) {
 				if(main.frameCount % 2 == 0) {
-					((Animation) currentSprite).animate(getPosition().x, getPosition().y);
+					((Animation) getCurrentSprite()).animate(getPosition().x, getPosition().y);
 				} else { 
-					((Animation) currentSprite).displayCurr(position.x, position.y);
+					((Animation) getCurrentSprite()).displayCurr(position.x, position.y);
 				}
 			} else {
-				((Animation) currentSprite).display(getPosition().x, getPosition().y, 12);
+				((Animation) getCurrentSprite()).display(getPosition().x, getPosition().y, 12);
 			}
 		} else {
-			currentSprite.resize((int) this.getWidth(), ((int) this.getHeight()));
-			main.image(currentSprite, getPosition().x, getPosition().y);
+			getCurrentSprite().resize((int) this.getWidth(), ((int) this.getHeight()));
+			main.image(getCurrentSprite(), getPosition().x, getPosition().y);
 		}
 	}
 	
 	public void getSprite() {
 		if (movingRight) {
-			if (on != null || onGround) {
-				currentSprite = rightRunningSprite;
-			} else if (hook.isHooked()) {
-				currentSprite = rightGrapplingSprite;
+			if (moving) {
+				if (on != null || onGround) {
+					setCurrentSprite(rightRunningSprite);
+				} else if (hook.isHooked()) {
+					setCurrentSprite(rightGrapplingSprite);
+				} else {
+					setCurrentSprite(rightJumpingSprite);
+				}
 			} else {
-				currentSprite = rightJumpingSprite;
+				setCurrentSprite(rightStandingSprite);
 			}
 		} else {
-			if (on != null || onGround) {
-				currentSprite = leftRunningSprite;
-			} else if (hook.isHooked()) {
-				currentSprite = leftGrapplingSprite;
+			if (moving) {
+				if (on != null || onGround) {
+					setCurrentSprite(leftRunningSprite);
+				} else if (hook.isHooked()) {
+					setCurrentSprite(leftGrapplingSprite);
+				} else {
+					setCurrentSprite(leftJumpingSprite);
+				}
 			} else {
-				currentSprite = leftJumpingSprite;
+				setCurrentSprite(leftStandingSprite);
 			}
 		}
 	}
@@ -112,6 +129,12 @@ public class Player extends Entity {
 	}
 
 	private void doMovement() {
+
+		if(getB().x + velocity.x > main.width){
+			this.position.x = main.width - this.getWidth() - 1;
+			velocity.x = 0;
+		}
+
 		if (getOn() != null && getD().y < getOn().getPosition().y) {
 			this.position.y = getOn().getPosition().y - this.getHeight()+1;
 		}
@@ -285,5 +308,22 @@ public class Player extends Entity {
 
 	public int getBlueOrbsCollected() {
 		return blueOrbsCollected;
+	}
+
+	public void setMoving(boolean b) {
+		this.moving = b;
+	}
+
+	public boolean isMoving(){
+		return this.moving;
+	}
+
+
+	public PImage getCurrentSprite() {
+		return currentSprite;
+	}
+
+	public void setCurrentSprite(PImage currentSprite) {
+		this.currentSprite = currentSprite;
 	}
 }

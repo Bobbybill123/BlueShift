@@ -52,7 +52,9 @@ public class Platform extends Surface {
 	}
 
 	public void draw() {
+		main.tint(0);
 		main.image(localSprite, position.x, position.y);
+		main.tint(255);
 	}
 
 	@Override
