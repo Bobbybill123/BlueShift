@@ -65,9 +65,7 @@ public class Main extends PApplet {
 		LeftWall.sprite = new Animation(leftWall, "tentacles\\f", 27);
 		Floor.sprite = loadImage("floor.png");
 		Hook.sprite = loadImage("hook.png");
-		Platform.leftSprite = loadImage("platform\\platform_left.png");
-		Platform.midSprite = loadImage("platform\\platform_mid.png");
-		Platform.rightSprite = loadImage("platform\\platform_right.png");
+		Platform.sprite = loadImage("platform.png");
 		//adding starting platforms
 		setupPlatforms();
 		setupChannels();
@@ -98,14 +96,10 @@ public class Main extends PApplet {
 			player.draw();
 			player.getHook().draw();
 			floor.draw();
-
 			moveTowardsTheLeftWall();
 			removeIfOutOfScreen();
 			increaseGameSpeed();
-			//if (millis() % 100 == 0) {
 			generatePlatforms();
-			//}
-			//generatePlatforms();
 			generateOrbs();
 			orbRendering();
 			boundPlayer();
@@ -115,7 +109,7 @@ public class Main extends PApplet {
 			text("Score: " + (int) score, width / 2, 60);
 			score = score + 0.01;
 			if (!player.getHook().isHooked()) {
-				setHookCoolDownAngle(Math.min((float) Math.PI * 2, (float) (getHookCoolDownAngle() + Math.PI/36)));
+				setHookCoolDownAngle((float) Math.min(Math.PI * 2, getHookCoolDownAngle() + Math.PI/36));
 			}
 		} else {
 			menus.get(currentMenu).draw();
@@ -151,8 +145,6 @@ public class Main extends PApplet {
 	 * Generate platforms ahead of the screen as long as platforms are being deleted
 	 */
 	public void generatePlatforms(){
-//		int i = 0;
-
 		if(currentPlatforms.size() < 20) {
 			int channelNumber = (int) random(0, 12);
 
@@ -224,9 +216,8 @@ public class Main extends PApplet {
 	 * Increase the gameSpeed over time
 	 */
 	public void increaseGameSpeed(){
-		//System.out.println(gameSpeed);
 		if(gameSpeed <= 10) {
-			gameSpeed = gameSpeed + (float) 0.001;
+			gameSpeed = gameSpeed + 0.001f;
 		}
 	}
 

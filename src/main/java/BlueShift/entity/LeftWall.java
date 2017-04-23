@@ -43,7 +43,7 @@ public class LeftWall extends Entity {
 
 	@Override
 	public boolean checkCollision(Entity other) {
-		return false;
+		return other.getPosition().x + other.getWidth() < 0;
 	}
 
 	@Override

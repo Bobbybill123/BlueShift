@@ -18,8 +18,6 @@ public class Player extends Entity {
 	private PVector velocity;
 	private Surface on = null;
 	private float speedLim;
-	private float blue = 0;
-	private float red = 0;
 	private boolean onGround = false;
 	private Hook hook;
 	private int blueOrbsCollected = 0;
@@ -45,7 +43,6 @@ public class Player extends Entity {
 	}
 
 	public void draw() {
-		//System.out.println(getOn() != null);
 		calculateSpeedLim();
 		doMovement();
 		doPhysics();
@@ -53,7 +50,6 @@ public class Player extends Entity {
 			setOnGround(true);
 			position.y = main.floor.getPosition().y - getHeight();
 		}
-		main.fill(255 - blue, 255 - blue, 255);
 		if(velocity.x < 0) currentSprite = leftSprite;
 		else currentSprite = rightSprite;
 		if(getOn() != null) {
@@ -61,7 +57,6 @@ public class Player extends Entity {
 				currentSprite.animate(getPosition().x, getPosition().y);
 			} else currentSprite.displayCurr(position.x, position.y);
 		} else currentSprite.display(getPosition().x, getPosition().y, 12);
-		//System.out.println(velocity);
 	}
 
 	@Override
@@ -88,6 +83,7 @@ public class Player extends Entity {
 		if (position.y + velocity.y < 0) {
 			System.out.println(position.y + velocity.y + " < 0");
 			velocity.y = 0;
+			position.x += 1;
 			return;
 		}
 		position.y += velocity.y;
@@ -246,4 +242,7 @@ public class Player extends Entity {
 		this.position = p.copy();
 	}
 
+	public int getBlueOrbsCollected() {
+		return blueOrbsCollected;
+	}
 }

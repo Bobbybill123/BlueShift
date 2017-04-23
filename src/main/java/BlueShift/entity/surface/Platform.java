@@ -14,9 +14,8 @@ import java.util.List;
  */
 public class Platform extends Surface {
 	private Main main;
-	public static PImage leftSprite;
-	public static PImage midSprite;
-	public static PImage rightSprite;
+	public static PImage sprite;
+	private PImage localSprite;
 	private PVector position;
 	private int width;
 	private int height;
@@ -29,7 +28,8 @@ public class Platform extends Surface {
 		this.height = height;
 		this.width = width - width%height;
 		this.channelNumber = channelNumber;
-		//System.out.println(channelNumber);
+		localSprite = sprite.copy();
+		localSprite.resize(width, height);
 	}
 
 	public int getChannelNumber(){
@@ -52,12 +52,7 @@ public class Platform extends Surface {
 	}
 
 	public void draw() {
-		int blockCount = (int) (getWidth()/getHeight());
-		main.image(leftSprite, position.x, position.y, getHeight(), getHeight());
-		for (int i = 1; i < blockCount - 1; i++) {
-			main.image(midSprite, position.x + getHeight()*i, position.y, getHeight(), getHeight());
-		}
-		main.image(rightSprite, position.x + getHeight() * (blockCount - 1), position.y, getHeight(), getHeight());
+		main.image(localSprite, position.x, position.y);
 	}
 
 	@Override
@@ -112,9 +107,9 @@ public class Platform extends Surface {
 
 			if (p1.dist(p2.add(this.getWidth(),0)) < 200 || p1.add(p.getWidth(),0).dist(p2) < 200) return true;
 
-		if(this.intersects(p)){
-			return true;
-		}
+			if(this.intersects(p)){
+				return true;
+			}
 
 		}
 		return false;
