@@ -25,7 +25,7 @@ public class Main extends PApplet {
 	private static final float GAME_ACCELERATION = 0.005f;
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
 	private Map<String, Menu> menus = new HashMap<>();
-	private Audio[] running = new Audio[7];
+	private Audio running;
 	private Audio death;
 	private Audio menu;
 	private Audio currentRun;
@@ -78,7 +78,7 @@ public class Main extends PApplet {
 		Runnable play = () -> {
 			playing = true;
 			currentRun.stopSound();
-			currentRun = running[0];
+			currentRun = running;
 			currentRun.playSound(true);
 		};
 		menus.put("Main", new Menu("Blue Shift", new Button("Play", buttonBlue, play),
@@ -104,11 +104,12 @@ public class Main extends PApplet {
 		Platform.sprite = loadImage("platform.png");
 		leftWall.setupSprite();
 		//Load in audio files
-		for (int i = 0; i < running.length; i++) {
+/*		for (int i = 0; i < running.length; i++) {
 			running[i] = new Audio(String.format("audio\\run_%d.wav", i+1));
-		}
+		}*/
+		menu = new Audio("audio\\run_1.wav");
 		death = new Audio("audio\\death.wav");
-		menu = new Audio("audio\\title.wav");
+		running = new Audio("audio\\title.wav");
 		currentRun = menu;
 		//adding starting platforms
 		setupPlatforms();

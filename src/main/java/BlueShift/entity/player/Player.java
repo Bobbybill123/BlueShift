@@ -214,8 +214,8 @@ public class Player extends Entity {
 			Orb orb = ((Orb) e);
 			if(orb.getColor().equals(Color.BLUE)) {
 				blueOrbsCollected++;
-				this.velocity.x += 0.5;
-				main.gameSpeed -= 0.5;
+				this.velocity.x += 1;
+				main.gameSpeed -= 1;
 			}else {
 				redOrbsCollected++;
 				this.velocity.x -= 2;
