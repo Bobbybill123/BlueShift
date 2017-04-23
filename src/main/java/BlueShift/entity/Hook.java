@@ -67,6 +67,7 @@ public class Hook extends Entity {
 				hookLine(main.player.getPosition());
 			}
 		}
+		drawCoolDownClock();
 	}
 
 	void drawHookEnd(PVector p, PVector q) {
@@ -76,6 +77,20 @@ public class Hook extends Entity {
 		main.rotate((float) (angle - (Math.PI)));
 		main.image(sprite, -getWidth()/2, -getHeight()/2, getWidth(), getHeight());
 		main.stroke(0, 0, 0);
+		main.popMatrix();
+	}
+	
+	public void drawCoolDownClock() {
+		main.noFill();
+		main.strokeWeight(2);
+		main.ellipse(main.mouseX + 40, main.mouseY - 10, 30, 30);
+		main.line(main.mouseX + 40, main.mouseY - 10, main.mouseX + 40, main.mouseY - 25);
+
+		main.pushMatrix();
+		main.translate(main.mouseX + 40, main.mouseY - 10);
+		main.rotate(main.getHookCoolDownAngle());
+		main.line(0, 0, 0, -14);
+		main.strokeWeight(1);
 		main.popMatrix();
 	}
 

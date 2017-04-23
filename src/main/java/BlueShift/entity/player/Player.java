@@ -99,7 +99,9 @@ public class Player extends Entity {
 				}
 			}
 		}
-		if (this.position.dist(other.getPosition()) < 250 || this.position.dist(new PVector(other.getPosition().x + other.getWidth(), other.getPosition().y + other.getHeight())) < 250) {
+		if (this.position.dist(other.getPosition()) < 250 || 
+				this.position.dist(new PVector(other.getPosition().x + other.getWidth(), 
+						other.getPosition().y + other.getHeight())) < 250) {
 			if (intersects(other)) {
 				if (other.isSurface()) {
 					if (other.checkCollision(this)) {

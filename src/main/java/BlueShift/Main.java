@@ -114,6 +114,9 @@ public class Main extends PApplet {
 			text(frameRate, 60, 60);
 			text("Score: " + (int) score, width / 2, 60);
 			score = score + 0.01;
+			if (!player.getHook().isHooked()) {
+				setHookCoolDownAngle(Math.min((float) Math.PI * 2, (float) (getHookCoolDownAngle() + Math.PI/36)));
+			}
 		} else {
 			menus.get(currentMenu).draw();
 		}
@@ -245,11 +248,13 @@ public class Main extends PApplet {
 		}
 	}
 
-	public void checkHookCollisions() {
+	public boolean checkHookCollisions() {
 		for (Platform platform : currentPlatforms) {
-			player.getHook().checkCollision(platform);
+			if (player.getHook().checkCollision(platform)) {
+				return true;
+			}
 		}
-		//player.getHook().checkCollision(null);
+		return false;
 	}
 
 	public void gameOver() {
@@ -278,6 +283,8 @@ public class Main extends PApplet {
 		}
 	}
 	private int hookCoolDownMillis = 0;
+	private float hookCoolDownAngle = 0;
+	
 	public void mousePressed() {
 		if(!playing) {
 			menus.get(currentMenu).onClick(mouseX, mouseY);
@@ -285,7 +292,9 @@ public class Main extends PApplet {
 			if(hookCoolDownMillis == 0 || hookCoolDownMillis + 2000 <= millis()) {
 				hookCoolDownMillis = millis();
 				this.player.getHook().fire(new PVector(mouseX, mouseY));
-				checkHookCollisions();
+				if (checkHookCollisions()) {
+					setHookCoolDownAngle(0);
+				}
 			}
 		}
 	}
@@ -300,6 +309,14 @@ public class Main extends PApplet {
 
 	public static void main(String[] args) {
 		ProcessingRunner.run(new Main());
+	}
+
+	public float getHookCoolDownAngle() {
+		return hookCoolDownAngle;
+	}
+
+	public void setHookCoolDownAngle(float hookCoolDownAngle) {
+		this.hookCoolDownAngle = hookCoolDownAngle;
 	}
 
 }
