@@ -23,6 +23,12 @@ public class Animation extends PImage {
 		}
 	}
 
+	private Animation(PImage[] images, int imageCount) {
+		main = Main.instance;
+		this.images = images;
+		this.imageCount = imageCount;
+	}
+
 	public void animate(float x, float y) {
 		frame = (frame + 1) % imageCount;
 		displayCurr(x,y);
@@ -36,6 +42,10 @@ public class Animation extends PImage {
 
 	public void setFrame(int frame) {
 		this.frame = frame;
+	}
+
+	public Animation copy() {
+		return new Animation(images, imageCount);
 	}
 
 	public void displayCurr(float x, float y) {
@@ -52,6 +62,10 @@ public class Animation extends PImage {
 
 	public float getHeight() {
 		return images[0].height;
+	}
+
+	public int getImageCount() {
+		return imageCount;
 	}
 
 
