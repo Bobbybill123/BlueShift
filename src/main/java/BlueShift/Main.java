@@ -21,6 +21,7 @@ import java.util.List;
 
 public class Main extends PApplet {
 	private static final int MAX_GAME_SPEED = 20;
+	private static final int HOOK_COOL_DOWN = 100;
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
 	private Map<String, Menu> menus = new HashMap<>();
 	private Audio[] running = new Audio[7];
@@ -35,7 +36,6 @@ public class Main extends PApplet {
 	public static Main instance;
 	public float gameSpeed = 3f;
 	public Floor floor;
-	private static final int HOOK_COOL_DOWN = 100;
 	private float hookCoolDownAngle = 0;
 	private boolean coolingDown = false;
 
@@ -351,7 +351,7 @@ public class Main extends PApplet {
 	 */
 	public void increaseGameSpeed(){
 		if(gameSpeed <= MAX_GAME_SPEED) {
-			gameSpeed = gameSpeed + 0.001f;
+			gameSpeed = gameSpeed + 0.01f;
 		}
 	}
 

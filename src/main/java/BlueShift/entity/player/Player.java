@@ -11,6 +11,7 @@ import java.awt.*;
 public class Player extends Entity {
 	private static final float BASE_SPEED_LIMIT = 10;
 	private static final float GRAVITY = 0.7f;
+	private static final int JUMP_COOLDOWN = 80;
 	public static Animation leftRunningSprite;
 	public static Animation rightRunningSprite;
 	
@@ -34,6 +35,7 @@ public class Player extends Entity {
 	private int redOrbsCollected = 0;
 	private boolean movingRight = true;
 	private boolean moving;
+	private int jumpTimer = 100;
 
 	public Player() {
 		main = Main.instance;
@@ -62,6 +64,7 @@ public class Player extends Entity {
 
 	public void draw() {
 		calculateSpeedLim();
+		jumpTimer++;
 		doMovement();
 		doPhysics();
 		if(getOn() != null && getOn().getType() == EntityType.FLOOR) {
@@ -250,10 +253,13 @@ public class Player extends Entity {
 				//velocity.x = Math.max(-speedLim, velocity.x - speedLim);
 				break;
 			case UP:
-				if(getOn() == null) break;
-				velocity.y -= 15;
-				setOnGround(false);
-				setOn(null);
+				if (jumpTimer >= JUMP_COOLDOWN) {
+					if(getOn() == null) break;
+					velocity.y -= 15;
+					setOnGround(false);
+					setOn(null);
+					jumpTimer = 0;
+				}
 				break;
 /*			case DOWN:
 				velocity.y--;
