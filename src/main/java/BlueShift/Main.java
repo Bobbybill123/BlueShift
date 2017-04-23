@@ -164,7 +164,7 @@ public class Main extends PApplet {
 			speedUpGame();
 			leftWall.draw();
 			fill(255, 255, 255);
-			text(frameRate, 60, 60);
+			//text(frameRate, 60, 60);
 			text("Score: " + ((int) score + player.getBlueOrbsCollected() - player.getRedOrbsCollected()), width / 2, 60);
 			score = score + 0.01;
 			if (!player.getHook().isHooked() && coolingDown) {
