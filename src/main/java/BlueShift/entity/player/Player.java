@@ -219,7 +219,7 @@ public class Player extends Entity {
 			}else {
 				redOrbsCollected++;
 				this.velocity.x -= 4;
-				main.gameSpeed +=0.5;
+				main.gameSpeed += 2;
 			}
 		}
 	}
@@ -322,6 +322,12 @@ public class Player extends Entity {
 	public int getRedOrbsCollected() {
 		return redOrbsCollected;
 	}
+
+	public void resetOrbsCollected() {
+		redOrbsCollected = 0;
+		blueOrbsCollected = 0;
+	}
+
 
 	public void setMoving(boolean b) {
 		this.moving = b;
