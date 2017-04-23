@@ -148,6 +148,10 @@ public class Main extends PApplet {
 			if (!player.getHook().isHooked()) {
 				setHookCoolDownAngle((float) Math.min(Math.PI * 2, getHookCoolDownAngle() + Math.PI/45));
 			}
+
+			if(player.getPosition().y + player.getHeight() > this.height){
+				gameOver();
+			}
 			drawTrail();
 
 		} else {
