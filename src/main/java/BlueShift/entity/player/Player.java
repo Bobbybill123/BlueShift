@@ -314,6 +314,11 @@ public class Player extends Entity {
 		this.moving = b;
 	}
 
+	public boolean isMoving(){
+		return this.moving;
+	}
+
+
 	public PImage getCurrentSprite() {
 		return currentSprite;
 	}
