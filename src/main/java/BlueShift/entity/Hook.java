@@ -88,7 +88,6 @@ public class Hook extends Entity {
 		main.ellipse(main.mouseX, main.mouseY, 30, 30);
 		main.line(main.mouseX, main.mouseY, main.mouseX, main.mouseY - 15);
 
-		
 		main.pushMatrix();
 		main.translate(main.mouseX, main.mouseY);
 
