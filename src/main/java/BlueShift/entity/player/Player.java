@@ -184,7 +184,7 @@ public class Player extends Entity {
 				break;
 			case UP:
 				if(getOn() == null) break;
-				velocity.y -= 20;
+				velocity.y -= 15;
 				setOnGround(false);
 				setOn(null);
 				break;
