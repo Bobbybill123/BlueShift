@@ -1,6 +1,10 @@
 package BlueShift;
 
-import BlueShift.entity.*;
+import BlueShift.audio.Audio;
+import BlueShift.entity.Animation;
+import BlueShift.entity.Hook;
+import BlueShift.entity.LeftWall;
+import BlueShift.entity.Orb;
 import BlueShift.entity.player.Move;
 import BlueShift.entity.player.Player;
 import BlueShift.entity.surface.Floor;
@@ -9,7 +13,6 @@ import BlueShift.menu.Button;
 import BlueShift.menu.Menu;
 import net.tangentmc.processing.ProcessingRunner;
 import processing.core.PApplet;
-import processing.core.PImage;
 import processing.core.PVector;
 
 import java.awt.*;
@@ -19,6 +22,9 @@ import java.util.List;
 public class Main extends PApplet {
 	private final Map<Character, Move> keyBinds = new HashMap<>(4);
 	private Map<String, Menu> menus = new HashMap<>();
+	private Audio[] running = new Audio[7];
+	private Audio death;
+	private Audio currentRun;
 	private List<Platform> currentPlatforms = new ArrayList<>();
 	private List<Orb> currentOrbs = new ArrayList<>();
 	private boolean[] keyPressed = new boolean[4];
@@ -58,9 +64,13 @@ public class Main extends PApplet {
 		player = new Player();
 		leftWall = new LeftWall();
 		Color buttonBlue = new Color(0, 0, 127);
-		menus.put("Main", new Menu("Blue Shift", new Button("Play", buttonBlue, () -> playing = true),
+		Runnable play = () -> {
+			playing = true;
+			currentRun.playSound();
+		};
+		menus.put("Main", new Menu("Blue Shift", new Button("Play", buttonBlue, play),
 				new Button("Quit", buttonBlue, this::exit)));
-		menus.put("Over", new Menu("Game Over!", new Button("Restart", buttonBlue, () -> playing = true),
+		menus.put("Over", new Menu("Game Over!", new Button("Restart", buttonBlue, play),
 				new Button("Quit", buttonBlue, this::exit)));
 		Player.rightRunningSprite = new Animation(player, "player\\right\\f", 13);
 		Player.leftRunningSprite = new Animation(player, "player\\left\\f", 13);
@@ -73,6 +83,12 @@ public class Main extends PApplet {
 		
 		Player.rightStandingSprite = loadImage("player\\right\\standing1.png");
 		Player.leftStandingSprite = loadImage("player\\left\\standing1.png");
+
+		for (int i = 0; i < running.length; i++) {
+			running[i] = new Audio(String.format("audio\\run_%d.wav", i+1));
+		}
+		death = new Audio("audio\\death.wav");
+		currentRun = running[0];
 		LeftWall.sprite = new Animation(null, "tentacles\\f", 27);
 		Floor.sprite = loadImage("floor.png");
 		Hook.sprite = loadImage("hook.png");
@@ -275,6 +291,8 @@ public class Main extends PApplet {
 
 	public void gameOver() {
 		playing = false;
+		currentRun.stopSound();
+		death.playSound();
 		currentMenu = "Over";
 		currentPlatforms.clear();
 		gameSpeed = 3f;
