@@ -121,7 +121,17 @@ public class Main extends PApplet {
 	}
 
 	public void draw() {
-		background(127, 0, 0);
+		int blue = player.getBlueOrbsCollected()*5;
+		int red = player.getRedOrbsCollected()*5;
+		if(blue - red < 0){
+			background(abs(blue-red), 0, 0);
+		}else{
+			if(blue - red > 255){
+				blue = 255;
+			}
+			background(0, 0, blue);
+		}
+
 		if (playing) {
 			storePlayerPositions();
 			for (int i = 0; i < keyPressed.length; i++) {

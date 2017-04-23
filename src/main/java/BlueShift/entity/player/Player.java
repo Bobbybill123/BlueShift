@@ -31,6 +31,7 @@ public class Player extends Entity {
 	private boolean onGround = false;
 	private Hook hook;
 	private int blueOrbsCollected = 0;
+	private int redOrbsCollected = 0;
 	private boolean movingRight = true;
 	private boolean moving;
 
@@ -211,8 +212,11 @@ public class Player extends Entity {
 			if(orb.getColor().equals(Color.BLUE)) {
 				blueOrbsCollected++;
 				this.velocity.x += 0.5;
+				main.gameSpeed -= 0.5;
 			}else {
+				redOrbsCollected++;
 				this.velocity.x -= 4;
+				main.gameSpeed +=0.5;
 			}
 		}
 	}
@@ -307,6 +311,10 @@ public class Player extends Entity {
 
 	public int getBlueOrbsCollected() {
 		return blueOrbsCollected;
+	}
+
+	public int getRedOrbsCollected() {
+		return redOrbsCollected;
 	}
 
 	public void setMoving(boolean b) {
