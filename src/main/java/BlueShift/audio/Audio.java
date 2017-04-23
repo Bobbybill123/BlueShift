@@ -1,5 +1,7 @@
 package BlueShift.audio;
 
+import BlueShift.Main;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +12,7 @@ public class Audio {
 	private String filePath;
 	public Audio(String filePath) {
 		try {
-			inputStream = AudioSystem.getAudioInputStream(new File(filePath));
+			inputStream = AudioSystem.getAudioInputStream(Main.instance.dataFile(filePath));
 			this.filePath = filePath;
 		} catch (IOException | UnsupportedAudioFileException e) {
 			e.printStackTrace();
