@@ -81,13 +81,21 @@ public class Hook extends Entity {
 	}
 	
 	public void drawCoolDownClock() {
+
+		main.noCursor();
 		main.noFill();
 		main.strokeWeight(2);
-		main.ellipse(main.mouseX + 40, main.mouseY - 10, 30, 30);
-		main.line(main.mouseX + 40, main.mouseY - 10, main.mouseX + 40, main.mouseY - 25);
+		main.ellipse(main.mouseX, main.mouseY, 30, 30);
+		main.line(main.mouseX, main.mouseY, main.mouseX, main.mouseY - 15);
 
+		
 		main.pushMatrix();
-		main.translate(main.mouseX + 40, main.mouseY - 10);
+		main.translate(main.mouseX, main.mouseY);
+
+		main.fill(0,255,255);
+		main.ellipse(0, 0, 5, 5);
+		main.noFill();
+
 		main.rotate(main.getHookCoolDownAngle());
 		main.line(0, 0, 0, -14);
 		main.strokeWeight(1);
