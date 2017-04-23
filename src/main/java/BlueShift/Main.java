@@ -169,16 +169,29 @@ public class Main extends PApplet {
 
 	public void drawTrail(){
 		if(player.isMoving()) {
-			int i = 0;
-			while (i < oldPositions.length) {
+			int i = startTrail;
+			int a = 0;
+			while (i < lastIndex) { //but also do the ones which are out of bounds
 				if (oldPositions[i] != null) {
-					fill(0, 100, 25 * i);
+					//fill(0, 100, 25 * i);
 					//ellipse(oldPositions[i].x - 20, oldPositions[i].y + player.getHeight(), 10, 10);
-					tint(255, (i+1)*5);
+					tint(255, (a+1)*10);
 					player.draw(oldPositions[i]);
 					tint(255);
 				}
 				i++;
+				a++;
+			}
+
+			if(lastIndex < startTrail){
+				for(int j = lastIndex; j < startTrail; j++){
+					//fill(0, 100, 25 * j);
+					//ellipse(oldPositions[i].x - 20, oldPositions[i].y + player.getHeight(), 10, 10);
+					tint(255, (a+1)*10);
+					player.draw(oldPositions[j]);
+					tint(255);
+					a++;
+				}
 			}
 		}
 	}
@@ -200,7 +213,11 @@ public class Main extends PApplet {
 			oldPositions[lastIndex] = player.getPosition().copy();
 			lastIndex++;
 			if(lastIndex >= oldPositions.length){
+				startTrail++;
 				lastIndex = 0;
+			}
+			if(startTrail >= oldPositions.length){
+				startTrail = 0;
 			}
 		}
 	}
