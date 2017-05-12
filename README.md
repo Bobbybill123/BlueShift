@@ -11,5 +11,6 @@ Run left and grapple the platforms using mouseclick, or jump with the space key.
 Try to survive for as long as possible for the highest score possible. 
 
 DOWNLOAD INSTRUCTIONS:
-Download the file BlueShift-1.0.jar and click to run.
+Download the file BlueShift-1.0.zip and extract.
+Run BlueShift-1.0.jar to play the game.
 Note that Java is needed on your computer for this to run. 
